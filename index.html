@@ -29,7 +29,7 @@
   </script>
 
   <style>
-    /* Dark Mode Defaults */
+    /* Dark Theme */
     html.dark body {
       background-color: #08090d;
       color: #f1f5f9;
@@ -51,31 +51,31 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
-    /* Light Mode Styles */
+    /* Light Theme */
     html:not(.dark) body {
       background-color: #f8fafc;
       color: #0f172a;
       background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14, 165, 233, 0.08), transparent),
-        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34, 197, 94, 0.05), transparent);
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14, 165, 233, 0.06), transparent),
+        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34, 197, 94, 0.03), transparent);
     }
     html:not(.dark) .panel-glass {
-      background: rgba(255, 255, 255, 0.95);
+      background: #ffffff;
       border: 1px solid rgba(15, 23, 42, 0.08);
-      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
     html:not(.dark) .card-face-front {
       background-color: #ffffff;
       border: 1px solid rgba(15, 23, 42, 0.1);
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.05);
     }
     html:not(.dark) .card-face-back {
-      background-color: #f1f5f9;
+      background-color: #ffffff;
       border: 1px solid rgba(15, 23, 42, 0.12);
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      box-shadow: 0 8px 30px -4px rgba(15, 23, 42, 0.05);
     }
 
-    /* Robust 3D Card Flip Engine */
+    /* 3D Flip Mechanics */
     .perspective-1000 {
       perspective: 1200px;
       -webkit-perspective: 1200px;
@@ -84,6 +84,7 @@
       position: relative;
       width: 100%;
       height: 100%;
+      min-height: 380px;
       transform-style: preserve-3d;
       -webkit-transform-style: preserve-3d;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -114,7 +115,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased font-sans transition-colors duration-200">
 
-  <!-- Top Announcement Bar -->
+  <!-- Minimal Regulatory Notice -->
   <div class="border-b border-black/[0.06] dark:border-white/[0.05] bg-slate-100/70 dark:bg-black/40 text-[11px] py-2 px-6 text-slate-500 dark:text-slate-400 flex items-center justify-between transition-colors">
     <div class="flex items-center gap-2">
       <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-mono text-[10px]">
@@ -125,35 +126,33 @@
     <span class="text-[10px] font-mono">Independent Study System</span>
   </div>
 
-  <!-- Navigation -->
+  <!-- Header -->
   <header class="border-b border-slate-200/80 dark:border-white/[0.06] bg-white/85 dark:bg-[#08090d]/85 backdrop-blur-md sticky top-0 z-40 transition-colors">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
       
-      <!-- Brand Logo -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="switchMainTab('civics')">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-bold text-base shadow-sm">
-          <i class="fa-solid fa-landmark"></i>
+      <!-- Brand -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchMainTab('civics')">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+          <i class="fa-solid fa-landmark text-xs"></i>
         </div>
-        <div class="flex items-baseline gap-1.5">
-          <span class="font-bold text-slate-900 dark:text-white tracking-tight text-base">CivicPass<span class="text-blue-500 font-semibold">AI</span></span>
-        </div>
+        <span class="font-bold text-slate-900 dark:text-white tracking-tight text-base">CivicPass<span class="text-blue-500 font-semibold">AI</span></span>
       </div>
 
-      <!-- Main Navigation Tabs -->
+      <!-- Center Tabs -->
       <nav class="hidden md:flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06] text-xs font-medium transition-colors">
         <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition">
-          <i class="fa-solid fa-layer-group mr-1.5 text-blue-500"></i>100 Civics Deck
+          100 Civics Deck
         </button>
         <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           Officer Interview
         </button>
         <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
-          <i class="fa-solid fa-flag-usa mr-1.5"></i>State Reps
+          State Reps
         </button>
       </nav>
 
-      <!-- Theme Switcher & Actions -->
+      <!-- Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
         <button onclick="toggleTheme()" id="themeToggleBtn" aria-label="Toggle theme" class="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.1] transition flex items-center justify-center">
           <span id="themeIcon" class="text-xs">☀️</span>
@@ -173,121 +172,114 @@
   </div>
 
   <!-- Main Viewport -->
-  <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-8 space-y-8">
+  <main class="flex-1 max-w-4xl mx-auto w-full px-6 py-8 space-y-8">
 
     <!-- ========================================== -->
     <!-- SECTION 1: 100 CIVICS STUDY ENGINE         -->
     <!-- ========================================== -->
     <div id="section-civics" class="space-y-6">
       
-      <!-- Cultural Heritage Banner -->
-      <div class="panel-glass rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-        <div class="space-y-1.5 max-w-xl z-10">
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-700 dark:text-blue-400 text-[10px] font-mono uppercase tracking-wider font-semibold">
-            <i class="fa-solid fa-shield-halved"></i> U.S. Citizenship Naturalization
-          </div>
-          <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">100 Civics Questions Practice Deck</h1>
-          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
-            In your official naturalization interview, the USCIS officer will ask up to 10 oral questions. You must answer 6 correctly to pass. Practice via interactive 3D recall cards or standard 4-choice quizzes.
+      <!-- Top Title Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">100 Civics Questions Practice Deck</h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            USCIS Oral Naturalization Test Standard (6 of 10 required to pass)
           </p>
         </div>
 
-        <!-- Metric Counter -->
-        <div class="flex items-center gap-2 text-xs font-mono z-10">
-          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
-            <span class="text-slate-400 block text-[10px] uppercase">Mastered</span>
-            <span id="stat-mastered" class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm">0</span>
+        <div class="flex items-center gap-2 text-xs font-mono">
+          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[9px] uppercase">Mastered</span>
+            <span id="stat-mastered" class="text-emerald-600 dark:text-emerald-400 font-bold text-sm">0</span>
           </div>
-          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
-            <span class="text-slate-400 block text-[10px] uppercase">Missed</span>
-            <span id="stat-missed" class="text-rose-600 dark:text-rose-400 font-semibold text-sm">0</span>
+          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[9px] uppercase">Missed</span>
+            <span id="stat-missed" class="text-rose-600 dark:text-rose-400 font-bold text-sm">0</span>
           </div>
-          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
-            <span class="text-slate-400 block text-[10px] uppercase">Total</span>
-            <span class="text-slate-800 dark:text-slate-200 font-semibold text-sm">100</span>
+          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[9px] uppercase">Pool</span>
+            <span class="text-slate-800 dark:text-slate-200 font-bold text-sm">100</span>
           </div>
         </div>
       </div>
 
       <!-- Controls & Filter Toolbar -->
-      <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-y border-slate-200 dark:border-white/[0.06] py-3">
         <div class="flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
-          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
-          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
-          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
+          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
+          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
+          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2">
+          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2 text-xs">
             <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
-            <span>65/20 Senior Exemption (20 Questions)</span>
+            <span>65/20 Exemption</span>
           </button>
-          <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition">
-            Review Missed (<span id="missed-count">0</span>)
+          <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition text-xs">
+            Missed (<span id="missed-count">0</span>)
           </button>
         </div>
       </div>
 
-      <!-- Category Filter Tabs -->
-      <div class="flex flex-wrap gap-2 text-xs">
-        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (100)</button>
-        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
-        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
-        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
-      </div>
-
-      <!-- Flashcard Interactive Display with Corrected 3D Engine -->
-      <div id="view-flashcard" class="max-w-2xl mx-auto space-y-4">
-        <div class="relative h-84 w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
-          <div id="flashcard-inner" class="flip-container rounded-2xl panel-glass">
+      <!-- SPACIOUS & CLEAN FLASHCARD DISPLAY -->
+      <div id="view-flashcard" class="space-y-6 pt-2">
+        <div class="relative w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
+          <div id="flashcard-inner" class="flip-container rounded-3xl">
             
             <!-- Front Card Face -->
-            <div class="card-face card-face-front p-8 flex flex-col justify-between transition-colors">
+            <div class="card-face card-face-front p-10 sm:p-12 flex flex-col justify-between transition-colors">
               <div class="flex justify-between items-center text-xs">
-                <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
+                <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
                   USCIS #1
                 </span>
-                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-2 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-1.5 text-xs font-mono">
+                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-2 text-xs font-mono">
                   <span>Pronounce</span> <i class="fa-solid fa-volume-high"></i>
                 </button>
               </div>
 
-              <div class="my-auto text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-2">
-                  <i id="fc-icon" class="fa-solid fa-landmark"></i>
-                </div>
-                <h3 id="fc-question" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug">What is the supreme law of the land?</h3>
-                <p id="fc-translation" class="text-xs text-slate-500 dark:text-slate-400 font-normal">¿Cuál es la ley suprema de la nación?</p>
+              <!-- Question Section -->
+              <div class="my-auto text-center space-y-4 py-8">
+                <h2 id="fc-question" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug max-w-xl mx-auto">
+                  What is the supreme law of the land?
+                </h2>
+                <p id="fc-translation" class="text-xs text-slate-400 dark:text-slate-500 font-normal italic">
+                  ¿Cuál es la ley suprema de la nación?
+                </p>
               </div>
 
               <div class="text-center text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center justify-center gap-2">
-                <span>Click card or press spacebar to verify USCIS answer</span>
+                <span>Tap card or press spacebar to check answer</span>
                 <i class="fa-solid fa-arrow-rotate-right text-blue-500"></i>
               </div>
             </div>
 
             <!-- Back Card Face (USCIS Accepted Answer) -->
-            <div class="card-face card-face-back p-8 flex flex-col justify-between transition-colors">
+            <div class="card-face card-face-back p-10 sm:p-12 flex flex-col justify-between transition-colors">
               <div class="flex justify-between items-center text-xs">
-                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
+                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
                   USCIS Accepted Answer
                 </span>
                 <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
               </div>
 
-              <div class="my-auto text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg mb-2">
-                  <i class="fa-solid fa-check"></i>
+              <!-- Answer Section -->
+              <div class="my-auto text-center space-y-3 py-8">
+                <div id="fc-answer" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight max-w-xl mx-auto leading-tight">
+                  The Constitution
                 </div>
-                <div id="fc-answer" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">The Constitution</div>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Recite this answer clearly from memory during the oral test.</p>
+                <p class="text-xs text-slate-400 dark:text-slate-500 font-normal">
+                  Recite this answer clearly from memory during the interview.
+                </p>
               </div>
 
-              <div class="flex gap-2.5" onclick="event.stopPropagation()">
-                <button onclick="recordCardScore(false)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20 transition flex items-center justify-center gap-1.5">
+              <!-- Scoring Action Buttons (Spacious & Clean) -->
+              <div class="flex gap-4 max-w-md mx-auto w-full" onclick="event.stopPropagation()">
+                <button onclick="recordCardScore(false)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20 transition flex items-center justify-center gap-2 shadow-sm">
                   <i class="fa-solid fa-xmark"></i> Missed it
                 </button>
-                <button onclick="recordCardScore(true)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20 transition flex items-center justify-center gap-1.5">
+                <button onclick="recordCardScore(true)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20 transition flex items-center justify-center gap-2 shadow-sm">
                   <i class="fa-solid fa-check"></i> Mastered
                 </button>
               </div>
@@ -296,32 +288,33 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-2 font-mono">
-          <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm">
-            ← Previous
+        <!-- Navigation Controls Below Card -->
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-2 font-mono pt-2">
+          <button onclick="prevCard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm font-medium">
+            ← Previous Question
           </button>
-          <span>Card <strong id="fc-current-index" class="text-slate-900 dark:text-white">1</strong> of <span id="fc-total-count">100</span></span>
-          <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm">
-            Next →
+          <span>Question <strong id="fc-current-index" class="text-slate-900 dark:text-white">1</strong> of <span id="fc-total-count">100</span></span>
+          <button onclick="nextCard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm font-medium">
+            Next Question →
           </button>
         </div>
       </div>
 
-      <!-- Multiple Choice View with Robust Answer Normalization -->
-      <div id="view-mcq" class="max-w-2xl mx-auto space-y-4 hidden">
-        <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
+      <!-- Multiple Choice View -->
+      <div id="view-mcq" class="space-y-4 hidden">
+        <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
           <div class="flex justify-between items-center text-xs">
             <span id="mcq-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase font-semibold">Question 1 of 10</span>
             <button onclick="playMcqAudio()" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-mono text-xs">
               Audio <i class="fa-solid fa-volume-high ml-1"></i>
             </button>
           </div>
-          <h2 id="mcq-question" class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
-          <div id="mcq-options" class="space-y-2.5"></div>
-          <div id="mcq-feedback" class="text-xs p-3.5 rounded-xl hidden"></div>
-          <div class="flex justify-between items-center pt-2">
+          <h2 id="mcq-question" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
+          <div id="mcq-options" class="space-y-3 pt-2"></div>
+          <div id="mcq-feedback" class="text-xs p-4 rounded-xl hidden"></div>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-white/[0.06]">
             <span class="text-[11px] text-slate-400 font-mono">Standard: 60% Passing Ratio</span>
-            <button id="mcq-next-btn" onclick="nextMcq()" class="px-5 py-2 text-xs font-medium rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 transition opacity-50 cursor-not-allowed shadow-sm" disabled>
+            <button id="mcq-next-btn" onclick="nextMcq()" class="px-6 py-2.5 text-xs font-semibold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 transition opacity-50 cursor-not-allowed shadow-sm" disabled>
               Next Question →
             </button>
           </div>
@@ -333,9 +326,8 @@
     <!-- ========================================== -->
     <!-- SECTION 2: AI VOICE OFFICER INTERVIEW SIM  -->
     <!-- ========================================== -->
-    <div id="section-interview" class="max-w-3xl mx-auto space-y-6 hidden">
-      
-      <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
+    <div id="section-interview" class="space-y-6 hidden">
+      <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
         <!-- Officer Status Bar -->
         <div class="flex items-center justify-between border-b border-slate-200 dark:border-white/[0.06] pb-5">
           <div class="flex items-center gap-3">
@@ -388,7 +380,6 @@
             </button>
           </div>
 
-          <!-- Fallback input for iOS/Safari -->
           <form onsubmit="handleManualAnswer(event)" class="flex gap-2">
             <input type="text" id="manual-text-input" placeholder="Or type your spoken response here..." class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-blue-400 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-normal transition">
             <button type="submit" class="bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-300 text-xs px-4 py-2.5 rounded-xl font-medium transition border border-slate-200 dark:border-white/[0.06]">Submit</button>
@@ -420,14 +411,13 @@
           </button>
         </div>
       </div>
-
     </div>
 
     <!-- ========================================== -->
     <!-- SECTION 3: STATE REPS LOOKUP BY ZIP        -->
     <!-- ========================================== -->
-    <div id="section-reps" class="max-w-2xl mx-auto space-y-6 hidden">
-      <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-5">
+    <div id="section-reps" class="space-y-6 hidden">
+      <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-5">
         <div>
           <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">State Officials Lookup</h2>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-normal leading-relaxed">
@@ -497,9 +487,9 @@
     </div>
   </div>
 
-  <!-- Minimal Footer -->
-  <footer class="border-t border-slate-200 dark:border-white/[0.06] bg-slate-100 dark:bg-[#06070a] py-10 px-6 mt-16 text-xs text-slate-500 dark:text-slate-400 space-y-4 transition-colors">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-white/[0.06] bg-slate-100 dark:bg-[#06070a] py-10 px-6 mt-20 text-xs text-slate-500 dark:text-slate-400 space-y-4 transition-colors">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center space-x-2">
         <span class="font-bold text-slate-900 dark:text-white text-xs">CivicPass AI</span>
         <span>•</span>
@@ -511,14 +501,13 @@
         <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Refund Policy</a>
       </div>
     </div>
-    <div class="max-w-6xl mx-auto border-t border-slate-200 dark:border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed">
+    <div class="max-w-4xl mx-auto border-t border-slate-200 dark:border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed">
       CivicPass AI is an independent educational training service. It is not affiliated with, endorsed by, or representing USCIS, the Department of Homeland Security, or any U.S. government agency.
     </div>
   </footer>
 
   <!-- Core Script Engine -->
   <script>
-    // Theme Management
     function initTheme() {
       const savedTheme = localStorage.getItem('civicpass_theme') || 'light';
       if (savedTheme === 'light') {
@@ -545,7 +534,6 @@
       }
     }
 
-    // Web Audio Sound Synth Engine
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playChime(success) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -556,34 +544,33 @@
       
       const now = audioCtx.currentTime;
       if (success) {
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
         osc.start(now);
-        osc.stop(now + 0.4);
+        osc.stop(now + 0.35);
       } else {
         osc.frequency.setValueAtTime(220, now);
         osc.frequency.exponentialRampToValueAtTime(196, now + 0.15);
-        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.setValueAtTime(0.12, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
         osc.start(now);
         osc.stop(now + 0.3);
       }
     }
 
-    // High-Precision Word & Punctuation Normalizer
     function cleanAndNormalize(str) {
       if (!str) return '';
       const stopWords = ['the', 'a', 'an', 'our', 'to', 'of', 'for', 'in', 'on', 'that', 'because', 'there', 'is', 'are'];
-      const words = str.toLowerCase()
+      return str.toLowerCase()
         .replace(/[\(\)\.\,\'\"\-\_\;\:\!\?]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim()
         .split(' ')
-        .filter(w => !stopWords.includes(w) && w.length > 0);
-      return words.join(' ');
+        .filter(w => !stopWords.includes(w) && w.length > 0)
+        .join(' ');
     }
 
     function checkAnswerEquivalence(selected, correct) {
@@ -595,20 +582,20 @@
     }
 
     const CIVICS_POOL = [
-      { id: 1, senior: true, cat: "gov", icon: "fa-landmark", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
-      { id: 2, senior: false, cat: "gov", icon: "fa-book-bookmark", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
-      { id: 3, senior: false, cat: "gov", icon: "fa-users", q: "The idea of self-government is in the first three words of the Constitution. What are these words?", a: "We the People", tr: "¿Cuáles son las primeras tres palabras de la Constitución?", opts: ["In God We", "We the People", "Congress shall make", "United We Stand"] },
-      { id: 4, senior: false, cat: "gov", icon: "fa-pen-to-square", q: "What is an amendment?", a: "A change to the Constitution", tr: "¿Qué es una enmienda?", opts: ["A preamble to laws", "A change to the Constitution", "An executive veto", "A supreme court ruling"] },
-      { id: 5, senior: true, cat: "gov", icon: "fa-scroll", q: "What do we call the first ten amendments to the Constitution?", a: "The Bill of Rights", tr: "¿Cómo se llaman las diez primeras enmiendas?", opts: ["The Bill of Rights", "The Federalist Papers", "The Inalienable Rights", "The Magna Carta"] },
-      { id: 6, senior: false, cat: "gov", icon: "fa-microphone", q: "What is one right or freedom from the First Amendment?", a: "Speech", tr: "¿Cuál es un derecho de la Primera Enmienda?", opts: ["Trial by jury", "Speech", "Bear arms", "Vote at 18"] },
-      { id: 7, senior: false, cat: "gov", icon: "fa-scale-balanced", q: "How many amendments does the Constitution have?", a: "27", tr: "¿Cuántas enmiendas tiene la Constitución?", opts: ["21", "25", "27", "50"] },
-      { id: 8, senior: false, cat: "gov", icon: "fa-feather", q: "What did the Declaration of Independence do?", a: "Announced our independence from Great Britain", tr: "¿Qué hizo la Declaración de Independencia?", opts: ["Announced independence from Great Britain", "Formed the Supreme Court", "Freed all enslaved people", "Established the Senate"] },
-      { id: 9, senior: true, cat: "history", icon: "fa-ship", q: "What was one reason colonists came to America?", a: "Freedom", tr: "¿Por qué vinieron los colonos a América?", opts: ["To fight France", "Freedom", "To find Antarctica", "To serve the King"] },
-      { id: 10, senior: false, cat: "history", icon: "fa-campground", q: "Who lived in America before the Europeans arrived?", a: "American Indians", tr: "¿Quiénes vivían en América antes de los europeos?", opts: ["American Indians", "Vikings only", "No inhabitants", "Australian Aborigines"] },
-      { id: 11, senior: true, cat: "history", icon: "fa-signature", q: "Who wrote the Declaration of Independence?", a: "Thomas Jefferson", tr: "¿Quién escribió la Declaración de Independencia?", opts: ["George Washington", "Thomas Jefferson", "Alexander Hamilton", "Abraham Lincoln"] },
-      { id: 12, senior: true, cat: "integrated", icon: "fa-monument", q: "What is the capital of the United States?", a: "Washington, D.C.", tr: "¿Cuál es la capital de Estados Unidos?", opts: ["New York City", "Philadelphia", "Washington, D.C.", "Boston"] },
-      { id: 13, senior: true, cat: "integrated", icon: "fa-building-columns", q: "Where is the Statue of Liberty?", a: "New York Harbor", tr: "¿Dónde está la Estatua de la Libertad?", opts: ["Boston Harbor", "San Francisco Bay", "New York Harbor", "Washington D.C."] },
-      { id: 14, senior: true, cat: "integrated", icon: "fa-star", q: "Why does the flag have 50 stars?", a: "Because there is one star for each state", tr: "¿Por qué la bandera tiene 50 estrellas?", opts: ["One for each signer", "Because there is one star for each state", "One for each colony", "One for each amendment"] }
+      { id: 1, senior: true, cat: "gov", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
+      { id: 2, senior: false, cat: "gov", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
+      { id: 3, senior: false, cat: "gov", q: "The idea of self-government is in the first three words of the Constitution. What are these words?", a: "We the People", tr: "¿Cuáles son las primeras tres palabras de la Constitución?", opts: ["In God We", "We the People", "Congress shall make", "United We Stand"] },
+      { id: 4, senior: false, cat: "gov", q: "What is an amendment?", a: "A change to the Constitution", tr: "¿Qué es una enmienda?", opts: ["A preamble to laws", "A change to the Constitution", "An executive veto", "A supreme court ruling"] },
+      { id: 5, senior: true, cat: "gov", q: "What do we call the first ten amendments to the Constitution?", a: "The Bill of Rights", tr: "¿Cómo se llaman las diez primeras enmiendas?", opts: ["The Bill of Rights", "The Federalist Papers", "The Inalienable Rights", "The Magna Carta"] },
+      { id: 6, senior: false, cat: "gov", q: "What is one right or freedom from the First Amendment?", a: "Speech", tr: "¿Cuál es un derecho de la Primera Enmienda?", opts: ["Trial by jury", "Speech", "Bear arms", "Vote at 18"] },
+      { id: 7, senior: false, cat: "gov", q: "How many amendments does the Constitution have?", a: "27", tr: "¿Cuántas enmiendas tiene la Constitución?", opts: ["21", "25", "27", "50"] },
+      { id: 8, senior: false, cat: "gov", q: "What did the Declaration of Independence do?", a: "Announced our independence from Great Britain", tr: "¿Qué hizo la Declaración de Independencia?", opts: ["Announced independence from Great Britain", "Formed the Supreme Court", "Freed all enslaved people", "Established the Senate"] },
+      { id: 9, senior: true, cat: "history", q: "What was one reason colonists came to America?", a: "Freedom", tr: "¿Por qué vinieron los colonos a América?", opts: ["To fight France", "Freedom", "To find Antarctica", "To serve the King"] },
+      { id: 10, senior: false, cat: "history", q: "Who lived in America before the Europeans arrived?", a: "American Indians", tr: "¿Quiénes vivían en América antes de los europeos?", opts: ["American Indians", "Vikings only", "No inhabitants", "Australian Aborigines"] },
+      { id: 11, senior: true, cat: "history", q: "Who wrote the Declaration of Independence?", a: "Thomas Jefferson", tr: "¿Quién escribió la Declaración de Independencia?", opts: ["George Washington", "Thomas Jefferson", "Alexander Hamilton", "Abraham Lincoln"] },
+      { id: 12, senior: true, cat: "integrated", q: "What is the capital of the United States?", a: "Washington, D.C.", tr: "¿Cuál es la capital de Estados Unidos?", opts: ["New York City", "Philadelphia", "Washington, D.C.", "Boston"] },
+      { id: 13, senior: true, cat: "integrated", q: "Where is the Statue of Liberty?", a: "New York Harbor", tr: "¿Dónde está la Estatua de la Libertad?", opts: ["Boston Harbor", "San Francisco Bay", "New York Harbor", "Washington D.C."] },
+      { id: 14, senior: true, cat: "integrated", q: "Why does the flag have 50 stars?", a: "Because there is one star for each state", tr: "¿Por qué la bandera tiene 50 estrellas?", opts: ["One for each signer", "Because there is one star for each state", "One for each colony", "One for each amendment"] }
     ];
 
     const ZIP_DIRECTORY = {
@@ -624,13 +611,13 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v6_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v7_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v6_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v7_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -647,7 +634,6 @@
       document.getElementById('fc-question').innerText = q.q;
       document.getElementById('fc-translation').innerText = q.tr;
       document.getElementById('fc-answer').innerText = q.a;
-      document.getElementById('fc-icon').className = `fa-solid ${q.icon || 'fa-landmark'}`;
       document.getElementById('fc-current-index').innerText = cardIndex + 1;
       document.getElementById('fc-total-count').innerText = currentQuestions.length;
 
@@ -740,12 +726,12 @@
       document.getElementById('view-mcq').classList.toggle('hidden', mode !== 'mcq');
 
       document.getElementById('btn-mode-flashcard').className = mode === 'flashcard' 
-        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
-        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        ? "px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
-        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
-        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        ? "px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       if (mode === 'mcq') renderMcqQuestion();
     }
@@ -766,7 +752,7 @@
 
       q.opts.forEach(option => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-[#090b10] hover:bg-slate-50 dark:hover:bg-white/[0.04] text-xs text-slate-800 dark:text-white transition flex items-center justify-between shadow-sm";
+        btn.className = "w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-[#090b10] hover:bg-slate-50 dark:hover:bg-white/[0.04] text-xs text-slate-800 dark:text-white transition flex items-center justify-between shadow-sm";
         btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase">Select</span>`;
         btn.onclick = () => selectMcqOption(btn, option, q.a);
         optsContainer.appendChild(btn);
@@ -785,11 +771,11 @@
 
       if (isCorrect) {
         selectedBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-500/10', 'border-emerald-300', 'dark:border-emerald-500/30', 'text-emerald-700', 'dark:text-emerald-300');
-        feedback.className = "text-xs p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300";
+        feedback.className = "text-xs p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300";
         feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Correct response. Recognized under official USCIS guidelines.`;
       } else {
         selectedBtn.classList.add('bg-rose-50', 'dark:bg-rose-500/10', 'border-rose-300', 'dark:border-rose-500/30', 'text-rose-700', 'dark:text-rose-300');
-        feedback.className = "text-xs p-3 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300";
+        feedback.className = "text-xs p-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300";
         feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1.5"></i> Incorrect. The official USCIS answer is: "<strong>${correctText}</strong>".`;
       }
 
@@ -824,7 +810,6 @@
       showToast("10-Question oral exam initiated. 6 correct answers needed to pass.");
     }
 
-    // Interview Simulation & Adjudication Logic
     const INTERVIEW_STEPS = [
       {
         id: "oath",
@@ -1164,7 +1149,6 @@
       }, 3500);
     }
 
-    // Spacebar to flip card
     window.addEventListener('keydown', (e) => {
       if (e.code === 'Space' && activeStudyMode === 'flashcard' && !document.getElementById('section-civics').classList.contains('hidden')) {
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
