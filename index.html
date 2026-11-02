@@ -111,16 +111,6 @@
       transform: rotateY(180deg);
       -webkit-transform: rotateY(180deg);
     }
-
-    .shimmer-badge {
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 3s infinite;
-    }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased font-sans transition-colors duration-200">
@@ -184,9 +174,7 @@
   <!-- Main Viewport -->
   <main class="flex-1 max-w-5xl mx-auto w-full px-6 py-6 space-y-8">
 
-    <!-- ========================================== -->
-    <!-- AMERICAN HERO BANNER                       -->
-    <!-- ========================================== -->
+    <!-- AMERICAN HERO BANNER -->
     <div class="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-2xl group">
       <div class="h-52 sm:h-64 w-full relative">
         <img 
@@ -218,11 +206,8 @@
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- AMERICAN CULTURAL HERITAGE CARDS           -->
-    <!-- ========================================== -->
+    <!-- AMERICAN CULTURAL HERITAGE CARDS -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-      <!-- 1. Constitution & Liberty -->
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
         <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=200&q=80" alt="Supreme Court & Justice" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
         <div>
@@ -231,7 +216,6 @@
         </div>
       </div>
 
-      <!-- 2. The Bald Eagle -->
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
         <img src="https://images.unsplash.com/photo-1611689342806-0863700ce1e4?auto=format&fit=crop&w=200&q=80" alt="Bald Eagle American Symbol" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
         <div>
@@ -240,7 +224,6 @@
         </div>
       </div>
 
-      <!-- 3. Statue of Liberty -->
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
         <img src="https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?auto=format&fit=crop&w=200&q=80" alt="Statue of Liberty" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
         <div>
@@ -249,7 +232,6 @@
         </div>
       </div>
 
-      <!-- 4. U.S. Capitol -->
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
         <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=200&q=80" alt="U.S. Capitol Washington" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
         <div>
@@ -337,7 +319,6 @@
 
               <!-- Question Section with Photo Vignette -->
               <div class="my-auto text-center space-y-4 py-4 relative z-10">
-                <!-- Contextual Photo Illustration -->
                 <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-slate-800">
                   <img id="fc-image" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=400&q=80" alt="Civic Illustration" class="w-full h-full object-cover" />
                 </div>
@@ -432,12 +413,84 @@
     </div>
 
     <!-- ========================================== -->
+    <!-- END-OF-DECK COMPLETION MODAL               -->
+    <!-- ========================================== -->
+    <div id="completion-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
+      <div class="panel-glass max-w-lg w-full rounded-3xl p-8 sm:p-10 space-y-6 text-center shadow-2xl relative border border-slate-200 dark:border-white/[0.1]">
+        
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-bold">
+            Deck Completed
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Great Job! You Finished the Deck
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            You reviewed all the flashcards in this set. Here is your current performance breakdown:
+          </p>
+        </div>
+
+        <!-- Score Breakdown Cards -->
+        <div class="grid grid-cols-2 gap-3 py-2">
+          <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20">
+            <span class="text-[10px] font-mono uppercase text-emerald-600 dark:text-emerald-400 block font-semibold">Mastered</span>
+            <span id="complete-mastered" class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">0</span>
+          </div>
+          <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20">
+            <span class="text-[10px] font-mono uppercase text-rose-600 dark:text-rose-400 block font-semibold">Needs Review</span>
+            <span id="complete-missed" class="text-2xl font-extrabold text-rose-600 dark:text-rose-400">0</span>
+          </div>
+        </div>
+
+        <!-- Suggested Next Steps -->
+        <div class="space-y-2.5 pt-2 text-left">
+          <p class="text-[11px] font-mono uppercase tracking-wider text-slate-400 text-center mb-1">Recommended Next Step:</p>
+          
+          <button onclick="closeCompletionModal(); startOralExam();" class="w-full p-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition shadow-sm flex items-center justify-between group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center"><i class="fa-solid fa-list-check"></i></div>
+              <div>
+                <div class="font-bold text-sm">Take 10-Question Test</div>
+                <div class="text-[11px] text-blue-100 font-normal">Score at least 6 out of 10 to simulate passing</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+          </button>
+
+          <button onclick="closeCompletionModal(); switchMainTab('interview');" class="w-full p-4 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-slate-900 dark:text-white font-semibold text-xs tracking-tight transition border border-slate-200 dark:border-white/[0.08] flex items-center justify-between group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-microphone"></i></div>
+              <div>
+                <div class="font-bold text-sm">Practice with AI Voice Officer</div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 font-normal">Spoken interview simulation with Officer Miller</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+          </button>
+
+          <button id="complete-review-missed-btn" onclick="closeCompletionModal(); filterMissedOnly();" class="w-full p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-700 dark:text-rose-300 font-semibold text-xs transition border border-rose-200 dark:border-rose-500/20 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-rotate-left"></i> Drill Missed Questions Only
+          </button>
+
+          <button onclick="closeCompletionModal(); restartCurrentDeck();" class="w-full py-2.5 text-center text-xs font-mono text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+            Restart All Flashcards
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
     <!-- SECTION 2: AI VOICE OFFICER INTERVIEW SIM  -->
     <!-- ========================================== -->
     <div id="section-interview" class="space-y-6 hidden">
       <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
         
-        <!-- Officer Status Bar with Real Office Photo Vignette -->
+        <!-- Officer Status Bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-white/[0.06] pb-5">
           <div class="flex items-center gap-3.5">
             <div class="relative">
@@ -722,13 +775,13 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v9_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v10_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v9_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v10_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -762,6 +815,8 @@
       if (cardIndex < currentQuestions.length - 1) {
         cardIndex++;
         renderFlashcard();
+      } else {
+        showDeckCompletionModal();
       }
     }
 
@@ -783,7 +838,41 @@
         userProgress.mastered = userProgress.mastered.filter(id => id !== qId);
       }
       saveProgress();
-      nextCard();
+
+      if (cardIndex < currentQuestions.length - 1) {
+        cardIndex++;
+        renderFlashcard();
+      } else {
+        showDeckCompletionModal();
+      }
+    }
+
+    // End of Deck Completion Flow
+    function showDeckCompletionModal() {
+      confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      playChime(true);
+      
+      document.getElementById('complete-mastered').innerText = userProgress.mastered.length;
+      document.getElementById('complete-missed').innerText = userProgress.missed.length;
+      
+      const reviewMissedBtn = document.getElementById('complete-review-missed-btn');
+      if (userProgress.missed.length === 0) {
+        reviewMissedBtn.classList.add('hidden');
+      } else {
+        reviewMissedBtn.classList.remove('hidden');
+      }
+
+      document.getElementById('completion-modal').classList.remove('hidden');
+    }
+
+    function closeCompletionModal() {
+      document.getElementById('completion-modal').classList.add('hidden');
+    }
+
+    function restartCurrentDeck() {
+      cardIndex = 0;
+      renderFlashcard();
+      showToast("Deck restarted from Question #1.");
     }
 
     function toggleSeniorExemption() {
@@ -804,7 +893,7 @@
 
     function filterMissedOnly() {
       if (userProgress.missed.length === 0) {
-        showToast("No missed questions logged yet.");
+        showToast("No missed questions logged yet. Great job!");
         return;
       }
       currentQuestions = CIVICS_POOL.filter(q => userProgress.missed.includes(q.id));
