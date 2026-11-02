@@ -15,25 +15,12 @@
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
             sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            brand: {
-              50: '#f0fdf4',
-              400: '#4ade80',
-              500: '#22c55e',
-            },
-            surface: {
-              base: '#08090d',
-              card: '#0e1117',
-              raised: '#141824',
-              border: 'rgba(255, 255, 255, 0.07)',
-              borderHover: 'rgba(255, 255, 255, 0.16)'
-            }
           }
         }
       }
@@ -41,66 +28,102 @@
   </script>
 
   <style>
-    body {
+    /* Dark Mode Defaults */
+    html.dark body {
       background-color: #08090d;
       color: #f1f5f9;
       background-image: 
         radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.07), transparent),
         radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34, 197, 94, 0.04), transparent);
     }
-    .panel-glass {
-      background: rgba(14, 17, 23, 0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    html.dark .panel-glass {
+      background: rgba(14, 17, 23, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
     }
+    html.dark .card-face-front {
+      background-color: #0e1117;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    html.dark .card-face-back {
+      background-color: #121622;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Light Mode Styles */
+    html:not(.dark) body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14, 165, 233, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34, 197, 94, 0.05), transparent);
+    }
+    html:not(.dark) .panel-glass {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+    }
+    html:not(.dark) .card-face-front {
+      background-color: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    }
+    html:not(.dark) .card-face-back {
+      background-color: #f1f5f9;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
     .perspective-1000 { perspective: 1000px; }
     .transform-style-3d { transform-style: preserve-3d; }
     .backface-hidden { backface-visibility: hidden; }
     .rotate-y-180 { transform: rotateY(180deg); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-slate-200 selection:text-slate-900 font-sans">
+<body class="min-h-screen flex flex-col antialiased font-sans transition-colors duration-200">
 
   <!-- Minimal Regulatory Notice -->
-  <div class="border-b border-white/[0.05] bg-black/40 text-[11px] py-2 px-6 tracking-normal text-slate-400 flex items-center justify-between">
+  <div class="border-b border-black/[0.06] dark:border-white/[0.05] bg-slate-100/60 dark:bg-black/40 text-[11px] py-2 px-6 tracking-normal text-slate-500 dark:text-slate-400 flex items-center justify-between transition-colors">
     <div class="flex items-center gap-2">
-      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.08] text-slate-300 font-mono text-[10px]">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 2026 Test Standards
+      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-mono text-[10px]">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 2026 Test Standards
       </span>
-      <span class="hidden sm:inline text-slate-400">Official USCIS 100 Civics & Naturalization Oral Examination Curriculum</span>
+      <span class="hidden sm:inline">Official USCIS 100 Civics & Naturalization Oral Examination Curriculum</span>
     </div>
-    <span class="text-[10px] text-slate-400 font-mono">Independent Study Platform</span>
+    <span class="text-[10px] font-mono">Independent Study Platform</span>
   </div>
 
   <!-- Header / Navigation -->
-  <header class="border-b border-white/[0.06] bg-[#08090d]/80 backdrop-blur-md sticky top-0 z-40">
+  <header class="border-b border-slate-200/80 dark:border-white/[0.06] bg-white/80 dark:bg-[#08090d]/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       
       <!-- Brand -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchMainTab('civics')">
-        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-950 font-bold text-sm shadow-sm">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 font-bold text-sm shadow-sm transition-colors">
           C
         </div>
         <div class="flex items-baseline gap-2">
-          <span class="font-semibold text-white tracking-tight text-sm">CivicPass<span class="text-slate-400 font-normal">.ai</span></span>
+          <span class="font-semibold text-slate-900 dark:text-white tracking-tight text-sm">CivicPass<span class="text-slate-400 font-normal">.ai</span></span>
         </div>
       </div>
 
       <!-- Segmented Navigation Control -->
-      <nav class="hidden md:flex items-center bg-[#141824]/60 p-1 rounded-xl border border-white/[0.06] text-xs font-medium">
-        <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition">100 Civics</button>
-        <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <nav class="hidden md:flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06] text-xs font-medium transition-colors">
+        <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition">100 Civics</button>
+        <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           Officer Interview
         </button>
-        <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition">State Reps</button>
+        <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">State Reps</button>
       </nav>
 
-      <!-- Action -->
-      <div class="flex items-center gap-3">
-        <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-lg bg-white text-slate-950 hover:bg-slate-200 text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm">
+      <!-- Theme Switcher & Action CTA -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Light / Dark Toggle Button -->
+        <button onclick="toggleTheme()" id="themeToggleBtn" aria-label="Toggle theme" class="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.1] transition flex items-center justify-center">
+          <span id="themeIcon" class="text-xs">☀️</span>
+        </button>
+
+        <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm">
           Upgrade VIP
         </button>
       </div>
@@ -108,8 +131,8 @@
   </header>
 
   <!-- Notification Toast -->
-  <div id="statusToast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm panel-glass p-4 rounded-xl text-xs text-slate-200 shadow-2xl flex items-start gap-3">
-    <div id="toastIcon" class="text-emerald-400 text-sm mt-0.5">●</div>
+  <div id="statusToast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm panel-glass p-4 rounded-xl text-xs text-slate-800 dark:text-slate-200 shadow-2xl flex items-start gap-3">
+    <div id="toastIcon" class="text-emerald-500 text-sm mt-0.5">●</div>
     <div class="flex-1 leading-relaxed" id="toastMessage">Notification message</div>
   </div>
 
@@ -121,46 +144,46 @@
     <!-- ========================================== -->
     <div id="section-civics" class="space-y-6">
       
-      <!-- Minimalist Header Banner -->
+      <!-- Header Banner -->
       <div class="panel-glass rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="space-y-1.5 max-w-xl">
-          <h1 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">Official 100 Civics Deck</h1>
-          <p class="text-xs sm:text-sm text-slate-400 font-normal leading-relaxed">
+          <h1 class="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">Official 100 Civics Deck</h1>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
             The USCIS naturalization exam requires answering 6 out of 10 oral questions correctly. Practice memorization via self-test flashcards or simulated multiple-choice questions.
           </p>
         </div>
 
         <!-- Metric Counter -->
         <div class="flex items-center gap-2 text-xs font-mono">
-          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[10px] uppercase">Mastered</span>
-            <span id="stat-mastered" class="text-emerald-400 font-semibold text-sm">0</span>
+            <span id="stat-mastered" class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm">0</span>
           </div>
-          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[10px] uppercase">Missed</span>
-            <span id="stat-missed" class="text-rose-400 font-semibold text-sm">0</span>
+            <span id="stat-missed" class="text-rose-600 dark:text-rose-400 font-semibold text-sm">0</span>
           </div>
-          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[10px] uppercase">Total</span>
-            <span class="text-slate-200 font-semibold text-sm">100</span>
+            <span class="text-slate-800 dark:text-slate-200 font-semibold text-sm">100</span>
           </div>
         </div>
       </div>
 
       <!-- Controls & Filter Toolbar -->
       <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div class="flex items-center bg-[#141824]/60 p-1 rounded-xl border border-white/[0.06]">
-          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition">Flashcards</button>
-          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition">4-Choice Quiz</button>
-          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition">10-Question Test</button>
+        <div class="flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
+          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
+          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
+          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] text-slate-400 hover:text-slate-200 transition flex items-center gap-2">
-            <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2">
+            <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
             <span>65/20 Senior Exemption (20 Questions)</span>
           </button>
-          <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300 hover:bg-rose-500/20 transition">
+          <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition">
             Review Missed (<span id="missed-count">0</span>)
           </button>
         </div>
@@ -168,57 +191,57 @@
 
       <!-- Category Filter Tabs -->
       <div class="flex flex-wrap gap-2 text-xs">
-        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.08] text-white border border-white/[0.1] transition">All Questions (100)</button>
-        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">American Government</button>
-        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">American History</button>
-        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">Integrated Civics</button>
+        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (100)</button>
+        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
+        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
+        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
       </div>
 
       <!-- Flashcard Interactive Display -->
       <div id="view-flashcard" class="max-w-2xl mx-auto space-y-4">
         <div class="relative h-80 w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
-          <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-400 rounded-2xl panel-glass p-8 flex flex-col justify-between">
+          <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-300 rounded-2xl panel-glass p-8 flex flex-col justify-between">
             
             <!-- Front -->
-            <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between rounded-2xl bg-[#0e1117] border border-white/[0.07]">
+            <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between rounded-2xl card-face-front transition-colors">
               <div class="flex justify-between items-center text-xs">
-                <span id="fc-badge" class="font-mono text-[10px] text-slate-400 uppercase tracking-widest px-2.5 py-1 rounded bg-white/[0.04] border border-white/[0.06]">
+                <span id="fc-badge" class="font-mono text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest px-2.5 py-1 rounded bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
                   USCIS #1
                 </span>
-                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-400 hover:text-white p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] transition flex items-center gap-1.5 text-xs font-mono">
+                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-2 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-1.5 text-xs font-mono">
                   <span>Audio</span> 🔊
                 </button>
               </div>
 
               <div class="my-auto text-center space-y-3">
-                <h3 id="fc-question" class="text-xl sm:text-2xl font-semibold text-white tracking-tight leading-snug">What is the supreme law of the land?</h3>
-                <p id="fc-translation" class="text-xs text-slate-400 font-normal">¿Cuál es la ley suprema de la nación?</p>
+                <h3 id="fc-question" class="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white tracking-tight leading-snug">What is the supreme law of the land?</h3>
+                <p id="fc-translation" class="text-xs text-slate-500 dark:text-slate-400 font-normal">¿Cuál es la ley suprema de la nación?</p>
               </div>
 
-              <div class="text-center text-[11px] text-slate-400 font-mono">
+              <div class="text-center text-[11px] text-slate-400 dark:text-slate-500 font-mono">
                 Click or press space to reveal accepted answer
               </div>
             </div>
 
             <!-- Back -->
-            <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between rounded-2xl bg-[#121622] border border-white/[0.1]">
+            <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between rounded-2xl card-face-back transition-colors">
               <div class="flex justify-between items-center text-xs">
-                <span class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+                <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-medium">
                   Accepted USCIS Answer
                 </span>
                 <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
               </div>
 
               <div class="my-auto text-center space-y-2">
-                <div id="fc-answer" class="text-2xl sm:text-3xl font-semibold text-white tracking-tight">The Constitution</div>
-                <p class="text-xs text-slate-400">Must be recited clearly from memory during the oral test.</p>
+                <div id="fc-answer" class="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">The Constitution</div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Must be recited clearly from memory during the oral test.</p>
               </div>
 
               <div class="flex gap-2.5" onclick="event.stopPropagation()">
-                <button onclick="recordCardScore(false)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 transition">
+                <button onclick="recordCardScore(false)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20 transition">
                   Missed it
                 </button>
-                <button onclick="recordCardScore(true)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 transition">
+                <button onclick="recordCardScore(true)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20 transition">
                   Mastered
                 </button>
               </div>
@@ -227,12 +250,12 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between text-xs text-slate-400 px-2 font-mono">
-          <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-white transition">
+        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-2 font-mono">
+          <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm">
             ← Previous
           </button>
-          <span>Card <strong id="fc-current-index" class="text-white">1</strong> of <span id="fc-total-count">100</span></span>
-          <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-white transition">
+          <span>Card <strong id="fc-current-index" class="text-slate-900 dark:text-white">1</strong> of <span id="fc-total-count">100</span></span>
+          <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm">
             Next →
           </button>
         </div>
@@ -243,16 +266,16 @@
         <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
           <div class="flex justify-between items-center text-xs">
             <span id="mcq-badge" class="font-mono text-[10px] text-slate-400 uppercase">Question 1 of 10</span>
-            <button onclick="playMcqAudio()" class="text-slate-400 hover:text-white transition font-mono text-xs">
+            <button onclick="playMcqAudio()" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-mono text-xs">
               Audio 🔊
             </button>
           </div>
-          <h2 id="mcq-question" class="text-lg sm:text-xl font-semibold text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
+          <h2 id="mcq-question" class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
           <div id="mcq-options" class="space-y-2.5"></div>
           <div id="mcq-feedback" class="text-xs p-3.5 rounded-xl hidden"></div>
           <div class="flex justify-between items-center pt-2">
             <span class="text-[11px] text-slate-400 font-mono">Standard: 60% Passing Ratio</span>
-            <button id="mcq-next-btn" onclick="nextMcq()" class="px-5 py-2 text-xs font-medium rounded-xl bg-white text-slate-950 transition opacity-50 cursor-not-allowed" disabled>
+            <button id="mcq-next-btn" onclick="nextMcq()" class="px-5 py-2 text-xs font-medium rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 transition opacity-50 cursor-not-allowed shadow-sm" disabled>
               Next Question →
             </button>
           </div>
@@ -268,85 +291,85 @@
       
       <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
         <!-- Officer Status Bar -->
-        <div class="flex items-center justify-between border-b border-white/[0.06] pb-5">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-white/[0.06] pb-5">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-lg">
+            <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center text-lg">
               ⚖️
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="text-sm font-semibold text-white">Officer Miller</h2>
-                <span class="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-white/[0.04] text-slate-400 border border-white/[0.06]">USCIS Field Office</span>
+                <h2 class="text-sm font-semibold text-slate-900 dark:text-white">Officer Miller</h2>
+                <span class="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-white/[0.04] text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/[0.06]">USCIS Field Office</span>
               </div>
-              <p class="text-xs text-slate-400 font-normal">Form N-400 Statutory Naturalization Examination</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 font-normal">Form N-400 Statutory Naturalization Examination</p>
             </div>
           </div>
           <div>
-            <span id="officer-status" class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Ready
+            <span id="officer-status" class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Ready
             </span>
           </div>
         </div>
 
         <!-- Audio Waveform Monitor -->
-        <div class="bg-[#090b10] rounded-xl border border-white/[0.05] p-3 flex flex-col items-center justify-center">
+        <div class="bg-slate-50 dark:bg-[#090b10] rounded-xl border border-slate-200 dark:border-white/[0.05] p-3 flex flex-col items-center justify-center">
           <canvas id="waveformCanvas" width="550" height="40" class="w-full max-w-md h-10"></canvas>
           <span class="text-[9px] font-mono text-slate-400 uppercase mt-1">Acoustic Input Frequency</span>
         </div>
 
         <!-- Dialogue Box -->
         <div class="space-y-3">
-          <div class="bg-[#090b10] rounded-xl p-5 border border-white/[0.06] min-h-[90px] flex items-center">
-            <p id="officer-transcript" class="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
+          <div class="bg-slate-50 dark:bg-[#090b10] rounded-xl p-5 border border-slate-200 dark:border-white/[0.06] min-h-[90px] flex items-center">
+            <p id="officer-transcript" class="text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed font-normal">
               "Good morning. Please remain standing and raise your right hand. Do you swear or affirm that all statements you make today will be the truth, the whole truth, and nothing but the truth?"
             </p>
           </div>
 
-          <div class="bg-black/30 rounded-lg p-3 border border-white/[0.03] flex items-center justify-between text-xs font-mono">
+          <div class="bg-slate-100 dark:bg-black/30 rounded-lg p-3 border border-slate-200 dark:border-white/[0.03] flex items-center justify-between text-xs font-mono">
             <span class="text-slate-400 text-[10px] uppercase">Candidate Input:</span>
-            <span id="user-live-speech" class="text-slate-300 font-sans italic">Waiting for response...</span>
+            <span id="user-live-speech" class="text-slate-700 dark:text-slate-300 font-sans italic">Waiting for response...</span>
           </div>
         </div>
 
         <!-- Inputs: Mic & Universal Text Fallback -->
         <div class="space-y-3 pt-2">
           <div class="flex flex-col sm:flex-row items-center gap-2.5">
-            <button id="mic-trigger-btn" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white text-slate-950 font-semibold text-xs tracking-tight flex items-center justify-center gap-2 hover:bg-slate-200 transition active:scale-[0.98]">
+            <button id="mic-trigger-btn" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-semibold text-xs tracking-tight flex items-center justify-center gap-2 transition active:scale-[0.98] shadow-sm">
               <span id="mic-icon">🎙️</span> <span id="mic-label">Speak Answer</span>
             </button>
-            <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-slate-300 text-xs font-medium transition">
+            <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] hover:bg-slate-50 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-slate-300 text-xs font-medium transition shadow-sm">
               Repeat Question
             </button>
           </div>
 
           <!-- Fallback input for iOS/Safari -->
           <form onsubmit="handleManualAnswer(event)" class="flex gap-2">
-            <input type="text" id="manual-text-input" placeholder="Or type your spoken response here..." class="flex-1 bg-[#090b10] border border-white/[0.07] focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-white outline-none font-normal transition">
-            <button type="submit" class="bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 text-xs px-4 py-2.5 rounded-xl font-medium transition border border-white/[0.06]">Submit</button>
+            <input type="text" id="manual-text-input" placeholder="Or type your spoken response here..." class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-slate-400 dark:focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-normal transition">
+            <button type="submit" class="bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-300 text-xs px-4 py-2.5 rounded-xl font-medium transition border border-slate-200 dark:border-white/[0.06]">Submit</button>
           </form>
         </div>
 
-        <div class="border-t border-white/[0.06] pt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-          <span>Stage: <span id="stage-label" class="text-slate-300">Oath of Allegiance</span></span>
-          <span>Question <span id="sim-q-idx" class="text-white font-semibold">1</span> of 5</span>
+        <div class="border-t border-slate-200 dark:border-white/[0.06] pt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>Stage: <span id="stage-label" class="text-slate-700 dark:text-slate-300 font-medium">Oath of Allegiance</span></span>
+          <span>Question <span id="sim-q-idx" class="text-slate-900 dark:text-white font-semibold">1</span> of 5</span>
         </div>
       </div>
 
       <!-- Formal Form N-652 Official Adjudication Result Card -->
-      <div id="n652-card" class="panel-glass rounded-2xl p-6 sm:p-8 space-y-4 hidden border-white/[0.12]">
-        <div class="flex justify-between items-start border-b border-white/[0.06] pb-4">
+      <div id="n652-card" class="panel-glass rounded-2xl p-6 sm:p-8 space-y-4 hidden border-slate-300 dark:border-white/[0.12]">
+        <div class="flex justify-between items-start border-b border-slate-200 dark:border-white/[0.06] pb-4">
           <div>
             <div class="text-[9px] font-mono uppercase text-slate-400">Department of Homeland Security • USCIS</div>
-            <h3 class="text-lg font-semibold text-white mt-0.5">Form N-652 Naturalization Examination Result</h3>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mt-0.5">Form N-652 Naturalization Examination Result</h3>
           </div>
           <span id="n652-badge" class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase">Pending</span>
         </div>
         <div class="space-y-2 text-xs leading-relaxed" id="n652-reasons"></div>
         <div class="pt-2 flex gap-3">
-          <button onclick="resetInterviewSession()" class="flex-1 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white text-xs py-2.5 rounded-xl font-medium transition">
+          <button onclick="resetInterviewSession()" class="flex-1 bg-white dark:bg-white/[0.04] hover:bg-slate-50 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.06] text-slate-800 dark:text-white text-xs py-2.5 rounded-xl font-medium transition shadow-sm">
             Retake Interview
           </button>
-          <button onclick="openCheckoutModal()" class="flex-1 bg-white text-slate-950 text-xs py-2.5 rounded-xl font-semibold transition hover:bg-slate-200">
+          <button onclick="openCheckoutModal()" class="flex-1 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 text-xs py-2.5 rounded-xl font-semibold transition shadow-sm">
             Unlock Full N-400 Suite
           </button>
         </div>
@@ -360,35 +383,35 @@
     <div id="section-reps" class="max-w-2xl mx-auto space-y-6 hidden">
       <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-5">
         <div>
-          <h2 class="text-lg font-semibold text-white tracking-tight">State Officials Lookup</h2>
-          <p class="text-xs text-slate-400 mt-1 font-normal leading-relaxed">
+          <h2 class="text-lg font-semibold text-slate-900 dark:text-white tracking-tight">State Officials Lookup</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-normal leading-relaxed">
             USCIS questions #20, #23, #43, and #44 require naming your current Governor, U.S. Senators, and State Capital. Enter your ZIP code to load your jurisdiction:
           </p>
         </div>
 
         <div class="flex gap-2">
-          <input type="text" id="zip-input" maxlength="5" placeholder="Enter 5-digit US ZIP Code (e.g. 90210, 75001)" class="flex-1 bg-[#090b10] border border-white/[0.07] focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-white outline-none font-mono">
-          <button onclick="lookupZip()" class="bg-white hover:bg-slate-200 text-slate-950 text-xs font-semibold px-5 py-2.5 rounded-xl transition">
+          <input type="text" id="zip-input" maxlength="5" placeholder="Enter 5-digit US ZIP Code (e.g. 90210, 75001)" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-slate-400 dark:focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-mono">
+          <button onclick="lookupZip()" class="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 text-xs font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
             Search
           </button>
         </div>
 
         <div id="reps-results" class="space-y-2 pt-2 hidden">
-          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px]">State:</span>
-            <strong id="rep-state" class="text-white font-medium">-</strong>
+          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">State:</span>
+            <strong id="rep-state" class="text-slate-900 dark:text-white font-medium">-</strong>
           </div>
-          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px]">Capital (USCIS Q#44):</span>
-            <strong id="rep-capital" class="text-slate-200 font-medium">-</strong>
+          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Capital (USCIS Q#44):</span>
+            <strong id="rep-capital" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
-          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px]">Governor (USCIS Q#43):</span>
-            <strong id="rep-governor" class="text-white font-medium">-</strong>
+          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Governor (USCIS Q#43):</span>
+            <strong id="rep-governor" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
-          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px]">Senators (USCIS Q#20):</span>
-            <strong id="rep-senators" class="text-white font-medium">-</strong>
+          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Senators (USCIS Q#20):</span>
+            <strong id="rep-senators" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
         </div>
       </div>
@@ -397,28 +420,28 @@
   </main>
 
   <!-- Checkout / Stripe Modal -->
-  <div id="checkout-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
-    <div class="panel-glass max-w-md w-full rounded-2xl p-6 sm:p-8 space-y-6 relative border-white/[0.1]">
-      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-sm font-mono">✕</button>
+  <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
+    <div class="panel-glass max-w-md w-full rounded-2xl p-6 sm:p-8 space-y-6 relative border-slate-200 dark:border-white/[0.1]">
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-mono">✕</button>
       
       <div class="text-center space-y-2">
-        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pass Guarantee</span>
-        <h3 class="text-xl font-semibold text-white tracking-tight">CivicPass Full License</h3>
-        <p class="text-xs text-slate-400 font-normal leading-relaxed">Unlimited voice mock sessions, N-400 risk auditor, and full 100 civics question pronunciation bank.</p>
+        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium">Pass Guarantee</span>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight">CivicPass Full License</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">Unlimited voice mock sessions, N-400 risk auditor, and full 100 civics question pronunciation bank.</p>
       </div>
 
-      <div class="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-between">
+      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] flex items-center justify-between">
         <div>
-          <div class="text-sm font-semibold text-white">Full Access Pass</div>
-          <div class="text-[11px] text-slate-400">One-time payment • 100% money-back guarantee</div>
+          <div class="text-sm font-semibold text-slate-900 dark:text-white">Full Access Pass</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">One-time payment • 100% money-back guarantee</div>
         </div>
         <div class="text-right">
-          <div class="text-xl font-semibold text-white">$39</div>
+          <div class="text-xl font-semibold text-slate-900 dark:text-white">$39</div>
           <div class="text-[10px] text-slate-400 line-through font-mono">$79</div>
         </div>
       </div>
 
-      <button onclick="proceedToStripeCheckout()" class="w-full py-3 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-semibold text-xs tracking-tight transition active:scale-[0.98]">
+      <button onclick="proceedToStripeCheckout()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-semibold text-xs tracking-tight transition active:scale-[0.98] shadow-sm">
         Proceed to Checkout
       </button>
 
@@ -429,26 +452,53 @@
   </div>
 
   <!-- Minimal Footer -->
-  <footer class="border-t border-white/[0.06] bg-[#06070a] py-10 px-6 mt-16 text-xs text-slate-400 space-y-4">
+  <footer class="border-t border-slate-200 dark:border-white/[0.06] bg-slate-100 dark:bg-[#06070a] py-10 px-6 mt-16 text-xs text-slate-500 dark:text-slate-400 space-y-4 transition-colors">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center space-x-2">
-        <span class="font-semibold text-white text-xs">CivicPass AI</span>
+        <span class="font-semibold text-slate-900 dark:text-white text-xs">CivicPass AI</span>
         <span>•</span>
-        <span class="text-slate-400 text-xs">USCIS Naturalization Practice</span>
+        <span class="text-xs">USCIS Naturalization Practice</span>
       </div>
       <div class="flex gap-4 font-mono text-[11px]">
-        <a href="#" onclick="showToast('Educational preparation terms apply.')" class="hover:text-slate-300 transition">Terms</a>
-        <a href="#" onclick="showToast('Voice data is processed locally in browser memory.')" class="hover:text-slate-300 transition">Privacy</a>
-        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-300 transition">Refund Policy</a>
+        <a href="#" onclick="showToast('Educational preparation terms apply.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Terms</a>
+        <a href="#" onclick="showToast('Voice data is processed locally in browser memory.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Privacy</a>
+        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Refund Policy</a>
       </div>
     </div>
-    <div class="max-w-6xl mx-auto border-t border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed text-slate-400">
+    <div class="max-w-6xl mx-auto border-t border-slate-200 dark:border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed">
       CivicPass AI is an independent educational training service. It is not affiliated with, endorsed by, or representing USCIS, the Department of Homeland Security, or any U.S. government agency.
     </div>
   </footer>
 
   <!-- Core Script Engine -->
   <script>
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('civicpass_theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('themeIcon').innerText = '🌙';
+      } else {
+        document.documentElement.classList.add('dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('civicpass_theme', 'light');
+        document.getElementById('themeIcon').innerText = '🌙';
+        showToast("Switched to Light mode");
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('civicpass_theme', 'dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+        showToast("Switched to Dark mode");
+      }
+    }
+
     const CIVICS_POOL = [
       { id: 1, senior: true, cat: "gov", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
       { id: 2, senior: false, cat: "gov", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
@@ -479,13 +529,13 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v3_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v4_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v3_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v4_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -545,11 +595,11 @@
       seniorExemptionActive = !seniorExemptionActive;
       const icon = document.getElementById('senior-icon');
       if (seniorExemptionActive) {
-        icon.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
+        icon.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
         currentQuestions = CIVICS_POOL.filter(q => q.senior);
         showToast("65/20 Exemption active: 20 designated questions loaded.");
       } else {
-        icon.className = "w-1.5 h-1.5 rounded-full bg-slate-600";
+        icon.className = "w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600";
         currentQuestions = [...CIVICS_POOL];
         showToast("Standard 100 civics questions curriculum restored.");
       }
@@ -593,12 +643,12 @@
       document.getElementById('view-mcq').classList.toggle('hidden', mode !== 'mcq');
 
       document.getElementById('btn-mode-flashcard').className = mode === 'flashcard' 
-        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition"
-        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
-        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition"
-        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       if (mode === 'mcq') renderMcqQuestion();
     }
@@ -619,7 +669,7 @@
 
       q.opts.forEach(option => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-3.5 rounded-xl border border-white/[0.06] bg-[#090b10] hover:bg-white/[0.04] text-xs text-white transition flex items-center justify-between";
+        btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-[#090b10] hover:bg-slate-50 dark:hover:bg-white/[0.04] text-xs text-slate-800 dark:text-white transition flex items-center justify-between shadow-sm";
         btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase">Select</span>`;
         btn.onclick = () => selectMcqOption(btn, option, q.a);
         optsContainer.appendChild(btn);
@@ -635,12 +685,12 @@
       feedback.classList.remove('hidden');
 
       if (isCorrect) {
-        selectedBtn.classList.add('bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-300');
-        feedback.className = "text-xs p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300";
+        selectedBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-500/10', 'border-emerald-300', 'dark:border-emerald-500/30', 'text-emerald-700', 'dark:text-emerald-300');
+        feedback.className = "text-xs p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300";
         feedback.innerText = "Correct response. Recognized under official USCIS guidelines.";
       } else {
-        selectedBtn.classList.add('bg-rose-500/10', 'border-rose-500/30', 'text-rose-300');
-        feedback.className = "text-xs p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300";
+        selectedBtn.classList.add('bg-rose-50', 'dark:bg-rose-500/10', 'border-rose-300', 'dark:border-rose-500/30', 'text-rose-700', 'dark:text-rose-300');
+        feedback.className = "text-xs p-3 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300";
         feedback.innerText = `Incorrect. The official USCIS answer is: "${correctText}".`;
       }
 
@@ -724,7 +774,7 @@
       window.speechSynthesis.cancel();
       isSpeaking = true;
       startWaveform();
-      document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Officer Speaking...`;
+      document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Officer Speaking...`;
       
       const utter = new SpeechSynthesisUtterance(text);
       utter.rate = 0.9;
@@ -733,7 +783,7 @@
       utter.onend = () => {
         isSpeaking = false;
         stopWaveform();
-        document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Listening to You`;
+        document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Listening to You`;
         if (onComplete) onComplete();
       };
       
@@ -850,12 +900,12 @@
       const n652 = document.getElementById('n652-card');
       n652.classList.remove('hidden');
       const badge = document.getElementById('n652-badge');
-      badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-rose-500/10 text-rose-300 border border-rose-500/20";
+      badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20";
       badge.innerText = "DENIED / FORM N-14 CONTINUED";
 
       const reasonsContainer = document.getElementById('n652-reasons');
       reasonsContainer.innerHTML = `
-        <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-300">
+        <div class="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl text-rose-700 dark:text-rose-300">
           <strong>Adjudication Finding:</strong> ${failureReason}
         </div>
       `;
@@ -874,19 +924,19 @@
       if (passed) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         speakOfficer("Congratulations. You have met all statutory educational and character requirements today. I will recommend your Form N-400 for approval.");
-        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-emerald-500/10 text-emerald-300 border border-emerald-500/20";
+        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20";
         badge.innerText = "RECOMMENDED FOR APPROVAL";
         reasonsContainer.innerHTML = `
-          <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-300">
+          <div class="p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl text-emerald-700 dark:text-emerald-300">
             <strong>Adjudication Finding:</strong> Candidate demonstrated English and Civics proficiency, and established attachment to the Constitution under INA § 316 and § 337.
           </div>
         `;
       } else {
         speakOfficer("You did not attain the passing threshold on the civics portion. A re-test will be scheduled within 60 to 90 days.");
-        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-amber-500/10 text-amber-300 border border-amber-500/20";
+        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20";
         badge.innerText = "RE-TEST SCHEDULED (60-90 DAYS)";
         reasonsContainer.innerHTML = `
-          <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-300">
+          <div class="p-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl text-amber-700 dark:text-amber-300">
             <strong>Notice of Continuation:</strong> Did not meet the 60% civics standard. Entitled to one re-examination under 8 CFR § 312.5.
           </div>
         `;
@@ -909,11 +959,12 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let step = 0;
+      const isDark = document.documentElement.classList.contains('dark');
 
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.lineWidth = 1.5;
-        ctx.strokeStyle = '#38bdf8';
+        ctx.strokeStyle = isDark ? '#38bdf8' : '#0284c7';
         ctx.beginPath();
         for (let x = 0; x < canvas.width; x++) {
           const y = canvas.height / 2 + Math.sin(x * 0.05 + step) * Math.sin(x * 0.02) * 14;
@@ -932,9 +983,10 @@
       const canvas = document.getElementById('waveformCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
+      const isDark = document.documentElement.classList.contains('dark');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.1)';
       ctx.beginPath();
       ctx.moveTo(0, canvas.height / 2);
       ctx.lineTo(canvas.width, canvas.height / 2);
@@ -969,16 +1021,16 @@
       document.getElementById('section-reps').classList.toggle('hidden', tab !== 'reps');
 
       document.getElementById('nav-civics').className = tab === 'civics' 
-        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition" 
-        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition" 
+        : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       document.getElementById('nav-interview').className = tab === 'interview'
-        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition flex items-center gap-2"
-        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2";
+        ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition flex items-center gap-2"
+        : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2";
 
       document.getElementById('nav-reps').className = tab === 'reps'
-        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition"
-        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition"
+        : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       if (tab === 'interview') {
         speakOfficer(INTERVIEW_STEPS[currentStepIdx].officerSays);
@@ -1014,6 +1066,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
       renderFlashcard();
       updateStatDisplays();
       stopWaveform();
