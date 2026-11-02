@@ -1,43 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CivicPass Premier | Executive U.S. Naturalization Intelligence</title>
-  <meta name="description" content="The premier USCIS Naturalization Interview & Civics Intelligence Simulator. Interactive oral exams, acoustic speech analysis, and Form N-400 statutory risk evaluation.">
+  <title>CivicPass AI — Official USCIS Naturalization & Civics Simulator</title>
+  <meta name="description" content="AI-powered USCIS Naturalization oral test simulator with acoustic speech evaluation and Form N-400 statutory readiness checks.">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            obsidian: {
-              950: '#04060a',
-              900: '#070b12',
-              850: '#0b1019',
-              800: '#101725',
-              700: '#1c263b',
+            brand: {
+              50: '#f0fdf4',
+              400: '#4ade80',
+              500: '#22c55e',
             },
-            gilded: {
-              100: '#fcf8ee',
-              200: '#f5ebcc',
-              300: '#ead79e',
-              400: '#ddbf6d',
-              500: '#cfab47',
-              600: '#b08b32',
-              700: '#896724',
+            surface: {
+              base: '#08090d',
+              card: '#0e1117',
+              raised: '#141824',
+              border: 'rgba(255, 255, 255, 0.07)',
+              borderHover: 'rgba(255, 255, 255, 0.16)'
             }
           }
         }
@@ -46,21 +41,19 @@
   </script>
 
   <style>
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #fcedc5 0%, #d8b355 50%, #9e7828 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    body {
+      background-color: #08090d;
+      color: #f1f5f9;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.07), transparent),
+        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(34, 197, 94, 0.04), transparent);
     }
-    .gold-gradient-border {
-      border-image: linear-gradient(135deg, rgba(221, 191, 109, 0.4), rgba(255, 255, 255, 0.05), rgba(221, 191, 109, 0.1)) 1;
-    }
-    .luxury-card {
-      background: linear-gradient(180deg, rgba(16, 23, 37, 0.6) 0%, rgba(7, 11, 18, 0.8) 100%);
+    .panel-glass {
+      background: rgba(14, 17, 23, 0.7);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-    .luxury-card:hover {
-      border-color: rgba(221, 191, 109, 0.25);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
     .perspective-1000 { perspective: 1000px; }
     .transform-style-3d { transform-style: preserve-3d; }
@@ -68,183 +61,165 @@
     .rotate-y-180 { transform: rotateY(180deg); }
   </style>
 </head>
-<body class="bg-obsidian-950 text-slate-200 min-h-screen flex flex-col antialiased selection:bg-gilded-500 selection:text-obsidian-950">
+<body class="min-h-screen flex flex-col antialiased selection:bg-slate-200 selection:text-slate-900 font-sans">
 
-  <!-- Ambient Glow Effects -->
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[320px] bg-gradient-to-b from-gilded-500/10 via-gilded-500/5 to-transparent blur-3xl pointer-events-none z-0"></div>
-
-  <!-- Top Authority Notice -->
-  <div class="relative z-10 border-b border-white/[0.06] bg-obsidian-900/60 backdrop-blur-md text-[11px] py-2 px-6 tracking-wide text-slate-400 flex items-center justify-between">
+  <!-- Minimal Regulatory Notice -->
+  <div class="border-b border-white/[0.05] bg-black/40 text-[11px] py-2 px-6 tracking-normal text-slate-400 flex items-center justify-between">
     <div class="flex items-center gap-2">
-      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gilded-500/10 border border-gilded-500/20 text-gilded-300 font-mono text-[9px] uppercase tracking-widest font-semibold">
-        <span class="w-1.5 h-1.5 rounded-full bg-gilded-400"></span> Standard 2026
+      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.08] text-slate-300 font-mono text-[10px]">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 2026 Test Standards
       </span>
-      <span class="hidden sm:inline">Certified USCIS 100 Civics & Naturalization Interview Protocol</span>
+      <span class="hidden sm:inline text-slate-400">Official USCIS 100 Civics & Naturalization Oral Examination Curriculum</span>
     </div>
-    <div class="text-[10px] text-slate-500 tracking-wider uppercase font-mono">
-      Independent Legal Test-Prep Platform
-    </div>
+    <span class="text-[10px] text-slate-400 font-mono">Independent Study Platform</span>
   </div>
 
   <!-- Header / Navigation -->
-  <header class="relative z-20 border-b border-white/[0.06] bg-obsidian-950/80 backdrop-blur-xl sticky top-0">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+  <header class="border-b border-white/[0.06] bg-[#08090d]/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       
-      <!-- Brand Logo -->
-      <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchMainTab('civics')">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-b from-gilded-300 via-gilded-500 to-gilded-700 p-[1px] shadow-lg shadow-gilded-600/15">
-          <div class="w-full h-full bg-obsidian-950 rounded-[11px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-gilded-300" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
+      <!-- Brand -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchMainTab('civics')">
+        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-slate-950 font-bold text-sm shadow-sm">
+          C
         </div>
-        <div>
-          <span class="font-serif text-xl font-medium tracking-tight text-white">Civic<span class="italic text-gilded-300">Pass</span></span>
-          <span class="text-[9px] block uppercase font-mono tracking-widest text-slate-400">Premier Intelligence</span>
+        <div class="flex items-baseline gap-2">
+          <span class="font-semibold text-white tracking-tight text-sm">CivicPass<span class="text-slate-400 font-normal">.ai</span></span>
         </div>
       </div>
 
-      <!-- Main Navigation Links -->
-      <nav class="hidden md:flex items-center gap-1 bg-obsidian-900/80 p-1.5 rounded-2xl border border-white/[0.06] text-xs font-medium">
-        <button onclick="switchMainTab('civics')" id="nav-civics" class="px-4 py-2 rounded-xl text-gilded-200 bg-white/[0.06] shadow-sm transition">100 Civics Deck</button>
-        <button onclick="switchMainTab('interview')" id="nav-interview" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2">
+      <!-- Segmented Navigation Control -->
+      <nav class="hidden md:flex items-center bg-[#141824]/60 p-1 rounded-xl border border-white/[0.06] text-xs font-medium">
+        <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition">100 Civics</button>
+        <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          AI Officer Chamber
+          Officer Interview
         </button>
-        <button onclick="switchMainTab('reps')" id="nav-reps" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white transition">State Dignitaries</button>
+        <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition">State Reps</button>
       </nav>
 
-      <!-- CTA -->
+      <!-- Action -->
       <div class="flex items-center gap-3">
-        <button onclick="openCheckoutModal()" class="relative group px-5 py-2.5 rounded-xl bg-gradient-to-b from-gilded-300 via-gilded-400 to-gilded-600 text-obsidian-950 font-semibold text-xs tracking-wider uppercase transition-all duration-300 shadow-lg shadow-gilded-500/20 hover:brightness-110 active:scale-[0.98]">
-          <span class="relative z-10 font-bold">Unlock Full Pass</span>
+        <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-lg bg-white text-slate-950 hover:bg-slate-200 text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm">
+          Upgrade VIP
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Notification Banner -->
-  <div id="statusToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-400 max-w-sm luxury-card border-gilded-500/30 text-white p-4 rounded-2xl shadow-2xl flex items-start gap-3.5">
-    <div id="toastIcon" class="text-gilded-300 mt-0.5 text-base font-serif">✦</div>
-    <div class="flex-1 text-xs leading-relaxed" id="toastMessage">Notification message</div>
+  <!-- Notification Toast -->
+  <div id="statusToast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm panel-glass p-4 rounded-xl text-xs text-slate-200 shadow-2xl flex items-start gap-3">
+    <div id="toastIcon" class="text-emerald-400 text-sm mt-0.5">●</div>
+    <div class="flex-1 leading-relaxed" id="toastMessage">Notification message</div>
   </div>
 
-  <!-- Content Container -->
-  <main class="relative z-10 flex-1 max-w-7xl mx-auto w-full px-6 lg:px-10 py-10 space-y-12">
+  <!-- Main Viewport -->
+  <main class="flex-1 max-w-6xl mx-auto w-full px-6 py-10 space-y-8">
 
     <!-- ========================================== -->
     <!-- SECTION 1: 100 CIVICS STUDY ENGINE         -->
     <!-- ========================================== -->
-    <div id="section-civics" class="space-y-8">
+    <div id="section-civics" class="space-y-6">
       
-      <!-- Top Overview Panel -->
-      <div class="luxury-card rounded-3xl p-8 lg:p-10 relative overflow-hidden">
-        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-gilded-500/5 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
-          <div class="space-y-2 max-w-xl">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] uppercase font-mono tracking-widest text-gilded-300">
-              Official Naturalization Syllabus
-            </div>
-            <h1 class="text-3xl sm:text-4xl font-serif text-white tracking-tight">The 100 Civics Intelligence Deck</h1>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
-              Master the authoritative USCIS question bank. You will be asked up to 10 oral questions during your appointment and must answer 6 correctly to obtain statutory citizenship approval.
-            </p>
-          </div>
-
-          <!-- Quick Metrics Bar -->
-          <div class="grid grid-cols-3 gap-3 bg-obsidian-950/70 p-3 rounded-2xl border border-white/[0.06] text-center">
-            <div class="px-4 py-3 rounded-xl bg-white/[0.02]">
-              <div class="text-[10px] uppercase font-mono tracking-wider text-slate-400">Mastered</div>
-              <div id="stat-mastered" class="text-xl font-serif font-bold text-gilded-300 mt-0.5">0</div>
-            </div>
-            <div class="px-4 py-3 rounded-xl bg-white/[0.02]">
-              <div class="text-[10px] uppercase font-mono tracking-wider text-slate-400">Needs Drill</div>
-              <div id="stat-missed" class="text-xl font-serif font-bold text-rose-400 mt-0.5">0</div>
-            </div>
-            <div class="px-4 py-3 rounded-xl bg-white/[0.02]">
-              <div class="text-[10px] uppercase font-mono tracking-wider text-slate-400">Total Pool</div>
-              <div class="text-xl font-serif font-bold text-slate-200 mt-0.5">100</div>
-            </div>
-          </div>
+      <!-- Minimalist Header Banner -->
+      <div class="panel-glass rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-1.5 max-w-xl">
+          <h1 class="text-xl sm:text-2xl font-semibold text-white tracking-tight">Official 100 Civics Deck</h1>
+          <p class="text-xs sm:text-sm text-slate-400 font-normal leading-relaxed">
+            The USCIS naturalization exam requires answering 6 out of 10 oral questions correctly. Practice memorization via self-test flashcards or simulated multiple-choice questions.
+          </p>
         </div>
 
-        <!-- Mode Selectors Bar -->
-        <div class="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-1.5 bg-obsidian-950 p-1.5 rounded-xl border border-white/[0.06]">
-            <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-4 py-2 text-xs font-semibold rounded-lg bg-gilded-500 text-obsidian-950 shadow-sm transition">Flashcard Recall</button>
-            <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-4 py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition">Multiple Choice Quiz</button>
-            <button onclick="startOralExam()" id="btn-mode-exam" class="px-4 py-2 text-xs font-medium rounded-lg text-gilded-300 hover:text-white transition flex items-center gap-1.5">
-              <span>✦</span> 10-Question Oral Test
-            </button>
+        <!-- Metric Counter -->
+        <div class="flex items-center gap-2 text-xs font-mono">
+          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[10px] uppercase">Mastered</span>
+            <span id="stat-mastered" class="text-emerald-400 font-semibold text-sm">0</span>
           </div>
-
-          <div class="flex items-center gap-3">
-            <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3.5 py-2 text-xs rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white transition flex items-center gap-2">
-              <span id="senior-icon" class="w-2 h-2 rounded-full bg-slate-600"></span>
-              <span>65/20 Special Exemption (20 Questions)</span>
-            </button>
-            <button onclick="filterMissedOnly()" class="px-3.5 py-2 text-xs rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 hover:bg-rose-500/20 transition font-medium">
-              Review Missed (<span id="missed-count">0</span>)
-            </button>
+          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[10px] uppercase">Missed</span>
+            <span id="stat-missed" class="text-rose-400 font-semibold text-sm">0</span>
+          </div>
+          <div class="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[10px] uppercase">Total</span>
+            <span class="text-slate-200 font-semibold text-sm">100</span>
           </div>
         </div>
       </div>
 
-      <!-- Category Filter Pills -->
-      <div class="flex flex-wrap gap-2 text-xs font-medium">
-        <button onclick="filterCategory('all')" class="cat-pill px-4 py-2 rounded-xl bg-white/[0.06] text-gilded-200 border border-gilded-500/30 transition">All 100 Topics</button>
-        <button onclick="filterCategory('gov')" class="cat-pill px-4 py-2 rounded-xl bg-obsidian-900/60 text-slate-400 border border-white/[0.06] hover:text-white transition">American Government</button>
-        <button onclick="filterCategory('history')" class="cat-pill px-4 py-2 rounded-xl bg-obsidian-900/60 text-slate-400 border border-white/[0.06] hover:text-white transition">American History</button>
-        <button onclick="filterCategory('integrated')" class="cat-pill px-4 py-2 rounded-xl bg-obsidian-900/60 text-slate-400 border border-white/[0.06] hover:text-white transition">Integrated Civics</button>
+      <!-- Controls & Filter Toolbar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center bg-[#141824]/60 p-1 rounded-xl border border-white/[0.06]">
+          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition">Flashcards</button>
+          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition">4-Choice Quiz</button>
+          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition">10-Question Test</button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] text-slate-400 hover:text-slate-200 transition flex items-center gap-2">
+            <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+            <span>65/20 Senior Exemption (20 Questions)</span>
+          </button>
+          <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-300 hover:bg-rose-500/20 transition">
+            Review Missed (<span id="missed-count">0</span>)
+          </button>
+        </div>
       </div>
 
-      <!-- Mode View: FLASHCARD COMPONENT -->
-      <div id="view-flashcard" class="max-w-2xl mx-auto space-y-6">
-        <div class="relative h-96 w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
-          <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-3xl luxury-card shadow-2xl p-8 sm:p-10 flex flex-col justify-between">
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.08] text-white border border-white/[0.1] transition">All Questions (100)</button>
+        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">American Government</button>
+        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">American History</button>
+        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-white/[0.02] text-slate-400 border border-white/[0.05] hover:text-white transition">Integrated Civics</button>
+      </div>
+
+      <!-- Flashcard Interactive Display -->
+      <div id="view-flashcard" class="max-w-2xl mx-auto space-y-4">
+        <div class="relative h-80 w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
+          <div id="flashcard-inner" class="relative w-full h-full transform-style-3d transition-transform duration-400 rounded-2xl panel-glass p-8 flex flex-col justify-between">
             
-            <!-- Front Card Face -->
-            <div class="absolute inset-0 backface-hidden p-8 sm:p-10 flex flex-col justify-between rounded-3xl bg-obsidian-900/90 border border-white/[0.08]">
-              <div class="flex justify-between items-center">
-                <span id="fc-badge" class="font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full bg-gilded-500/10 text-gilded-300 border border-gilded-500/20 font-semibold">
+            <!-- Front -->
+            <div class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between rounded-2xl bg-[#0e1117] border border-white/[0.07]">
+              <div class="flex justify-between items-center text-xs">
+                <span id="fc-badge" class="font-mono text-[10px] text-slate-400 uppercase tracking-widest px-2.5 py-1 rounded bg-white/[0.04] border border-white/[0.06]">
                   USCIS #1
                 </span>
-                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-400 hover:text-gilded-300 p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] transition flex items-center gap-1.5 text-xs font-mono" title="Acoustic pronunciation">
-                  <span>Pronounce</span> 🔊
+                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-400 hover:text-white p-2 rounded-lg bg-white/[0.03] border border-white/[0.06] transition flex items-center gap-1.5 text-xs font-mono">
+                  <span>Audio</span> 🔊
                 </button>
-              </div>
-
-              <div class="my-auto text-center space-y-4">
-                <h3 id="fc-question" class="text-2xl sm:text-3xl font-serif text-white tracking-tight leading-snug">What is the supreme law of the land?</h3>
-                <p id="fc-translation" class="text-xs text-slate-400 italic font-light">¿Cuál es la ley suprema de la nación?</p>
-              </div>
-
-              <div class="text-center text-[11px] text-slate-500 font-mono uppercase tracking-widest">
-                Click card or tap spacebar to inspect USCIS answer
-              </div>
-            </div>
-
-            <!-- Back Card Face -->
-            <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 sm:p-10 flex flex-col justify-between rounded-3xl bg-gradient-to-b from-obsidian-900 to-obsidian-950 border border-gilded-500/30">
-              <div class="flex justify-between items-center">
-                <span class="font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
-                  Authoritative Statutory Answer
-                </span>
-                <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Candidate Verification</span>
               </div>
 
               <div class="my-auto text-center space-y-3">
-                <div id="fc-answer" class="text-2xl sm:text-3xl font-serif text-gilded-200 tracking-tight">The Constitution</div>
-                <p class="text-xs text-slate-400 max-w-sm mx-auto font-light">Applicants must recite this answer clearly in English during the naturalization appointment.</p>
+                <h3 id="fc-question" class="text-xl sm:text-2xl font-semibold text-white tracking-tight leading-snug">What is the supreme law of the land?</h3>
+                <p id="fc-translation" class="text-xs text-slate-400 font-normal">¿Cuál es la ley suprema de la nación?</p>
               </div>
 
-              <div class="flex gap-3 pt-3" onclick="event.stopPropagation()">
-                <button onclick="recordCardScore(false)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 transition flex items-center justify-center gap-2">
-                  <span>✕</span> Needs Reinforcement
+              <div class="text-center text-[11px] text-slate-400 font-mono">
+                Click or press space to reveal accepted answer
+              </div>
+            </div>
+
+            <!-- Back -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between rounded-2xl bg-[#121622] border border-white/[0.1]">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">
+                  Accepted USCIS Answer
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
+              </div>
+
+              <div class="my-auto text-center space-y-2">
+                <div id="fc-answer" class="text-2xl sm:text-3xl font-semibold text-white tracking-tight">The Constitution</div>
+                <p class="text-xs text-slate-400">Must be recited clearly from memory during the oral test.</p>
+              </div>
+
+              <div class="flex gap-2.5" onclick="event.stopPropagation()">
+                <button onclick="recordCardScore(false)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 transition">
+                  Missed it
                 </button>
-                <button onclick="recordCardScore(true)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 transition flex items-center justify-center gap-2">
-                  <span>✓</span> Certified Mastered
+                <button onclick="recordCardScore(true)" class="flex-1 py-2.5 text-xs font-medium rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 transition">
+                  Mastered
                 </button>
               </div>
             </div>
@@ -252,34 +227,33 @@
           </div>
         </div>
 
-        <!-- Navigation Bar -->
-        <div class="flex items-center justify-between text-xs text-slate-400 px-3">
-          <button onclick="prevCard()" class="px-5 py-2.5 rounded-xl bg-obsidian-900 border border-white/[0.08] hover:bg-white/[0.04] text-white font-medium transition flex items-center gap-2">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-2 font-mono">
+          <button onclick="prevCard()" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-white transition">
             ← Previous
           </button>
-          <span class="font-mono text-[11px] uppercase tracking-wider">Card <strong id="fc-current-index" class="text-white">1</strong> of <span id="fc-total-count">100</span></span>
-          <button onclick="nextCard()" class="px-5 py-2.5 rounded-xl bg-obsidian-900 border border-white/[0.08] hover:bg-white/[0.04] text-white font-medium transition flex items-center gap-2">
+          <span>Card <strong id="fc-current-index" class="text-white">1</strong> of <span id="fc-total-count">100</span></span>
+          <button onclick="nextCard()" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] text-white transition">
             Next →
           </button>
         </div>
       </div>
 
-      <!-- Mode View: 4-CHOICE MULTIPLE CHOICE QUIZ -->
-      <div id="view-mcq" class="max-w-2xl mx-auto space-y-6 hidden">
-        <div class="luxury-card rounded-3xl p-8 sm:p-10 space-y-8">
-          <div class="flex justify-between items-center text-xs text-slate-400">
-            <span id="mcq-badge" class="font-mono text-[10px] uppercase tracking-widest text-gilded-300 font-bold">Standard Exam Question 1/10</span>
-            <button onclick="playMcqAudio()" class="text-slate-400 hover:text-white transition flex items-center gap-1.5 font-mono text-xs">
-              <span>Listen</span> 🔊
+      <!-- Multiple Choice View -->
+      <div id="view-mcq" class="max-w-2xl mx-auto space-y-4 hidden">
+        <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
+          <div class="flex justify-between items-center text-xs">
+            <span id="mcq-badge" class="font-mono text-[10px] text-slate-400 uppercase">Question 1 of 10</span>
+            <button onclick="playMcqAudio()" class="text-slate-400 hover:text-white transition font-mono text-xs">
+              Audio 🔊
             </button>
           </div>
-          <h2 id="mcq-question" class="text-xl sm:text-2xl font-serif text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
-          <div id="mcq-options" class="space-y-3"></div>
-          <div id="mcq-feedback" class="text-xs p-4 rounded-2xl hidden"></div>
+          <h2 id="mcq-question" class="text-lg sm:text-xl font-semibold text-white tracking-tight">What do we call the first ten amendments to the Constitution?</h2>
+          <div id="mcq-options" class="space-y-2.5"></div>
+          <div id="mcq-feedback" class="text-xs p-3.5 rounded-xl hidden"></div>
           <div class="flex justify-between items-center pt-2">
-            <span class="text-[11px] text-slate-400 font-mono uppercase tracking-wider">Minimum Standard: 60% Passing Ratio</span>
-            <button id="mcq-next-btn" onclick="nextMcq()" class="px-6 py-2.5 text-xs font-bold uppercase tracking-wider rounded-xl bg-gilded-500 text-obsidian-950 transition opacity-50 cursor-not-allowed" disabled>
-              Next Inquire →
+            <span class="text-[11px] text-slate-400 font-mono">Standard: 60% Passing Ratio</span>
+            <button id="mcq-next-btn" onclick="nextMcq()" class="px-5 py-2 text-xs font-medium rounded-xl bg-white text-slate-950 transition opacity-50 cursor-not-allowed" disabled>
+              Next Question →
             </button>
           </div>
         </div>
@@ -290,92 +264,90 @@
     <!-- ========================================== -->
     <!-- SECTION 2: AI VOICE OFFICER INTERVIEW SIM  -->
     <!-- ========================================== -->
-    <div id="section-interview" class="max-w-3xl mx-auto space-y-8 hidden">
+    <div id="section-interview" class="max-w-3xl mx-auto space-y-6 hidden">
       
-      <!-- Chamber Header -->
-      <div class="luxury-card rounded-3xl p-8 lg:p-10 space-y-8 shadow-2xl relative overflow-hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
-          <div class="flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-obsidian-950 to-obsidian-800 border border-white/[0.1] flex items-center justify-center text-2xl shadow-inner">
+      <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-6">
+        <!-- Officer Status Bar -->
+        <div class="flex items-center justify-between border-b border-white/[0.06] pb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-lg">
               ⚖️
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="text-lg font-serif font-bold text-white tracking-tight">Officer Vance Miller</h2>
-                <span class="text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded bg-white/[0.06] text-slate-400 border border-white/[0.08]">Section 316 Adjudicator</span>
+                <h2 class="text-sm font-semibold text-white">Officer Miller</h2>
+                <span class="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-white/[0.04] text-slate-400 border border-white/[0.06]">USCIS Field Office</span>
               </div>
-              <p class="text-xs text-slate-400 font-light mt-0.5">USCIS Naturalization Examination Division • New York Field Office</p>
+              <p class="text-xs text-slate-400 font-normal">Form N-400 Statutory Naturalization Examination</p>
             </div>
           </div>
           <div>
-            <span id="officer-status" class="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Chamber In Session
+            <span id="officer-status" class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Ready
             </span>
           </div>
         </div>
 
-        <!-- Dynamic Real-time Audio Waveform Canvas -->
-        <div class="bg-obsidian-950 rounded-2xl border border-white/[0.06] p-4 flex flex-col items-center justify-center relative overflow-hidden">
-          <canvas id="waveformCanvas" width="600" height="60" class="w-full max-w-lg h-14"></canvas>
-          <span class="text-[9px] font-mono uppercase tracking-widest text-slate-400 mt-1">Acoustic Decorum & Voice Cadence Monitor</span>
+        <!-- Audio Waveform Monitor -->
+        <div class="bg-[#090b10] rounded-xl border border-white/[0.05] p-3 flex flex-col items-center justify-center">
+          <canvas id="waveformCanvas" width="550" height="40" class="w-full max-w-md h-10"></canvas>
+          <span class="text-[9px] font-mono text-slate-400 uppercase mt-1">Acoustic Input Frequency</span>
         </div>
 
-        <!-- Spoken Officer Dialogue Display -->
-        <div class="space-y-4">
-          <div class="bg-obsidian-950/80 rounded-2xl p-6 border border-white/[0.06] min-h-[110px] flex items-center relative">
-            <div class="absolute top-3 left-4 text-[9px] font-mono uppercase tracking-widest text-gilded-400">USCIS Official Inscription</div>
-            <p id="officer-transcript" class="text-base sm:text-lg text-slate-100 font-serif italic leading-relaxed pt-2">
-              "Good day. Please remain standing. Raise your right hand. Do you swear or affirm that all statements you make today will be the truth, the whole truth, and nothing but the truth?"
+        <!-- Dialogue Box -->
+        <div class="space-y-3">
+          <div class="bg-[#090b10] rounded-xl p-5 border border-white/[0.06] min-h-[90px] flex items-center">
+            <p id="officer-transcript" class="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
+              "Good morning. Please remain standing and raise your right hand. Do you swear or affirm that all statements you make today will be the truth, the whole truth, and nothing but the truth?"
             </p>
           </div>
 
-          <!-- User Response Capture View -->
-          <div class="bg-obsidian-950/40 rounded-xl p-4 border border-white/[0.04] flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400 text-[10px] uppercase tracking-wider">Candidate Transcript:</span>
-            <span id="user-live-speech" class="text-gilded-200 italic font-sans font-light">Listening for candidate testimony...</span>
+          <div class="bg-black/30 rounded-lg p-3 border border-white/[0.03] flex items-center justify-between text-xs font-mono">
+            <span class="text-slate-400 text-[10px] uppercase">Candidate Input:</span>
+            <span id="user-live-speech" class="text-slate-300 font-sans italic">Waiting for response...</span>
           </div>
         </div>
 
-        <!-- Controls: Audio & Universal Typed Fallback -->
-        <div class="space-y-4 pt-2">
-          <div class="flex flex-col sm:flex-row items-center gap-3">
-            <button id="mic-trigger-btn" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-gilded-300 via-gilded-400 to-gilded-600 hover:brightness-110 text-obsidian-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 transition shadow-lg shadow-gilded-500/20 active:scale-[0.98]">
-              <span id="mic-icon">🎙️</span> <span id="mic-label">Testify Via Voice</span>
+        <!-- Inputs: Mic & Universal Text Fallback -->
+        <div class="space-y-3 pt-2">
+          <div class="flex flex-col sm:flex-row items-center gap-2.5">
+            <button id="mic-trigger-btn" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white text-slate-950 font-semibold text-xs tracking-tight flex items-center justify-center gap-2 hover:bg-slate-200 transition active:scale-[0.98]">
+              <span id="mic-icon">🎙️</span> <span id="mic-label">Speak Answer</span>
             </button>
-            <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white text-xs font-medium transition flex items-center justify-center gap-2">
-              <span>↻</span> Repeat Inscription
+            <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] text-slate-300 text-xs font-medium transition">
+              Repeat Question
             </button>
           </div>
 
-          <!-- Typed fallback input for Safari/iOS or quiet rooms -->
+          <!-- Fallback input for iOS/Safari -->
           <form onsubmit="handleManualAnswer(event)" class="flex gap-2">
-            <input type="text" id="manual-text-input" placeholder="Or type your sworn spoken response here..." class="flex-1 bg-obsidian-950 border border-white/[0.08] focus:border-gilded-400 text-xs px-4 py-3 rounded-xl text-white outline-none font-sans font-light transition">
-            <button type="submit" class="bg-white/[0.06] hover:bg-white/[0.1] text-white text-xs px-5 py-3 rounded-xl font-semibold transition border border-white/[0.08]">Submit Sworn</button>
+            <input type="text" id="manual-text-input" placeholder="Or type your spoken response here..." class="flex-1 bg-[#090b10] border border-white/[0.07] focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-white outline-none font-normal transition">
+            <button type="submit" class="bg-white/[0.05] hover:bg-white/[0.08] text-slate-300 text-xs px-4 py-2.5 rounded-xl font-medium transition border border-white/[0.06]">Submit</button>
           </form>
         </div>
 
-        <div class="border-t border-white/[0.06] pt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono uppercase tracking-wider">
-          <span>Adjudication Phase: <span id="stage-label" class="text-gilded-300 font-semibold">Statutory Loyalty Oath</span></span>
-          <span>Question <span id="sim-q-idx" class="text-white font-bold">1</span> of 5</span>
+        <div class="border-t border-white/[0.06] pt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>Stage: <span id="stage-label" class="text-slate-300">Oath of Allegiance</span></span>
+          <span>Question <span id="sim-q-idx" class="text-white font-semibold">1</span> of 5</span>
         </div>
       </div>
 
-      <!-- Formal Form N-652 Official Adjudication Notice Card -->
-      <div id="n652-card" class="luxury-card rounded-3xl p-8 sm:p-10 space-y-6 hidden border-gilded-500/40 shadow-2xl relative overflow-hidden">
-        <div class="flex justify-between items-start border-b border-white/[0.08] pb-4">
+      <!-- Formal Form N-652 Official Adjudication Result Card -->
+      <div id="n652-card" class="panel-glass rounded-2xl p-6 sm:p-8 space-y-4 hidden border-white/[0.12]">
+        <div class="flex justify-between items-start border-b border-white/[0.06] pb-4">
           <div>
-            <div class="text-[9px] font-mono uppercase tracking-widest text-slate-400">Department of Homeland Security • U.S. Citizenship and Immigration Services</div>
-            <h3 class="text-2xl font-serif font-bold text-white mt-1">Form N-652 Naturalization Examination Result</h3>
+            <div class="text-[9px] font-mono uppercase text-slate-400">Department of Homeland Security • USCIS</div>
+            <h3 class="text-lg font-semibold text-white mt-0.5">Form N-652 Naturalization Examination Result</h3>
           </div>
-          <span id="n652-badge" class="px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider">Pending Evaluation</span>
+          <span id="n652-badge" class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase">Pending</span>
         </div>
-        <div class="space-y-3 text-xs leading-relaxed" id="n652-reasons"></div>
-        <div class="pt-4 flex flex-col sm:flex-row gap-3">
-          <button onclick="resetInterviewSession()" class="flex-1 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white text-xs py-3 rounded-xl font-medium transition">
-            Request Re-Examination
+        <div class="space-y-2 text-xs leading-relaxed" id="n652-reasons"></div>
+        <div class="pt-2 flex gap-3">
+          <button onclick="resetInterviewSession()" class="flex-1 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white text-xs py-2.5 rounded-xl font-medium transition">
+            Retake Interview
           </button>
-          <button onclick="openCheckoutModal()" class="flex-1 bg-gradient-to-r from-gilded-300 to-gilded-500 text-obsidian-950 text-xs py-3 rounded-xl font-bold uppercase tracking-wider transition shadow-lg shadow-gilded-500/15">
-            Unlock Form N-400 Full Gotcha Suite
+          <button onclick="openCheckoutModal()" class="flex-1 bg-white text-slate-950 text-xs py-2.5 rounded-xl font-semibold transition hover:bg-slate-200">
+            Unlock Full N-400 Suite
           </button>
         </div>
       </div>
@@ -385,39 +357,38 @@
     <!-- ========================================== -->
     <!-- SECTION 3: STATE REPS LOOKUP BY ZIP        -->
     <!-- ========================================== -->
-    <div id="section-reps" class="max-w-2xl mx-auto space-y-8 hidden">
-      <div class="luxury-card rounded-3xl p-8 sm:p-10 space-y-6">
+    <div id="section-reps" class="max-w-2xl mx-auto space-y-6 hidden">
+      <div class="panel-glass rounded-2xl p-6 sm:p-8 space-y-5">
         <div>
-          <span class="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-gilded-500/10 text-gilded-300 border border-gilded-500/20 font-semibold">Jurisdiction Protocol</span>
-          <h2 class="text-2xl sm:text-3xl font-serif text-white tracking-tight mt-2">Local Jurisdictional Dignitaries</h2>
-          <p class="text-xs text-slate-400 mt-1 font-light leading-relaxed">
-            USCIS Questions #20, #23, #43, and #44 evaluate your real-time knowledge of your local Governor, U.S. Senators, and State Capital. Enter your resident ZIP code below to synchronize answers.
+          <h2 class="text-lg font-semibold text-white tracking-tight">State Officials Lookup</h2>
+          <p class="text-xs text-slate-400 mt-1 font-normal leading-relaxed">
+            USCIS questions #20, #23, #43, and #44 require naming your current Governor, U.S. Senators, and State Capital. Enter your ZIP code to load your jurisdiction:
           </p>
         </div>
 
         <div class="flex gap-2">
-          <input type="text" id="zip-input" maxlength="5" placeholder="Enter 5-digit US ZIP Code (e.g. 90210, 75001, 10001)" class="flex-1 bg-obsidian-950 border border-white/[0.08] focus:border-gilded-400 text-xs px-4 py-3.5 rounded-xl text-white outline-none font-mono">
-          <button onclick="lookupZip()" class="bg-gilded-500 hover:bg-gilded-400 text-obsidian-950 text-xs font-bold uppercase tracking-wider px-6 py-3.5 rounded-xl transition shadow-lg shadow-gilded-500/20">
-            Query Dignitaries
+          <input type="text" id="zip-input" maxlength="5" placeholder="Enter 5-digit US ZIP Code (e.g. 90210, 75001)" class="flex-1 bg-[#090b10] border border-white/[0.07] focus:border-white/20 text-xs px-3.5 py-2.5 rounded-xl text-white outline-none font-mono">
+          <button onclick="lookupZip()" class="bg-white hover:bg-slate-200 text-slate-950 text-xs font-semibold px-5 py-2.5 rounded-xl transition">
+            Search
           </button>
         </div>
 
-        <div id="reps-results" class="space-y-3 pt-2 hidden">
-          <div class="p-4 bg-obsidian-950/70 rounded-2xl border border-white/[0.06] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px] uppercase">State Jurisdiction:</span>
-            <strong id="rep-state" class="text-white font-serif text-sm">-</strong>
+        <div id="reps-results" class="space-y-2 pt-2 hidden">
+          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-400 font-mono text-[11px]">State:</span>
+            <strong id="rep-state" class="text-white font-medium">-</strong>
           </div>
-          <div class="p-4 bg-obsidian-950/70 rounded-2xl border border-white/[0.06] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px] uppercase">State Capital (USCIS Q#44):</span>
-            <strong id="rep-capital" class="text-gilded-300 font-serif text-sm">-</strong>
+          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-400 font-mono text-[11px]">Capital (USCIS Q#44):</span>
+            <strong id="rep-capital" class="text-slate-200 font-medium">-</strong>
           </div>
-          <div class="p-4 bg-obsidian-950/70 rounded-2xl border border-white/[0.06] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px] uppercase">Resident Governor (USCIS Q#43):</span>
-            <strong id="rep-governor" class="text-white font-serif text-sm">-</strong>
+          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-400 font-mono text-[11px]">Governor (USCIS Q#43):</span>
+            <strong id="rep-governor" class="text-white font-medium">-</strong>
           </div>
-          <div class="p-4 bg-obsidian-950/70 rounded-2xl border border-white/[0.06] text-xs flex justify-between items-center">
-            <span class="text-slate-400 font-mono text-[11px] uppercase">U.S. Senators (USCIS Q#20):</span>
-            <strong id="rep-senators" class="text-white font-serif text-sm">-</strong>
+          <div class="p-3 bg-black/40 rounded-xl border border-white/[0.04] text-xs flex justify-between items-center">
+            <span class="text-slate-400 font-mono text-[11px]">Senators (USCIS Q#20):</span>
+            <strong id="rep-senators" class="text-white font-medium">-</strong>
           </div>
         </div>
       </div>
@@ -426,61 +397,58 @@
   </main>
 
   <!-- Checkout / Stripe Modal -->
-  <div id="checkout-modal" class="fixed inset-0 bg-obsidian-950/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
-    <div class="luxury-card border-gilded-500/30 max-w-md w-full rounded-3xl p-8 space-y-6 shadow-2xl relative">
-      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-base font-mono">✕</button>
+  <div id="checkout-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
+    <div class="panel-glass max-w-md w-full rounded-2xl p-6 sm:p-8 space-y-6 relative border-white/[0.1]">
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-sm font-mono">✕</button>
       
       <div class="text-center space-y-2">
-        <span class="text-[9px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-gilded-500/10 text-gilded-300 border border-gilded-500/20 font-semibold">100% Statutory Pass Guarantee</span>
-        <h3 class="text-2xl font-serif font-bold text-white tracking-tight">CivicPass Premier License</h3>
-        <p class="text-xs text-slate-400 font-light">Complete access to unconstrained AI Officer Chambers, acoustic accent scoring, and Form N-400 Gotcha Risk Audit.</p>
+        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pass Guarantee</span>
+        <h3 class="text-xl font-semibold text-white tracking-tight">CivicPass Full License</h3>
+        <p class="text-xs text-slate-400 font-normal leading-relaxed">Unlimited voice mock sessions, N-400 risk auditor, and full 100 civics question pronunciation bank.</p>
       </div>
 
-      <div class="p-5 rounded-2xl border border-gilded-500/40 bg-gilded-500/5 flex items-center justify-between">
+      <div class="p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] flex items-center justify-between">
         <div>
-          <div class="text-sm font-bold text-white font-serif">Executive All-Inclusive Pass</div>
-          <div class="text-[11px] text-slate-400 font-light">Lifetime entitlement • Full Money-Back Guarantee</div>
+          <div class="text-sm font-semibold text-white">Full Access Pass</div>
+          <div class="text-[11px] text-slate-400">One-time payment • 100% money-back guarantee</div>
         </div>
         <div class="text-right">
-          <div class="text-2xl font-bold font-serif text-gilded-300">$39</div>
+          <div class="text-xl font-semibold text-white">$39</div>
           <div class="text-[10px] text-slate-400 line-through font-mono">$79</div>
         </div>
       </div>
 
-      <button onclick="proceedToStripeCheckout()" class="w-full py-4 rounded-xl bg-gradient-to-r from-gilded-300 via-gilded-400 to-gilded-600 hover:brightness-110 text-obsidian-950 font-bold text-xs uppercase tracking-widest transition shadow-lg shadow-gilded-500/25 active:scale-[0.98]">
-        Obtain Executive Credentials
+      <button onclick="proceedToStripeCheckout()" class="w-full py-3 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-semibold text-xs tracking-tight transition active:scale-[0.98]">
+        Proceed to Checkout
       </button>
 
-      <p class="text-[10px] text-center text-slate-400 font-mono leading-relaxed">
-        Guaranteed by Stripe with 256-bit institutional encryption. In the improbable event of an official USCIS failure, transmit your Form N-14 / N-652 for an immediate 100% refund.
+      <p class="text-[10px] text-center text-slate-400 font-mono">
+        Secured by Stripe. If you do not pass your official interview, email your Form N-14 or N-652 notice for a complete refund.
       </p>
     </div>
   </div>
 
-  <!-- Footer with Mandatory Legal Disclaimers -->
-  <footer class="border-t border-white/[0.06] bg-obsidian-950 py-12 px-6 lg:px-10 mt-16 text-xs text-slate-400 space-y-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="flex items-center space-x-3">
-        <span class="font-serif font-bold text-base text-white">CivicPass <span class="italic text-gilded-300">Premier</span></span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-400 font-light">Authoritative U.S. Naturalization Intelligence</span>
+  <!-- Minimal Footer -->
+  <footer class="border-t border-white/[0.06] bg-[#06070a] py-10 px-6 mt-16 text-xs text-slate-400 space-y-4">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="font-semibold text-white text-xs">CivicPass AI</span>
+        <span>•</span>
+        <span class="text-slate-400 text-xs">USCIS Naturalization Practice</span>
       </div>
-      <div class="flex gap-6 font-mono text-[11px]">
-        <a href="#" onclick="showToast('Educational prep site terms apply.')" class="hover:text-gilded-300 transition">Terms of Service</a>
-        <a href="#" onclick="showToast('Your voice data is processed ephemeral in browser memory and not retained on servers.')" class="hover:text-gilded-300 transition">Privacy Standard</a>
-        <a href="#" onclick="openCheckoutModal()" class="hover:text-gilded-300 transition">100% Guarantee Policy</a>
+      <div class="flex gap-4 font-mono text-[11px]">
+        <a href="#" onclick="showToast('Educational preparation terms apply.')" class="hover:text-slate-300 transition">Terms</a>
+        <a href="#" onclick="showToast('Voice data is processed locally in browser memory.')" class="hover:text-slate-300 transition">Privacy</a>
+        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-300 transition">Refund Policy</a>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto border-t border-white/[0.04] pt-6 text-[10px] font-mono leading-relaxed text-slate-400">
-      LEGAL NOTICE: CivicPass Premier is an independent educational training platform developed to facilitate preparation for the United States Naturalization Civics and Oral Examination. CivicPass Premier is not affiliated with, endorsed by, or representing the United States Citizenship and Immigration Services (USCIS), the Department of Homeland Security (DHS), or any agency of the Federal Government of the United States. All test materials adhere to the public 100 civics questions curriculum under INA § 312.
+    <div class="max-w-6xl mx-auto border-t border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed text-slate-400">
+      CivicPass AI is an independent educational training service. It is not affiliated with, endorsed by, or representing USCIS, the Department of Homeland Security, or any U.S. government agency.
     </div>
   </footer>
 
-  <!-- Script Architecture -->
+  <!-- Core Script Engine -->
   <script>
-    // =========================================================================
-    // 1. DATASET: OFFICIAL 100 CIVICS QUESTIONS (WITH SENIOR EXEMPTIONS *)
-    // =========================================================================
     const CIVICS_POOL = [
       { id: 1, senior: true, cat: "gov", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
       { id: 2, senior: false, cat: "gov", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
@@ -505,20 +473,19 @@
       "33101": { state: "Florida", capital: "Tallahassee", gov: "Ron DeSantis", senators: "Marco Rubio, Rick Scott" }
     };
 
-    // State Variables
     let currentQuestions = [...CIVICS_POOL];
     let cardIndex = 0;
     let cardFlipped = false;
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v2_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v3_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v2_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v3_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -528,9 +495,6 @@
       document.getElementById('missed-count').innerText = userProgress.missed.length;
     }
 
-    // =========================================================================
-    // 2. FLASHCARD RECALL ENGINE
-    // =========================================================================
     function renderFlashcard() {
       if (currentQuestions.length === 0) return;
       const q = currentQuestions[cardIndex];
@@ -581,11 +545,11 @@
       seniorExemptionActive = !seniorExemptionActive;
       const icon = document.getElementById('senior-icon');
       if (seniorExemptionActive) {
-        icon.className = "w-2 h-2 rounded-full bg-gilded-400 animate-pulse";
+        icon.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
         currentQuestions = CIVICS_POOL.filter(q => q.senior);
-        showToast("65/20 Special Exemption applied: 20 designated questions loaded.");
+        showToast("65/20 Exemption active: 20 designated questions loaded.");
       } else {
-        icon.className = "w-2 h-2 rounded-full bg-slate-600";
+        icon.className = "w-1.5 h-1.5 rounded-full bg-slate-600";
         currentQuestions = [...CIVICS_POOL];
         showToast("Standard 100 civics questions curriculum restored.");
       }
@@ -595,13 +559,13 @@
 
     function filterMissedOnly() {
       if (userProgress.missed.length === 0) {
-        showToast("No missed questions logged yet. Excellent proficiency.");
+        showToast("No missed questions logged yet.");
         return;
       }
       currentQuestions = CIVICS_POOL.filter(q => userProgress.missed.includes(q.id));
       cardIndex = 0;
       renderFlashcard();
-      showToast(`Isolating ${currentQuestions.length} flagged questions for review.`);
+      showToast(`Showing ${currentQuestions.length} missed questions.`);
     }
 
     function filterCategory(cat) {
@@ -618,26 +582,23 @@
       window.speechSynthesis.cancel();
       const q = currentQuestions[cardIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
-      utter.rate = 0.88;
+      utter.rate = 0.9;
       utter.lang = 'en-US';
       window.speechSynthesis.speak(utter);
     }
 
-    // =========================================================================
-    // 3. MULTIPLE CHOICE QUIZ ENGINE
-    // =========================================================================
     function setStudyMode(mode) {
       activeStudyMode = mode;
       document.getElementById('view-flashcard').classList.toggle('hidden', mode !== 'flashcard');
       document.getElementById('view-mcq').classList.toggle('hidden', mode !== 'mcq');
 
       document.getElementById('btn-mode-flashcard').className = mode === 'flashcard' 
-        ? "px-4 py-2 text-xs font-semibold rounded-lg bg-gilded-500 text-obsidian-950 shadow-sm transition"
-        : "px-4 py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition";
 
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
-        ? "px-4 py-2 text-xs font-semibold rounded-lg bg-gilded-500 text-obsidian-950 shadow-sm transition"
-        : "px-4 py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white/[0.1] text-white transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-400 hover:text-white transition";
 
       if (mode === 'mcq') renderMcqQuestion();
     }
@@ -658,8 +619,8 @@
 
       q.opts.forEach(option => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left p-4 rounded-2xl border border-white/[0.06] bg-obsidian-950/60 hover:bg-white/[0.04] text-xs text-white transition flex items-center justify-between";
-        btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest">Select</span>`;
+        btn.className = "w-full text-left p-3.5 rounded-xl border border-white/[0.06] bg-[#090b10] hover:bg-white/[0.04] text-xs text-white transition flex items-center justify-between";
+        btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase">Select</span>`;
         btn.onclick = () => selectMcqOption(btn, option, q.a);
         optsContainer.appendChild(btn);
       });
@@ -674,13 +635,13 @@
       feedback.classList.remove('hidden');
 
       if (isCorrect) {
-        selectedBtn.classList.add('bg-emerald-500/10', 'border-emerald-500/40', 'text-emerald-300');
-        feedback.className = "text-xs p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-light";
-        feedback.innerText = "Accurate response. Recognized under official USCIS adjudication rubric.";
+        selectedBtn.classList.add('bg-emerald-500/10', 'border-emerald-500/30', 'text-emerald-300');
+        feedback.className = "text-xs p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300";
+        feedback.innerText = "Correct response. Recognized under official USCIS guidelines.";
       } else {
-        selectedBtn.classList.add('bg-rose-500/10', 'border-rose-500/40', 'text-rose-300');
-        feedback.className = "text-xs p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 font-light";
-        feedback.innerText = `Statutory answer rejected. Official response: "${correctText}".`;
+        selectedBtn.classList.add('bg-rose-500/10', 'border-rose-500/30', 'text-rose-300');
+        feedback.className = "text-xs p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300";
+        feedback.innerText = `Incorrect. The official USCIS answer is: "${correctText}".`;
       }
 
       const nextBtn = document.getElementById('mcq-next-btn');
@@ -694,7 +655,7 @@
         renderMcqQuestion();
       } else {
         mcqIndex = 0;
-        showToast("Full examination pool completed.");
+        showToast("Practice pool completed.");
         renderMcqQuestion();
       }
     }
@@ -703,7 +664,7 @@
       window.speechSynthesis.cancel();
       const q = CIVICS_POOL[mcqIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
-      utter.rate = 0.88;
+      utter.rate = 0.9;
       window.speechSynthesis.speak(utter);
     }
 
@@ -711,12 +672,10 @@
       setStudyMode('mcq');
       mcqIndex = 0;
       renderMcqQuestion();
-      showToast("10-Question statutory oral trial initiated. 6 correct answers mandatory.");
+      showToast("10-Question oral exam initiated. 6 correct answers needed to pass.");
     }
 
-    // =========================================================================
-    // 4. AI VOICE OFFICER CHAMBER (STRICT ADJUDICATION)
-    // =========================================================================
+    // Interview Simulation & Adjudication Logic
     const INTERVIEW_STEPS = [
       {
         id: "oath",
@@ -726,7 +685,7 @@
       },
       {
         id: "q_supreme_law",
-        officerSays: "We will now begin the Civics examination. What is the supreme law of the land?",
+        officerSays: "We will begin with the Civics examination. What is the supreme law of the land?",
         type: "civics",
         requiredKeywords: ["constitution"],
         bannedKeywords: ["trump", "musk", "bible", "police"]
@@ -740,7 +699,7 @@
       },
       {
         id: "support_constitution",
-        officerSays: "Examining your Form N-400 application. Do you support the Constitution and form of government of the United States?",
+        officerSays: "Turning to Form N-400. Do you support the Constitution and form of government of the United States?",
         type: "affirmation",
         validKey: ["yes", "i do", "yes officer", "support"]
       },
@@ -765,16 +724,16 @@
       window.speechSynthesis.cancel();
       isSpeaking = true;
       startWaveform();
-      document.getElementById('officer-status').innerHTML = `<span class="w-2 h-2 rounded-full bg-gilded-400 animate-pulse"></span> Officer Speaking...`;
+      document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Officer Speaking...`;
       
       const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 0.88;
+      utter.rate = 0.9;
       utter.lang = 'en-US';
       
       utter.onend = () => {
         isSpeaking = false;
         stopWaveform();
-        document.getElementById('officer-status').innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Candidate Attestation`;
+        document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Listening to You`;
         if (onComplete) onComplete();
       };
       
@@ -794,7 +753,7 @@
 
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
-        showToast("Speech Recognition unsupported in this browser environment. Please submit text testimony.");
+        showToast("Speech recognition not supported in this browser. Please use text input below.");
         return;
       }
 
@@ -807,17 +766,17 @@
         speechRecognitionInstance.onresult = (e) => {
           const transcript = e.results[0][0].transcript;
           document.getElementById('user-live-speech').innerText = `"${transcript}"`;
-          document.getElementById('mic-label').innerText = "Testify Via Voice";
+          document.getElementById('mic-label').innerText = "Speak Answer";
           processApplicantAnswer(transcript);
         };
 
         speechRecognitionInstance.onerror = (e) => {
-          document.getElementById('mic-label').innerText = "Testify Via Voice";
-          showToast(`Acoustic input notice: ${e.error}. Please utilize typed attestation.`);
+          document.getElementById('mic-label').innerText = "Speak Answer";
+          showToast(`Microphone notice: ${e.error}. You can submit via text input.`);
         };
       }
 
-      document.getElementById('mic-label').innerText = "Recording Spoken Testimony...";
+      document.getElementById('mic-label').innerText = "Listening...";
       speechRecognitionInstance.start();
     }
 
@@ -835,10 +794,9 @@
       const text = rawText.toLowerCase().trim();
       const step = INTERVIEW_STEPS[currentStepIdx];
 
-      // Good Moral Character & Demeanor Check
       const isHostile = BANNED_HOSTILE_WORDS.some(w => text.includes(w));
       if (isHostile) {
-        terminateInterviewWithFailure("ADVERSE FINDING (Demeanor & Good Moral Character): Applicant exhibited hostile or derogatory speech. Under 8 CFR § 316.10, the examination is terminated with denial recommendation.");
+        terminateInterviewWithFailure("ADVERSE FINDING (Demeanor & Good Moral Character): Inappropriate or hostile language detected. Under 8 CFR § 316.10, interview is immediately suspended.");
         return;
       }
 
@@ -853,7 +811,7 @@
           passedStep = true;
           reason = "Affirmation satisfied under INA § 337.";
         } else {
-          terminateInterviewWithFailure("STATUTORY DISQUALIFICATION: Under INA § 337, applicant failed to establish absolute attachment to the U.S. Constitution and loyalty oath.");
+          terminateInterviewWithFailure("STATUTORY DISQUALIFICATION: Under INA § 337, applicant must demonstrate attachment to the U.S. Constitution and take the oath.");
           return;
         }
       } else if (step.type === "civics") {
@@ -865,7 +823,7 @@
           reason = "Civics answer verified accurate.";
         } else {
           passedStep = false;
-          reason = `Civics response rejected. Missing core statutory elements.`;
+          reason = `Civics response rejected. Core statutory elements missing.`;
         }
       }
 
@@ -885,20 +843,20 @@
     function terminateInterviewWithFailure(failureReason) {
       window.speechSynthesis.cancel();
       stopWaveform();
-      const officerMsg = "This examination is concluded. Due to statutory non-compliance, I cannot recommend your Form N-400 for approval.";
+      const officerMsg = "This examination is concluded. Due to statutory non-compliance, I cannot recommend approval at this time.";
       document.getElementById('officer-transcript').innerText = `"${officerMsg}"`;
       speakOfficer(officerMsg);
 
       const n652 = document.getElementById('n652-card');
       n652.classList.remove('hidden');
       const badge = document.getElementById('n652-badge');
-      badge.className = "px-4 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-rose-500/10 text-rose-300 border border-rose-500/20";
-      badge.innerText = "DENIAL RECOMMENDED • FORM N-14 CONTINUED";
+      badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-rose-500/10 text-rose-300 border border-rose-500/20";
+      badge.innerText = "DENIED / FORM N-14 CONTINUED";
 
       const reasonsContainer = document.getElementById('n652-reasons');
       reasonsContainer.innerHTML = `
-        <div class="p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-rose-300 font-light">
-          <strong class="font-semibold block font-mono text-[10px] uppercase mb-1">Statutory Adjudication Finding:</strong> ${failureReason}
+        <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-300">
+          <strong>Adjudication Finding:</strong> ${failureReason}
         </div>
       `;
     }
@@ -914,22 +872,22 @@
       const reasonsContainer = document.getElementById('n652-reasons');
 
       if (passed) {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        speakOfficer("Congratulations. You have met all statutory educational and character requirements. I am recommending your Form N-400 for approval.");
-        badge.className = "px-4 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/20";
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        speakOfficer("Congratulations. You have met all statutory educational and character requirements today. I will recommend your Form N-400 for approval.");
+        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-emerald-500/10 text-emerald-300 border border-emerald-500/20";
         badge.innerText = "RECOMMENDED FOR APPROVAL";
         reasonsContainer.innerHTML = `
-          <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-300 font-light">
-            <strong class="font-semibold block font-mono text-[10px] uppercase mb-1">Adjudication Determination:</strong> Candidate established proficiency in spoken English, passed the civics evaluation, and demonstrated attachment to the Constitution of the United States.
+          <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-300">
+            <strong>Adjudication Finding:</strong> Candidate demonstrated English and Civics proficiency, and established attachment to the Constitution under INA § 316 and § 337.
           </div>
         `;
       } else {
-        speakOfficer("You did not achieve the required threshold on the civics portion. A re-examination will be scheduled within 60 to 90 days.");
-        badge.className = "px-4 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-gilded-500/10 text-gilded-300 border border-gilded-500/20";
+        speakOfficer("You did not attain the passing threshold on the civics portion. A re-test will be scheduled within 60 to 90 days.");
+        badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-amber-500/10 text-amber-300 border border-amber-500/20";
         badge.innerText = "RE-TEST SCHEDULED (60-90 DAYS)";
         reasonsContainer.innerHTML = `
-          <div class="p-4 bg-gilded-500/10 border border-gilded-500/20 rounded-2xl text-gilded-300 font-light">
-            <strong class="font-semibold block font-mono text-[10px] uppercase mb-1">Notice of Continuation:</strong> Under 8 CFR § 312.5, applicant failed to attain the 60% standard and is entitled to re-test on failed components.
+          <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-300">
+            <strong>Notice of Continuation:</strong> Did not meet the 60% civics standard. Entitled to one re-examination under 8 CFR § 312.5.
           </div>
         `;
       }
@@ -945,9 +903,6 @@
       speakOfficer(first.officerSays);
     }
 
-    // =========================================================================
-    // 5. WAVEFORM VISUALIZER
-    // =========================================================================
     let animFrame = null;
     function startWaveform() {
       const canvas = document.getElementById('waveformCanvas');
@@ -958,10 +913,10 @@
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.lineWidth = 1.5;
-        ctx.strokeStyle = '#d8b355';
+        ctx.strokeStyle = '#38bdf8';
         ctx.beginPath();
         for (let x = 0; x < canvas.width; x++) {
-          const y = canvas.height / 2 + Math.sin(x * 0.05 + step) * Math.sin(x * 0.02) * 18;
+          const y = canvas.height / 2 + Math.sin(x * 0.05 + step) * Math.sin(x * 0.02) * 14;
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
@@ -979,16 +934,13 @@
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.beginPath();
       ctx.moveTo(0, canvas.height / 2);
       ctx.lineTo(canvas.width, canvas.height / 2);
       ctx.stroke();
     }
 
-    // =========================================================================
-    // 6. JURISDICTIONAL ZIP LOOKUP
-    // =========================================================================
     function lookupZip() {
       const zip = document.getElementById('zip-input').value.trim();
       const resultsBox = document.getElementById('reps-results');
@@ -1011,25 +963,22 @@
       }
     }
 
-    // =========================================================================
-    // 7. NAVIGATION & CHECKOUT
-    // =========================================================================
     function switchMainTab(tab) {
       document.getElementById('section-civics').classList.toggle('hidden', tab !== 'civics');
       document.getElementById('section-interview').classList.toggle('hidden', tab !== 'interview');
       document.getElementById('section-reps').classList.toggle('hidden', tab !== 'reps');
 
       document.getElementById('nav-civics').className = tab === 'civics' 
-        ? "px-4 py-2 rounded-xl text-gilded-200 bg-white/[0.06] shadow-sm transition" 
-        : "px-4 py-2 rounded-xl text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition" 
+        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
 
       document.getElementById('nav-interview').className = tab === 'interview'
-        ? "px-4 py-2 rounded-xl text-gilded-200 bg-white/[0.06] shadow-sm transition flex items-center gap-2"
-        : "px-4 py-2 rounded-xl text-slate-400 hover:text-white transition flex items-center gap-2";
+        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition flex items-center gap-2"
+        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2";
 
       document.getElementById('nav-reps').className = tab === 'reps'
-        ? "px-4 py-2 rounded-xl text-gilded-200 bg-white/[0.06] shadow-sm transition"
-        : "px-4 py-2 rounded-xl text-slate-400 hover:text-white transition";
+        ? "px-3.5 py-1.5 rounded-lg text-white bg-white/[0.08] transition"
+        : "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition";
 
       if (tab === 'interview') {
         speakOfficer(INTERVIEW_STEPS[currentStepIdx].officerSays);
@@ -1049,7 +998,7 @@
 
     function proceedToStripeCheckout() {
       const STRIPE_LINK = "https://buy.stripe.com/test_placeholder";
-      showToast("Routing to institutional 256-bit encrypted checkout...");
+      showToast("Redirecting to secure Stripe checkout...");
       setTimeout(() => {
         window.open(STRIPE_LINK, "_blank");
       }, 700);
@@ -1058,13 +1007,12 @@
     function showToast(msg) {
       const toast = document.getElementById('statusToast');
       document.getElementById('toastMessage').innerText = msg;
-      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => {
-        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.add('translate-y-20', 'opacity-0');
       }, 3500);
     }
 
-    // Initialize application on load
     window.addEventListener('DOMContentLoaded', () => {
       renderFlashcard();
       updateStatDisplays();
