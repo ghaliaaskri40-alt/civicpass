@@ -84,7 +84,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      min-height: 380px;
+      min-height: 400px;
       transform-style: preserve-3d;
       -webkit-transform-style: preserve-3d;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -111,11 +111,20 @@
       transform: rotateY(180deg);
       -webkit-transform: rotateY(180deg);
     }
+
+    /* Subtle Floating Animation */
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    .animate-float {
+      animation: floatSoft 4s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased font-sans transition-colors duration-200">
 
-  <!-- Minimal Regulatory Notice -->
+  <!-- Top Announcement Bar -->
   <div class="border-b border-black/[0.06] dark:border-white/[0.05] bg-slate-100/70 dark:bg-black/40 text-[11px] py-2 px-6 text-slate-500 dark:text-slate-400 flex items-center justify-between transition-colors">
     <div class="flex items-center gap-2">
       <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-mono text-[10px]">
@@ -132,10 +141,10 @@
       
       <!-- Brand -->
       <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchMainTab('civics')">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-          <i class="fa-solid fa-landmark text-xs"></i>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+          <i class="fa-solid fa-flag-usa"></i>
         </div>
-        <span class="font-bold text-slate-900 dark:text-white tracking-tight text-base">CivicPass<span class="text-blue-500 font-semibold">AI</span></span>
+        <span class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base">CivicPass<span class="text-blue-600 dark:text-blue-400 font-semibold">AI</span></span>
       </div>
 
       <!-- Center Tabs -->
@@ -158,8 +167,8 @@
           <span id="themeIcon" class="text-xs">☀️</span>
         </button>
 
-        <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm">
-          Upgrade VIP
+        <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-crown text-[10px]"></i> Upgrade VIP
         </button>
       </div>
     </div>
@@ -172,32 +181,71 @@
   </div>
 
   <!-- Main Viewport -->
-  <main class="flex-1 max-w-4xl mx-auto w-full px-6 py-8 space-y-8">
+  <main class="flex-1 max-w-4xl mx-auto w-full px-6 py-6 space-y-8">
+
+    <!-- ========================================== -->
+    <!-- AMERICAN CULTURE & PATRIOTIC HERO BANNER   -->
+    <!-- ========================================== -->
+    <div class="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-xl group">
+      <!-- Image Backdrop -->
+      <div class="h-44 sm:h-52 w-full relative">
+        <img 
+          src="https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=1400&q=80" 
+          alt="Majestic American Flag waving over the US Capitol" 
+          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent dark:from-slate-950/95 dark:via-slate-950/80"></div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between text-white">
+        <div class="flex items-center justify-between">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest font-semibold">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span> E Pluribus Unum • Freedom & Constitution
+          </div>
+          <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+            <i class="fa-solid fa-landmark text-amber-400"></i> Washington D.C.
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white drop-shadow-sm">
+            Pass the Official U.S. Citizenship Civics Exam
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-lg leading-relaxed font-light">
+            Master all 100 civics questions with confidence. Simulating real USCIS adjudicator voice interviews and statutory scoring.
+          </p>
+        </div>
+      </div>
+    </div>
 
     <!-- ========================================== -->
     <!-- SECTION 1: 100 CIVICS STUDY ENGINE         -->
     <!-- ========================================== -->
     <div id="section-civics" class="space-y-6">
       
-      <!-- Top Title Bar -->
+      <!-- Metrics Bar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">100 Civics Questions Practice Deck</h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            USCIS Oral Naturalization Test Standard (6 of 10 required to pass)
-          </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Practice Session</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">60% passing requirement (6 of 10 oral answers)</p>
+          </div>
         </div>
 
         <div class="flex items-center gap-2 text-xs font-mono">
-          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[9px] uppercase">Mastered</span>
             <span id="stat-mastered" class="text-emerald-600 dark:text-emerald-400 font-bold text-sm">0</span>
           </div>
-          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[9px] uppercase">Missed</span>
             <span id="stat-missed" class="text-rose-600 dark:text-rose-400 font-bold text-sm">0</span>
           </div>
-          <div class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
             <span class="text-slate-400 block text-[9px] uppercase">Pool</span>
             <span class="text-slate-800 dark:text-slate-200 font-bold text-sm">100</span>
           </div>
@@ -207,9 +255,9 @@
       <!-- Controls & Filter Toolbar -->
       <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-y border-slate-200 dark:border-white/[0.06] py-3">
         <div class="flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
-          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
-          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
-          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
+          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
+          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
+          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
         </div>
 
         <div class="flex items-center gap-2">
@@ -223,12 +271,20 @@
         </div>
       </div>
 
-      <!-- SPACIOUS & CLEAN FLASHCARD DISPLAY -->
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (100)</button>
+        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
+        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
+        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
+      </div>
+
+      <!-- FLASHCARD WITH SPACIOUS LAYOUT -->
       <div id="view-flashcard" class="space-y-6 pt-2">
         <div class="relative w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
           <div id="flashcard-inner" class="flip-container rounded-3xl">
             
-            <!-- Front Card Face -->
+            <!-- Front Face -->
             <div class="card-face card-face-front p-10 sm:p-12 flex flex-col justify-between transition-colors">
               <div class="flex justify-between items-center text-xs">
                 <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
@@ -239,7 +295,7 @@
                 </button>
               </div>
 
-              <!-- Question Section -->
+              <!-- Question -->
               <div class="my-auto text-center space-y-4 py-8">
                 <h2 id="fc-question" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug max-w-xl mx-auto">
                   What is the supreme law of the land?
@@ -255,7 +311,7 @@
               </div>
             </div>
 
-            <!-- Back Card Face (USCIS Accepted Answer) -->
+            <!-- Back Face (Answer) -->
             <div class="card-face card-face-back p-10 sm:p-12 flex flex-col justify-between transition-colors">
               <div class="flex justify-between items-center text-xs">
                 <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
@@ -264,7 +320,7 @@
                 <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
               </div>
 
-              <!-- Answer Section -->
+              <!-- Answer Content -->
               <div class="my-auto text-center space-y-3 py-8">
                 <div id="fc-answer" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight max-w-xl mx-auto leading-tight">
                   The Constitution
@@ -274,7 +330,7 @@
                 </p>
               </div>
 
-              <!-- Scoring Action Buttons (Spacious & Clean) -->
+              <!-- Action Scoring Buttons -->
               <div class="flex gap-4 max-w-md mx-auto w-full" onclick="event.stopPropagation()">
                 <button onclick="recordCardScore(false)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20 transition flex items-center justify-center gap-2 shadow-sm">
                   <i class="fa-solid fa-xmark"></i> Missed it
@@ -611,13 +667,13 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v7_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v8_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v7_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v8_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -726,12 +782,12 @@
       document.getElementById('view-mcq').classList.toggle('hidden', mode !== 'mcq');
 
       document.getElementById('btn-mode-flashcard').className = mode === 'flashcard' 
-        ? "px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
-        : "px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
-        ? "px-3 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
-        : "px-3 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+        ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
+        : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
       if (mode === 'mcq') renderMcqQuestion();
     }
