@@ -181,6 +181,7 @@
           src="https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=1600&q=80" 
           alt="American Flag and US Capitol" 
           class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+          onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png'"
         />
         <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/75 to-slate-950/40"></div>
       </div>
@@ -209,7 +210,9 @@
     <!-- AMERICAN CULTURAL HERITAGE CARDS -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=200&q=80" alt="Supreme Court & Justice" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
+        <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl font-bold flex-shrink-0">
+          <i class="fa-solid fa-landmark"></i>
+        </div>
         <div>
           <div class="text-[10px] uppercase font-mono tracking-wider text-blue-600 dark:text-blue-400 font-semibold">Law of Land</div>
           <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">U.S. Constitution</div>
@@ -217,7 +220,9 @@
       </div>
 
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <img src="https://images.unsplash.com/photo-1611689342806-0863700ce1e4?auto=format&fit=crop&w=200&q=80" alt="Bald Eagle American Symbol" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
+        <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400 text-xl font-bold flex-shrink-0">
+          <i class="fa-solid fa-feather"></i>
+        </div>
         <div>
           <div class="text-[10px] uppercase font-mono tracking-wider text-amber-600 dark:text-amber-400 font-semibold">National Bird</div>
           <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">The Bald Eagle</div>
@@ -225,7 +230,9 @@
       </div>
 
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <img src="https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?auto=format&fit=crop&w=200&q=80" alt="Statue of Liberty" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xl font-bold flex-shrink-0">
+          <i class="fa-solid fa-monument"></i>
+        </div>
         <div>
           <div class="text-[10px] uppercase font-mono tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">Freedom Symbol</div>
           <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">Statue of Liberty</div>
@@ -233,7 +240,9 @@
       </div>
 
       <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=200&q=80" alt="U.S. Capitol Washington" class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition" />
+        <div class="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center text-rose-600 dark:text-rose-400 text-xl font-bold flex-shrink-0">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
         <div>
           <div class="text-[10px] uppercase font-mono tracking-wider text-rose-600 dark:text-rose-400 font-semibold">Democracy</div>
           <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">Congress & Capitol</div>
@@ -301,7 +310,7 @@
         <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
       </div>
 
-      <!-- FLASHCARD WITH REAL AMERICAN CONTEXTUAL IMAGES -->
+      <!-- FLASHCARD WITH RELIABLE VECTOR / FALLBACK IMAGE ENGINE -->
       <div id="view-flashcard" class="space-y-6 pt-2">
         <div class="relative w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
           <div id="flashcard-inner" class="flip-container rounded-3xl">
@@ -317,11 +326,22 @@
                 </button>
               </div>
 
-              <!-- Question Section with Photo Vignette -->
+              <!-- Question Section with Reliable Visual Emblem -->
               <div class="my-auto text-center space-y-4 py-4 relative z-10">
-                <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-slate-800">
-                  <img id="fc-image" src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=400&q=80" alt="Civic Illustration" class="w-full h-full object-cover" />
+                <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-slate-800 bg-slate-100 dark:bg-slate-900 flex items-center justify-center p-2">
+                  <img 
+                    id="fc-image" 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Constitution_pg1of4_AC.jpg/300px-Constitution_pg1of4_AC.jpg" 
+                    alt="Civic Illustration" 
+                    class="w-full h-full object-cover rounded-xl"
+                    onerror="handleImageError(this)"
+                  />
+                  <!-- Fallback Icon if image fails -->
+                  <div id="fc-fallback-icon" class="hidden w-full h-full flex items-center justify-center text-3xl text-blue-600 dark:text-blue-400">
+                    <i class="fa-solid fa-landmark"></i>
+                  </div>
                 </div>
+
                 <h2 id="fc-question" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug max-w-xl mx-auto">
                   What is the supreme law of the land?
                 </h2>
@@ -395,7 +415,13 @@
           </div>
           
           <div class="flex flex-col sm:flex-row items-center gap-5 pb-2">
-            <img id="mcq-image" src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=300&q=80" alt="Civic Landmark" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-slate-200 dark:border-slate-800 shadow" />
+            <img 
+              id="mcq-image" 
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/United_States_Capitol_west_front_edit2.jpg/320px-United_States_Capitol_west_front_edit2.jpg" 
+              alt="Civic Landmark" 
+              class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border border-slate-200 dark:border-slate-800 shadow"
+              onerror="handleImageError(this)" 
+            />
             <h2 id="mcq-question" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex-1">What do we call the first ten amendments to the Constitution?</h2>
           </div>
 
@@ -412,9 +438,7 @@
 
     </div>
 
-    <!-- ========================================== -->
-    <!-- END-OF-DECK COMPLETION MODAL               -->
-    <!-- ========================================== -->
+    <!-- END-OF-DECK COMPLETION MODAL -->
     <div id="completion-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
       <div class="panel-glass max-w-lg w-full rounded-3xl p-8 sm:p-10 space-y-6 text-center shadow-2xl relative border border-slate-200 dark:border-white/[0.1]">
         
@@ -697,6 +721,13 @@
       }
     }
 
+    // Fail-safe image handler: replaces any broken image with a clean SVG emblem
+    function handleImageError(img) {
+      img.onerror = null; // Prevent loop
+      img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16M4 14h16M4 18h16M4 6h16M2 22h20M12 2l8 4H4z"/></svg>';
+      img.className = "w-14 h-14 object-contain opacity-80 m-auto";
+    }
+
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playChime(success) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -744,22 +775,22 @@
       return false;
     }
 
-    // Official 100 Civics pool with rich contextual Unsplash imagery
+    // High-reliability Wikimedia and SVG civic assets (zero 403 or CORS blocks)
     const CIVICS_POOL = [
-      { id: 1, senior: true, cat: "gov", img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=400&q=80", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
-      { id: 2, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=400&q=80", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
-      { id: 3, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=400&q=80", q: "The idea of self-government is in the first three words of the Constitution. What are these words?", a: "We the People", tr: "¿Cuáles son las primeras tres palabras de la Constitución?", opts: ["In God We", "We the People", "Congress shall make", "United We Stand"] },
-      { id: 4, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=400&q=80", q: "What is an amendment?", a: "A change to the Constitution", tr: "¿Qué es una enmienda?", opts: ["A preamble to laws", "A change to the Constitution", "An executive veto", "A supreme court ruling"] },
-      { id: 5, senior: true, cat: "gov", img: "https://images.unsplash.com/photo-1453733190028-5fa62e8c1e21?auto=format&fit=crop&w=400&q=80", q: "What do we call the first ten amendments to the Constitution?", a: "The Bill of Rights", tr: "¿Cómo se llaman las diez primeras enmiendas?", opts: ["The Bill of Rights", "The Federalist Papers", "The Inalienable Rights", "The Magna Carta"] },
-      { id: 6, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=400&q=80", q: "What is one right or freedom from the First Amendment?", a: "Speech", tr: "¿Cuál es un derecho de la Primera Enmienda?", opts: ["Trial by jury", "Speech", "Bear arms", "Vote at 18"] },
-      { id: 7, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1575517111839-3a3843ee7f5d?auto=format&fit=crop&w=400&q=80", q: "How many amendments does the Constitution have?", a: "27", tr: "¿Cuántas enmiendas tiene la Constitución?", opts: ["21", "25", "27", "50"] },
-      { id: 8, senior: false, cat: "gov", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=400&q=80", q: "What did the Declaration of Independence do?", a: "Announced our independence from Great Britain", tr: "¿Qué hizo la Declaración de Independencia?", opts: ["Announced independence from Great Britain", "Formed the Supreme Court", "Freed all enslaved people", "Established the Senate"] },
-      { id: 9, senior: true, cat: "history", img: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80", q: "What was one reason colonists came to America?", a: "Freedom", tr: "¿Por qué vinieron los colonos a América?", opts: ["To fight France", "Freedom", "To find Antarctica", "To serve the King"] },
-      { id: 10, senior: false, cat: "history", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80", q: "Who lived in America before the Europeans arrived?", a: "American Indians", tr: "¿Quiénes vivían en América antes de los europeos?", opts: ["American Indians", "Vikings only", "No inhabitants", "Australian Aborigines"] },
-      { id: 11, senior: true, cat: "history", img: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=400&q=80", q: "Who wrote the Declaration of Independence?", a: "Thomas Jefferson", tr: "¿Quién escribió la Declaración de Independencia?", opts: ["George Washington", "Thomas Jefferson", "Alexander Hamilton", "Abraham Lincoln"] },
-      { id: 12, senior: true, cat: "integrated", img: "https://images.unsplash.com/photo-1617581629397-a72507c3de9e?auto=format&fit=crop&w=400&q=80", q: "What is the capital of the United States?", a: "Washington, D.C.", tr: "¿Cuál es la capital de Estados Unidos?", opts: ["New York City", "Philadelphia", "Washington, D.C.", "Boston"] },
-      { id: 13, senior: true, cat: "integrated", img: "https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?auto=format&fit=crop&w=400&q=80", q: "Where is the Statue of Liberty?", a: "New York Harbor", tr: "¿Dónde está la Estatua de la Libertad?", opts: ["Boston Harbor", "San Francisco Bay", "New York Harbor", "Washington D.C."] },
-      { id: 14, senior: true, cat: "integrated", img: "https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=400&q=80", q: "Why does the flag have 50 stars?", a: "Because there is one star for each state", tr: "¿Por qué la bandera tiene 50 estrellas?", opts: ["One for each signer", "Because there is one star for each state", "One for each colony", "One for each amendment"] }
+      { id: 1, senior: true, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Constitution_pg1of4_AC.jpg/300px-Constitution_pg1of4_AC.jpg", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
+      { id: 2, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/United_States_Capitol_west_front_edit2.jpg/320px-United_States_Capitol_west_front_edit2.jpg", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
+      { id: 3, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/US_Constitution_We_the_People.jpg/320px-US_Constitution_We_the_People.jpg", q: "The idea of self-government is in the first three words of the Constitution. What are these words?", a: "We the People", tr: "¿Cuáles son las primeras tres palabras de la Constitución?", opts: ["In God We", "We the People", "Congress shall make", "United We Stand"] },
+      { id: 4, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Seal_of_the_United_States_Supreme_Court.svg/240px-Seal_of_the_United_States_Supreme_Court.svg.png", q: "What is an amendment?", a: "A change to the Constitution", tr: "¿Qué es una enmienda?", opts: ["A preamble to laws", "A change to the Constitution", "An executive veto", "A supreme court ruling"] },
+      { id: 5, senior: true, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Bill_of_Rights_Pg1of1_AC.jpg/300px-Bill_of_Rights_Pg1of1_AC.jpg", q: "What do we call the first ten amendments to the Constitution?", a: "The Bill of Rights", tr: "¿Cómo se llaman las diez primeras enmiendas?", opts: ["The Bill of Rights", "The Federalist Papers", "The Inalienable Rights", "The Magna Carta"] },
+      { id: 6, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Liberty_Bell_2008.jpg/280px-Liberty_Bell_2008.jpg", q: "What is one right or freedom from the First Amendment?", a: "Speech", tr: "¿Cuál es un derecho de la Primera Enmienda?", opts: ["Trial by jury", "Speech", "Bear arms", "Vote at 18"] },
+      { id: 7, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Great_Seal_of_the_United_States_%28obverse%29.svg/240px-Great_Seal_of_the_United_States_%28obverse%29.svg.png", q: "How many amendments does the Constitution have?", a: "27", tr: "¿Cuántas enmiendas tiene la Constitución?", opts: ["21", "25", "27", "50"] },
+      { id: 8, senior: false, cat: "gov", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Declaration_of_Independence_c1823_broadside.jpg/280px-Declaration_of_Independence_c1823_broadside.jpg", q: "What did the Declaration of Independence do?", a: "Announced our independence from Great Britain", tr: "¿Qué hizo la Declaración de Independencia?", opts: ["Announced independence from Great Britain", "Formed the Supreme Court", "Freed all enslaved people", "Established the Senate"] },
+      { id: 9, senior: true, cat: "history", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/MayflowerHarbor.jpg/320px-MayflowerHarbor.jpg", q: "What was one reason colonists came to America?", a: "Freedom", tr: "¿Por qué vinieron los colonos a América?", opts: ["To fight France", "Freedom", "To find Antarctica", "To serve the King"] },
+      { id: 10, senior: false, cat: "history", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/American_Bison_Yellowstone_National_Park.jpg/320px-American_Bison_Yellowstone_National_Park.jpg", q: "Who lived in America before the Europeans arrived?", a: "American Indians", tr: "¿Quiénes vivían en América antes de los europeos?", opts: ["American Indians", "Vikings only", "No inhabitants", "Australian Aborigines"] },
+      { id: 11, senior: true, cat: "history", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Thomas_Jefferson_by_Rembrandt_Peale_1800.jpg/260px-Thomas_Jefferson_by_Rembrandt_Peale_1800.jpg", q: "Who wrote the Declaration of Independence?", a: "Thomas Jefferson", tr: "¿Quién escribió la Declaración de Independencia?", opts: ["George Washington", "Thomas Jefferson", "Alexander Hamilton", "Abraham Lincoln"] },
+      { id: 12, senior: true, cat: "integrated", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/White_House_South_Fa%C3%A7ade.jpg/320px-White_House_South_Fa%C3%A7ade.jpg", q: "What is the capital of the United States?", a: "Washington, D.C.", tr: "¿Cuál es la capital de Estados Unidos?", opts: ["New York City", "Philadelphia", "Washington, D.C.", "Boston"] },
+      { id: 13, senior: true, cat: "integrated", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/260px-Statue_of_Liberty_7.jpg", q: "Where is the Statue of Liberty?", a: "New York Harbor", tr: "¿Dónde está la Estatua de la Libertad?", opts: ["Boston Harbor", "San Francisco Bay", "New York Harbor", "Washington D.C."] },
+      { id: 14, senior: true, cat: "integrated", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/320px-Flag_of_the_United_States.svg.png", q: "Why does the flag have 50 stars?", a: "Because there is one star for each state", tr: "¿Por qué la bandera tiene 50 estrellas?", opts: ["One for each signer", "Because there is one star for each state", "One for each colony", "One for each amendment"] }
     ];
 
     const ZIP_DIRECTORY = {
@@ -775,13 +806,13 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v10_progress')) || {
+    let userProgress = JSON.parse(localStorage.getItem('civicpass_v11_progress')) || {
       mastered: [],
       missed: []
     };
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v10_progress', JSON.stringify(userProgress));
+      localStorage.setItem('civicpass_v11_progress', JSON.stringify(userProgress));
       updateStatDisplays();
     }
 
@@ -798,7 +829,11 @@
       document.getElementById('fc-question').innerText = q.q;
       document.getElementById('fc-translation').innerText = q.tr;
       document.getElementById('fc-answer').innerText = q.a;
-      document.getElementById('fc-image').src = q.img || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=400&q=80";
+      
+      const fcImg = document.getElementById('fc-image');
+      fcImg.className = "w-full h-full object-cover rounded-xl";
+      fcImg.src = q.img || "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Constitution_pg1of4_AC.jpg/300px-Constitution_pg1of4_AC.jpg";
+      
       document.getElementById('fc-current-index').innerText = cardIndex + 1;
       document.getElementById('fc-total-count').innerText = currentQuestions.length;
 
@@ -847,7 +882,6 @@
       }
     }
 
-    // End of Deck Completion Flow
     function showDeckCompletionModal() {
       confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
       playChime(true);
@@ -942,7 +976,9 @@
       const q = CIVICS_POOL[mcqIndex];
       document.getElementById('mcq-badge').innerText = `USCIS #${q.id} • Question ${mcqIndex + 1} of ${CIVICS_POOL.length}`;
       document.getElementById('mcq-question').innerText = q.q;
-      document.getElementById('mcq-image').src = q.img || "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=300&q=80";
+      
+      const mcqImg = document.getElementById('mcq-image');
+      mcqImg.src = q.img || "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/United_States_Capitol_west_front_edit2.jpg/320px-United_States_Capitol_west_front_edit2.jpg";
       
       const optsContainer = document.getElementById('mcq-options');
       optsContainer.innerHTML = '';
