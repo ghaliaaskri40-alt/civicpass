@@ -439,11 +439,11 @@
               <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/10 text-red-400 border border-red-500/20">
                 <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping mr-1.5"></span> LIVE ORAL SIMULATION
               </span>
-              <span class="text-xs text-slate-400">• Strict Answer Verification & N-400 Statutory Scrutiny</span>
+              <span class="text-xs text-slate-400">• Strict Demeanor Enforcement & N-400 Statutory Adjudication</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-display font-extrabold text-white">USCIS Officer Interview Chamber</h1>
             <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
-              Realistic oral naturalization examination. Your spoken answers are evaluated directly against USCIS policy. Incorrect civics answers or refusing statutory oath requirements will trigger real rejection verdicts.
+              Realistic oral naturalization examination. Answers are rigorously validated against official USCIS policy. Profanity or insolence triggers immediate termination for lack of Good Moral Character, and refusing statutory oath questions results in immediate Form N-14 denial.
             </p>
           </div>
 
@@ -487,7 +487,7 @@
                 <h3 id="officer-name-display" class="font-display font-extrabold text-white text-base">Adjudications Officer Miller</h3>
                 <p id="officer-badge-display" class="text-[11px] text-slate-400 font-mono">Field Office #402 • Homeland Security</p>
                 <span id="officer-style-desc" class="inline-block mt-1 text-[10px] text-amber-400/90 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                  Strict adherence to INA § 312 & INA § 337
+                  Strict adherence to INA § 312, INA § 316 & INA § 337
                 </span>
               </div>
             </div>
@@ -526,11 +526,6 @@
             <!-- Speech & Input Bar -->
             <div class="border-t border-brand-border pt-4 space-y-3">
               
-              <!-- Microphone Status Notice -->
-              <div id="mic-status-banner" class="hidden rounded-xl p-2.5 text-xs flex items-center justify-between">
-                <!-- Status text injected via JS -->
-              </div>
-
               <!-- Input Interface -->
               <div class="flex items-center gap-2">
                 <!-- Push to Talk Mic Button -->
@@ -554,7 +549,7 @@
               </div>
 
               <div class="flex items-center justify-between text-[11px] text-slate-400 px-1">
-                <span><i class="fa-solid fa-circle-info mr-1 text-slate-500"></i> Tip: Answer concisely as in a real courtroom.</span>
+                <span><i class="fa-solid fa-circle-info mr-1 text-slate-500"></i> Tip: Demeanor counts. Profanity or hostility results in instant rejection.</span>
                 <button onclick="startNewInterview()" class="text-slate-400 hover:text-brand-danger text-[11px] underline">Reset Interview</button>
               </div>
 
@@ -568,7 +563,7 @@
         <div id="sim-report-card" class="hidden mt-8 bg-brand-navy border-2 border-brand-border rounded-2xl p-6 sm:p-8 space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-border pb-6">
             <div>
-              <span class="text-xs uppercase font-mono tracking-widest text-slate-400">Department of Homeland Security • Form N-652 Summary</span>
+              <span class="text-xs uppercase font-mono tracking-widest text-slate-400">Department of Homeland Security • Form N-652 Adjudication Result</span>
               <h2 class="text-2xl font-display font-extrabold text-white mt-1">Official Interview Adjudication Report</h2>
             </div>
             <div id="report-stamp" class="px-4 py-2 rounded-xl text-center uppercase font-mono font-extrabold tracking-wider border-2">
@@ -584,11 +579,11 @@
               <div id="report-civics-result" class="text-lg font-bold"></div>
               <p id="report-civics-note" class="text-xs text-slate-400"></p>
             </div>
-            <!-- English -->
+            <!-- Demeanor & GMC -->
             <div class="bg-brand-surface p-4 rounded-xl border border-brand-border space-y-1">
-              <span class="text-xs text-slate-400 uppercase font-semibold">English Reading / Speaking</span>
-              <div id="report-english-result" class="text-lg font-bold text-emerald-400">PASSED</div>
-              <p class="text-xs text-slate-400">Applicant comprehended English instructions satisfactorily.</p>
+              <span class="text-xs text-slate-400 uppercase font-semibold">Interview Demeanor & Decorum</span>
+              <div id="report-demeanor-result" class="text-lg font-bold text-emerald-400">SATISFIED</div>
+              <p id="report-demeanor-note" class="text-xs text-slate-400">Respectful decorum during sworn testimony.</p>
             </div>
             <!-- Statutory N-400 -->
             <div class="bg-brand-surface p-4 rounded-xl border border-brand-border space-y-1">
@@ -1387,12 +1382,42 @@
     let interviewData = {
       civicsCorrect: 0,
       civicsAttempted: 0,
+      demeanorFailed: false,
+      demeanorReason: "",
       constitutionSupported: null,
       oathWilling: null,
       fatalDisqualification: false,
       fatalReason: "",
       log: []
     };
+
+    // Banned profanities, insults, or hostile language that result in immediate conduct disqualification
+    const BANNED_WORDS = [
+      'bitch', 'stupid', 'idiot', 'asshole', 'fuck', 'shit', 'dumb', 
+      'shut up', 'bastard', 'crap', 'hell', 'dick', 'piss', 'cunt', 'bullshit'
+    ];
+
+    function checkHostileLanguage(text) {
+      const clean = text.toLowerCase().trim();
+      const tokens = clean.split(/[\s,.;:!?]+/);
+      return BANNED_WORDS.some(bad => tokens.includes(bad) || clean.includes(bad));
+    }
+
+    function checkStrictAffirmative(text) {
+      const clean = text.toLowerCase().trim();
+      // Detect explicit negations
+      const tokens = clean.split(/[\s,.;:!?]+/);
+      const negations = ['no', 'nope', 'never', 'nah', 'not', 'negative', 'refuse'];
+      if (tokens.some(t => negations.includes(t))) return false;
+
+      // Must explicitly contain clean accepted affirmative phrases
+      const acceptedPhrases = [
+        'yes', 'yes i do', 'i do', 'i swear', 'i affirm', 
+        'yes officer', 'yes sir', 'yes ma\'am', 'i am willing', 
+        'yes i will', 'i will', 'i support', 'absolutely'
+      ];
+      return acceptedPhrases.some(phrase => clean === phrase || clean.startsWith(phrase) || clean.endsWith(phrase));
+    }
 
     const OFFICER_CONFIGS = {
       miller: {
@@ -1402,7 +1427,7 @@
         voiceRate: 0.95,
         voicePitch: 0.9,
         avatarIcon: "fa-user-shield",
-        desc: "Strict adherence to INA § 312 & INA § 337"
+        desc: "Strict adherence to INA § 312, INA § 316 & INA § 337"
       },
       davis: {
         name: "Adjudications Officer Davis",
@@ -1424,19 +1449,27 @@
       }
     };
 
-    // The sequential steps of the official naturalization oral exam
+    // Sequential steps of the official naturalization oral exam
     const INTERVIEW_STEPS = [
       {
         id: 'oath_admin',
         type: 'ceremonial',
         prompt: "Good morning. Please come in and remain standing. Before we begin, please raise your right hand. Do you swear or affirm that the statements you make today will be the truth, the whole truth, and nothing but the truth?",
         expectedRule: (input) => {
-          const clean = input.toLowerCase();
-          const passes = clean.includes('yes') || clean.includes('i do') || clean.includes('swear') || clean.includes('affirm');
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "This interview is terminated immediately. Under INA § 316 and 8 CFR § 316.10, hostile or profane conduct violates the Good Moral Character requirement. Security will escort you out.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Failure to maintain decorum / Lack of Good Moral Character (INA § 316)"
+            };
+          }
+          const passes = checkStrictAffirmative(input);
           return {
             valid: passes,
             officerReply: passes 
-              ? "You may put your hand down and be seated. We will now review your application and examine your civics knowledge." 
+              ? "You may put your hand down and be seated. What is your full legal name?" 
               : "I cannot proceed with this interview until you take the mandatory oath. Under INA § 335, all testimony must be under oath.",
             fatal: !passes,
             reason: "Refusal to take oath under INA § 335"
@@ -1444,17 +1477,52 @@
         }
       },
       {
+        id: 'legal_name',
+        type: 'identity',
+        prompt: "What is your full legal name, and have you ever used any other names or aliases?",
+        expectedRule: (input) => {
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "I will not tolerate insolence in this chamber. Your interview is terminated for failure to establish good moral character.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Contemptuous behavior during identity verification (INA § 316)"
+            };
+          }
+          const clean = input.toLowerCase().trim();
+          const valid = clean.length > 2 && !clean.includes('none of your business');
+          return {
+            valid: valid,
+            officerReply: valid 
+              ? "Thank you. Now we will test your English reading. Please read the sentence displayed on the tablet: 'George Washington was the first President.'" 
+              : "You must state your legal name for the record before we can continue.",
+            fatal: !valid,
+            reason: "Refusal to verify identity on Form N-400"
+          };
+        }
+      },
+      {
         id: 'english_reading',
         type: 'english',
-        prompt: "First, let's complete your English reading test. Please read the following sentence displayed on my tablet: 'George Washington was the first President.'",
+        prompt: "Please read the following sentence displayed on my tablet: 'George Washington was the first President.'",
         expectedRule: (input) => {
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Your conduct is completely inappropriate for a naturalization proceedings hearing. Interview terminated.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Hostile conduct during educational examination"
+            };
+          }
           const clean = input.toLowerCase();
           const passes = clean.includes('george') || clean.includes('washington') || clean.includes('first president');
           return {
             valid: passes,
             officerReply: passes 
-              ? "Very good. You have passed the reading portion. Now let's proceed to the civics examination." 
-              : "That is not accurate reading of the sentence. I will note that on your Form N-652.",
+              ? "Very good. You have passed the reading portion. Now we will move to the civics questions. Question one: What is the supreme law of the land?" 
+              : "That is not accurate reading of the sentence. Now moving to civics. Question one: What is the supreme law of the land?",
             fatal: false
           };
         }
@@ -1462,15 +1530,25 @@
       {
         id: 'civics_1',
         type: 'civics',
-        prompt: "Civics question one: What is the supreme law of the land?",
+        prompt: "What is the supreme law of the land?",
         expectedRule: (input) => {
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Disrespectful demeanor during official examination is disqualifying. Interview terminated.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Profanity / Decorum failure"
+            };
+          }
           const clean = input.toLowerCase();
-          const passes = clean.includes('constitution');
+          const isJunk = clean.includes('trump') || clean.includes('musk') || clean.includes('biden') || clean.includes('bible');
+          const passes = clean.includes('constitution') && !isJunk;
           return {
             valid: passes,
             officerReply: passes 
-              ? "That is correct: The Constitution." 
-              : "Incorrect. The supreme law of the land is the Constitution.",
+              ? "That is correct: The Constitution. Question two: What are the two parts of the U.S. Congress?" 
+              : "Incorrect. The supreme law of the land is the Constitution. Question two: What are the two parts of the U.S. Congress?",
             fatal: false
           };
         }
@@ -1478,19 +1556,27 @@
       {
         id: 'civics_2',
         type: 'civics',
-        prompt: "Civics question two: What are the two parts of the U.S. Congress?",
+        prompt: "What are the two parts of the U.S. Congress?",
         expectedRule: (input) => {
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Your disrespectful speech is noted and disqualifying. Interview concluded immediately.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Hostile demeanor during official testimony"
+            };
+          }
           const clean = input.toLowerCase();
-          // Strict check: must mention senate and house/representatives; reject silly answers like trump & musk
           const hasSenate = clean.includes('senate');
           const hasHouse = clean.includes('house') || clean.includes('representatives');
-          const isJunk = clean.includes('trump') || clean.includes('musk') || clean.includes('biden');
+          const isJunk = clean.includes('trump') || clean.includes('musk') || clean.includes('elon') || clean.includes('biden');
           const passes = hasSenate && hasHouse && !isJunk;
           return {
             valid: passes,
             officerReply: passes 
-              ? "Correct: The Senate and House of Representatives." 
-              : "Incorrect. The two parts of the U.S. Congress are the Senate and the House of Representatives.",
+              ? "Correct: The Senate and House of Representatives. Now turning to your Form N-400 application." 
+              : "Incorrect. The two parts are the Senate and the House of Representatives. Now turning to your Form N-400 application.",
             fatal: false
           };
         }
@@ -1498,15 +1584,24 @@
       {
         id: 'n400_travel',
         type: 'n400',
-        prompt: "Now turning to Part 9 of your Form N-400 application. Have you taken any trips outside of the United States that lasted more than six months?",
+        prompt: "Under Part 9: Have you taken any trips outside the United States that lasted more than six months since becoming a permanent resident?",
         expectedRule: (input) => {
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Profanity during continuous residence review violates interview standards. Hearing terminated.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Contempt of USCIS proceedings"
+            };
+          }
           const clean = input.toLowerCase();
           const answeredNo = clean.includes('no') || clean.includes("haven't") || clean.includes('never');
           return {
-            valid: true, // both answers can be valid, but trip over 6 mos requires secondary proof
+            valid: true,
             officerReply: answeredNo 
-              ? "Good. Your continuous residence requirement under 8 CFR § 316.5 appears intact." 
-              : "Understood. Note that trips over 180 days create a statutory presumption of a break in continuous residence under INA § 316.",
+              ? "Understood. Your continuous residence requirement appears intact. Crucial question under Part 12: Do you support the Constitution and form of government of the United States?" 
+              : "Understood. Note that trips over 180 days require supplemental residence evidence. Crucial question under Part 12: Do you support the Constitution and form of government of the United States?",
             fatal: false
           };
         }
@@ -1514,15 +1609,22 @@
       {
         id: 'n400_constitution_support',
         type: 'statutory_oath',
-        prompt: "Crucial question under Part 12: Do you support the Constitution and form of government of the United States?",
+        prompt: "Do you support the Constitution and form of government of the United States?",
         expectedRule: (input) => {
-          const clean = input.toLowerCase();
-          const rejects = clean.includes('no') || clean.includes('nope') || clean.includes("don't") || clean.includes('never');
-          const accepts = (clean.includes('yes') || clean.includes('i do') || clean.includes('support')) && !rejects;
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Using vulgarities when questioned on attachment to the Constitution constitutes grounds for instant denial. Hearing terminated.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Contempt and failure to establish attachment to Constitution (INA § 337)"
+            };
+          }
+          const accepts = checkStrictAffirmative(input);
           return {
             valid: accepts,
             officerReply: accepts 
-              ? "Thank you. Attachment to the Constitution is a mandatory prerequisite." 
+              ? "Thank you. And are you willing to take the full Oath of Allegiance to the United States?" 
               : "APPLICANT DISQUALIFICATION: Under INA § 337 and 8 CFR § 316.11, an applicant must demonstrate attachment to the principles of the Constitution of the United States. Expressing non-support results in statutory denial.",
             fatal: !accepts,
             reason: "Lack of attachment to the U.S. Constitution (INA § 337 / Form N-14 Denial)"
@@ -1532,11 +1634,18 @@
       {
         id: 'n400_oath_allegiance',
         type: 'statutory_oath',
-        prompt: "Final question: Are you willing to take the full Oath of Allegiance to the United States?",
+        prompt: "Are you willing to take the full Oath of Allegiance to the United States?",
         expectedRule: (input) => {
-          const clean = input.toLowerCase();
-          const rejects = clean.includes('no') || clean.includes('nope') || clean.includes("won't") || clean.includes('never');
-          const accepts = (clean.includes('yes') || clean.includes('i am') || clean.includes('willing')) && !rejects;
+          if (checkHostileLanguage(input)) {
+            return {
+              valid: false,
+              officerReply: "Hostile answers to the Oath of Allegiance result in immediate statutory denial under INA § 337.",
+              fatal: true,
+              isDemeanor: true,
+              reason: "Disqualification on Oath of Allegiance"
+            };
+          }
+          const accepts = checkStrictAffirmative(input);
           return {
             valid: accepts,
             officerReply: accepts 
@@ -1577,6 +1686,8 @@
       interviewData = {
         civicsCorrect: 0,
         civicsAttempted: 0,
+        demeanorFailed: false,
+        demeanorReason: "",
         constitutionSupported: null,
         oathWilling: null,
         fatalDisqualification: false,
@@ -1590,7 +1701,6 @@
       document.getElementById('sim-n400-status').innerText = 'In Session';
       document.getElementById('sim-n400-status').className = 'text-sm font-mono text-blue-400 font-bold';
 
-      // Load first prompt
       askOfficerPrompt(0);
     }
 
@@ -1644,11 +1754,9 @@
       inputEl.value = '';
       appendChatBubble('user', transcript);
 
-      // Evaluate current step
       const step = INTERVIEW_STEPS[interviewStep];
       const evaluation = step.expectedRule(transcript);
 
-      // Log answer
       interviewData.log.push({
         step: step.id,
         userSpoke: transcript,
@@ -1668,10 +1776,13 @@
         interviewData.oathWilling = evaluation.valid;
       }
 
-      // Check fatal disqualification
       if (evaluation.fatal) {
         interviewData.fatalDisqualification = true;
         interviewData.fatalReason = evaluation.reason;
+        if (evaluation.isDemeanor) {
+          interviewData.demeanorFailed = true;
+          interviewData.demeanorReason = evaluation.reason;
+        }
         document.getElementById('sim-n400-status').innerText = 'STATUTORY BAR';
         document.getElementById('sim-n400-status').className = 'text-sm font-mono text-red-400 font-bold';
       }
@@ -1681,21 +1792,19 @@
         appendChatBubble('officer', evaluation.officerReply);
         speakText(evaluation.officerReply);
 
-        // If fatal, abort interview early
         if (evaluation.fatal) {
           setTimeout(() => {
             concludeInterviewSession();
-          }, 3500);
+          }, 4000);
           return;
         }
 
-        // Proceed to next step
         interviewStep++;
         setTimeout(() => {
           askOfficerPrompt(interviewStep);
-        }, 3200);
+        }, 3000);
 
-      }, 1000);
+      }, 800);
     }
 
     function readOfficerPromptAgain() {
@@ -1705,30 +1814,45 @@
       }
     }
 
-    // End-of-interview report generation
     function concludeInterviewSession() {
       const report = document.getElementById('sim-report-card');
       report.classList.remove('hidden');
 
-      const isPassCivics = interviewData.civicsCorrect >= 2; // in our 2-question mini pool
+      const isPassCivics = interviewData.civicsCorrect >= 2 && interviewData.civicsAttempted >= 2;
+      const passedDemeanor = !interviewData.demeanorFailed;
       const passedN400 = !interviewData.fatalDisqualification;
-      const overallApproval = isPassCivics && passedN400;
+      const overallApproval = isPassCivics && passedDemeanor && passedN400;
 
       const stamp = document.getElementById('report-stamp');
       const repCivics = document.getElementById('report-civics-result');
       const repCivicsNote = document.getElementById('report-civics-note');
+      const repDemeanor = document.getElementById('report-demeanor-result');
+      const repDemeanorNote = document.getElementById('report-demeanor-note');
       const repN400 = document.getElementById('report-n400-result');
       const repN400Note = document.getElementById('report-n400-note');
       const repFindings = document.getElementById('report-officer-findings');
 
-      repCivics.innerText = `${interviewData.civicsCorrect} / ${interviewData.civicsAttempted} (${isPassCivics ? 'PASSED' : 'FAILED'})`;
+      // Civics Status
+      repCivics.innerText = `${interviewData.civicsCorrect} / ${interviewData.civicsAttempted || 2} (${isPassCivics ? 'PASSED' : 'FAILED'})`;
       repCivics.className = `text-lg font-bold ${isPassCivics ? 'text-emerald-400' : 'text-red-400'}`;
-      repCivicsNote.innerText = isPassCivics ? "Achieved the required threshold on civics questions." : "Failed to achieve the required score. Re-test would be scheduled within 60-90 days.";
+      repCivicsNote.innerText = isPassCivics ? "Achieved the required threshold on civics questions." : "Failed to achieve the required score on civics knowledge.";
 
+      // Demeanor Status
+      if (passedDemeanor) {
+        repDemeanor.innerText = "PASSED";
+        repDemeanor.className = "text-lg font-bold text-emerald-400";
+        repDemeanorNote.innerText = "Applicant demonstrated respectful demeanor and decorum under oath.";
+      } else {
+        repDemeanor.innerText = "FAILED (GMC BREACH)";
+        repDemeanor.className = "text-lg font-bold text-red-400";
+        repDemeanorNote.innerText = interviewData.demeanorReason || "Disqualifying hostility or vulgarity.";
+      }
+
+      // N-400 Statutory Status
       if (passedN400) {
         repN400.innerText = "SATISFIED";
         repN400.className = "text-lg font-bold text-emerald-400";
-        repN400Note.innerText = "Applicant demonstrated attachment to the Constitution and willingness to take full oath.";
+        repN400Note.innerText = "Applicant affirmed attachment to the Constitution and willingness to take full oath.";
       } else {
         repN400.innerText = "STATUTORY DENIAL";
         repN400.className = "text-lg font-bold text-red-400";
@@ -1738,7 +1862,7 @@
       if (overallApproval) {
         stamp.innerText = "RECOMMENDED FOR APPROVAL";
         stamp.className = "px-4 py-2 rounded-xl text-center uppercase font-mono font-extrabold tracking-wider border-2 border-emerald-500 bg-emerald-500/20 text-emerald-300";
-        repFindings.innerText = "The applicant has met the statutory requirements for naturalization under Title III of the Immigration and Nationality Act. Applicant passed the reading, writing, and civics tests, demonstrated good moral character, and demonstrated attachment to the Constitution of the United States. Form N-400 is recommended for approval for the next available judicial or administrative oath ceremony.";
+        repFindings.innerText = "The applicant has met the statutory requirements for naturalization under Title III of the Immigration and Nationality Act. Applicant passed the reading, writing, and civics tests, demonstrated good moral character, and demonstrated attachment to the Constitution of the United States. Form N-400 is recommended for approval for the next available oath ceremony.";
         if (window.confetti) {
           window.confetti({ particleCount: 150, spread: 80, origin: { y: 0.7 } });
         }
@@ -1747,10 +1871,11 @@
         stamp.className = "px-4 py-2 rounded-xl text-center uppercase font-mono font-extrabold tracking-wider border-2 border-red-500 bg-red-500/20 text-red-300";
         
         let reasonDetails = "";
-        if (!isPassCivics) reasonDetails += "Applicant did not attain a passing score on the educational civics component (INA § 312). ";
-        if (!passedN400) reasonDetails += `Statutory bar established: ${interviewData.fatalReason}. Under INA § 337, citizenship cannot be conferred.`;
+        if (!passedDemeanor) reasonDetails += `Insolent / hostile behavior noted on administrative record: ${interviewData.demeanorReason}. `;
+        if (!isPassCivics) reasonDetails += "Civics examination score failed to satisfy INA § 312 educational standards. ";
+        if (!passedN400 && !interviewData.demeanorFailed) reasonDetails += `Statutory bar established: ${interviewData.fatalReason}. Under INA § 337, citizenship cannot be conferred.`;
 
-        repFindings.innerText = `NOTICE OF ADJUDICATION ADVERSE FINDING: ${reasonDetails} In accordance with 8 CFR § 336.1, a formal written notice of denial or continuation has been prepared for administrative record.`;
+        repFindings.innerText = `NOTICE OF ADJUDICATION ADVERSE FINDING: ${reasonDetails} In accordance with 8 CFR § 336.1, a formal written notice of denial has been prepared for the administrative record.`;
       }
 
       report.scrollIntoView({ behavior: 'smooth' });
@@ -1761,14 +1886,13 @@
        ========================================================== */
     function speakText(text) {
       if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel(); // cancel previous speech
+      window.speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
       const conf = OFFICER_CONFIGS[currentOfficer];
       utterance.rate = conf.voiceRate;
       utterance.pitch = conf.voicePitch;
 
-      // Select natural English voice if available
       const voices = window.speechSynthesis.getVoices();
       const engVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('David')));
       if (engVoice) utterance.voice = engVoice;
@@ -1795,7 +1919,6 @@
       window.speechSynthesis.speak(utterance);
     }
 
-    // Microphone speech recognition
     let recognition = null;
     let isRecording = false;
 
@@ -1878,7 +2001,6 @@
       }
     }
 
-    // Audio Visualizer Canvas Mock Wave
     let waveAnimId = null;
     let waveOffset = 0;
 
@@ -1921,7 +2043,6 @@
       if (canvas) {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Draw flat idle line
         ctx.strokeStyle = '#1F2E52';
         ctx.beginPath();
         ctx.moveTo(0, canvas.height / 2);
@@ -2033,17 +2154,12 @@
        7. STATE REPRESENTATIVE ZIP LOOKUP
        ========================================================== */
     const ZIP_DATABASE = {
-      // California
       '90210': { state: 'California', gov: 'Gavin Newsom', sen: 'Alex Padilla and Laphonza Butler', cap: 'Sacramento' },
       '94102': { state: 'California', gov: 'Gavin Newsom', sen: 'Alex Padilla and Laphonza Butler', cap: 'Sacramento' },
-      // Texas
       '75001': { state: 'Texas', gov: 'Greg Abbott', sen: 'Ted Cruz and John Cornyn', cap: 'Austin' },
       '77001': { state: 'Texas', gov: 'Greg Abbott', sen: 'Ted Cruz and John Cornyn', cap: 'Austin' },
-      // New York
       '10001': { state: 'New York', gov: 'Kathy Hochul', sen: 'Chuck Schumer and Kirsten Gillibrand', cap: 'Albany' },
-      // Florida
       '33101': { state: 'Florida', gov: 'Ron DeSantis', sen: 'Marco Rubio and Rick Scott', cap: 'Tallahassee' },
-      // Illinois
       '60601': { state: 'Illinois', gov: 'JB Pritzker', sen: 'Dick Durbin and Tammy Duckworth', cap: 'Springfield' }
     };
 
@@ -2061,7 +2177,6 @@
         document.getElementById('rep-capital').innerText = match.cap;
         showToast(`Loaded officials for ${match.state}`, "success");
       } else {
-        // Fallback for any other valid ZIP
         document.getElementById('rep-governor').innerText = "Check your current state governor (Updated 2026)";
         document.getElementById('rep-senators').innerText = "Search official U.S. Senate directory for your state";
         document.getElementById('rep-capital').innerText = "State Capital of your residence jurisdiction";
@@ -2093,7 +2208,7 @@
       e.preventDefault();
       const btn = document.getElementById('btn-pay-now');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Stripe Secure Gateway...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Stripe Gateway...`;
 
       setTimeout(() => {
         btn.disabled = false;
@@ -2141,7 +2256,6 @@
       updateVocabUI();
       stopVisualizerAnimation();
 
-      // Pre-warm voices
       if ('speechSynthesis' in window) {
         window.speechSynthesis.onvoiceschanged = () => {
           window.speechSynthesis.getVoices();
