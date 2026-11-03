@@ -852,7 +852,7 @@
     <div class="relative max-w-2xl w-full overflow-hidden rounded-3xl bg-white dark:bg-[#0e1117] shadow-2xl">
       <button type="button" onclick="closeCultureStory()" aria-label="Close story" class="absolute z-10 top-4 right-4 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur hover:bg-black/60">✕</button>
       <img id="culture-modal-image" src="images/liberty-community.jpg" alt="" class="w-full h-56 sm:h-72 object-cover">
-      <div class="p-6 sm:p-8 space-y-4"><div id="culture-modal-kicker" class="text-[10px] uppercase tracking-[.2em] font-mono text-blue-600 dark:text-blue-400">Culture story</div><h2 id="culture-modal-title" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Story title</h2><p id="culture-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p><button onclick="practiceCultureQuestion()" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold">Practice a related question <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
+      <div class="p-6 sm:p-8 space-y-4"><div id="culture-modal-kicker" class="text-[10px] uppercase tracking-[.2em] font-mono text-blue-600 dark:text-blue-400">Culture story</div><h2 id="culture-modal-title" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Story title</h2><p id="culture-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p><a id="culture-modal-source" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline"><span id="culture-modal-source-label">Read the source</span><i class="fa-solid fa-arrow-up-right-from-square text-[9px]" aria-hidden="true"></i></a><button onclick="practiceCultureQuestion()" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold">Practice a related question <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
     </div>
   </div>
 
@@ -3393,9 +3393,9 @@
     let englishRecognitionActive = false;
     let activeCultureQuestionId = 120;
     const CULTURE_STORIES = {
-      liberty: { kicker: 'A shared beginning', title: 'Ellis Island & new beginnings', image: 'images/liberty-community.jpg', alt: 'Visitors from many backgrounds at the Ellis Island waterfront', copy: 'Ellis Island is a place to reflect on migration, belonging and the many journeys that have shaped American communities. The Statue of Liberty nearby became a lasting symbol of welcome and freedom.', questionId: 120 },
-      jazz: { kicker: 'Music & memory', title: 'Jazz on the streets', image: 'images/new-orleans-jazz.jpg', alt: 'A multigenerational crowd enjoying live jazz on a New Orleans street', copy: 'Jazz grew in New Orleans from Black American musical traditions and many cultural influences. Its improvisation and rhythms travelled far beyond the city, becoming part of a distinctly American art form.', questionId: 113 },
-      community: { kicker: 'Everyday America', title: 'Community in every neighborhood', image: 'images/neighborhood-market.jpg', alt: 'Neighbors and vendors sharing food and crafts at a city farmers market', copy: 'Across the country, local markets, festivals and civic groups bring neighbors together. Everyday participation—sharing ideas, volunteering and supporting local groups—is one way people shape community life.', questionId: 69 }
+      liberty: { kicker: 'A shared beginning', title: 'Ellis Island & new beginnings', image: 'images/liberty-community.jpg', alt: 'Visitors from many backgrounds at the Ellis Island waterfront', copy: 'Ellis Island is a place to reflect on migration, belonging and the many journeys that have shaped American communities. The Statue of Liberty nearby became a lasting symbol of welcome and freedom.', sourceLabel: 'National Park Service · Ellis Island history', sourceUrl: 'https://www.nps.gov/elis/learn/historyculture/places_immigration.htm', questionId: 120 },
+      jazz: { kicker: 'Music & memory', title: 'Jazz on the streets', image: 'images/new-orleans-jazz.jpg', alt: 'A multigenerational crowd enjoying live jazz on a New Orleans street', copy: 'Jazz grew in New Orleans from Black American musical traditions and many cultural influences. Its improvisation and rhythms travelled far beyond the city, becoming part of a distinctly American art form.', sourceLabel: 'Smithsonian National Museum of American History · Louis Armstrong and jazz', sourceUrl: 'https://amhistory.si.edu/docs/armstrongkit/act1.pdf', questionId: 113 },
+      community: { kicker: 'Everyday America', title: 'Community in every neighborhood', image: 'images/neighborhood-market.jpg', alt: 'Neighbors and vendors sharing food and crafts at a city farmers market', copy: 'Across the country, local markets, festivals and civic groups bring neighbors together. Everyday participation—sharing ideas, volunteering and supporting local groups—is one way people shape community life.', sourceLabel: 'AmeriCorps · Volunteer and community service', sourceUrl: 'https://www.americorps.gov/serve/volunteer', questionId: 69 }
     };
 
     function openCultureStory(key) {
@@ -3405,6 +3405,10 @@
       document.getElementById('culture-modal-kicker').innerText = story.kicker;
       document.getElementById('culture-modal-title').innerText = story.title;
       document.getElementById('culture-modal-copy').innerText = story.copy;
+      const sourceLink = document.getElementById('culture-modal-source');
+      sourceLink.href = story.sourceUrl;
+      sourceLink.setAttribute('aria-label', `Read source: ${story.sourceLabel} (opens in a new tab)`);
+      document.getElementById('culture-modal-source-label').textContent = story.sourceLabel;
       const image = document.getElementById('culture-modal-image');
       image.src = story.image;
       image.alt = story.alt;
@@ -3427,6 +3431,7 @@
       setStudyMode('flashcard');
       renderFlashcard();
       document.getElementById('section-civics').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('flashcard-hit-area').focus({ preventScroll: true });
     }
 
     function setEnglishMode(mode) {
