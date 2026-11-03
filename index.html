@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CivicPass AI — Official USCIS Naturalization & Civics Simulator</title>
-  <meta name="description" content="AI-powered USCIS Naturalization oral test simulator with acoustic speech evaluation and Form N-400 statutory readiness checks.">
+  <title>CivicPass — Citizenship Practice Studio</title>
+  <meta name="description" content="A polished, independent citizenship civics practice studio with flashcards, quizzes, and speech tools.">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -30,6 +30,17 @@
 
   <style>
     /* Dark Theme */
+    :root { color-scheme: light; --brand: #2563eb; --brand-deep: #1e3a8a; }
+    html.dark { color-scheme: dark; }
+    body { letter-spacing: -0.012em; }
+    button { -webkit-tap-highlight-color: transparent; }
+    .panel-glass { border-radius: 1.25rem; transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .panel-glass:hover { border-color: rgba(59,130,246,.25); }
+    .culture-card img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+    .culture-card:hover img, .culture-card:focus-visible img { transform: scale(1.06); }
+    .hero-shade { background: linear-gradient(90deg, rgba(8,15,31,.9) 0%, rgba(8,15,31,.66) 48%, rgba(8,15,31,.08) 100%); }
+    button:focus-visible, input:focus-visible { outline: 3px solid rgba(59,130,246,.5); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     html.dark body {
       background-color: #08090d;
       color: #f1f5f9;
@@ -137,13 +148,13 @@
   <div class="border-b border-black/[0.06] dark:border-white/[0.05] bg-slate-100/70 dark:bg-black/40 text-[11px] py-2 px-6 text-slate-500 dark:text-slate-400 flex items-center justify-between transition-colors">
     <div class="flex items-center gap-2">
       <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 font-mono text-[10px]">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 2026 USCIS Standard
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> CITIZENSHIP PRACTICE STUDIO
       </span>
-      <span class="hidden sm:inline">Official 100 Naturalization Civics & Oral Examination Simulator</span>
+      <span class="hidden sm:inline">2025 Civics Test • 128 questions</span>
     </div>
     <div class="flex items-center gap-3">
       <button onclick="triggerDossierPrint()" class="text-blue-600 dark:text-blue-400 hover:underline font-mono text-[10px] flex items-center gap-1">
-        <i class="fa-solid fa-print"></i> Print Lobby Cheat Sheet
+        <i class="fa-solid fa-print"></i> Print Practice Notes
       </button>
       <span class="text-[10px] font-mono text-slate-400">Independent System</span>
     </div>
@@ -158,13 +169,13 @@
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
           <i class="fa-solid fa-flag-usa"></i>
         </div>
-        <span class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base">CivicPass<span class="text-blue-600 dark:text-blue-400 font-semibold">AI</span></span>
+        <span class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base">CivicPass</span>
       </div>
 
       <!-- Navigation Tabs -->
       <nav class="hidden md:flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06] text-xs font-medium transition-colors">
         <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition">
-          100 Civics Deck
+          Civics Practice
         </button>
         <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -173,7 +184,16 @@
         <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
           State Reps
         </button>
+        <button onclick="switchMainTab('english')" id="nav-english" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+          English Lab
+        </button>
       </nav>
+      <select class="md:hidden text-xs rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#090b10] px-2 py-2" aria-label="Choose section" onchange="switchMainTab(this.value)">
+        <option value="civics">Civics</option>
+        <option value="interview">Interview</option>
+        <option value="reps">State reps</option>
+        <option value="english">English Lab</option>
+      </select>
 
       <!-- Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
@@ -182,7 +202,7 @@
         </button>
 
         <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-crown text-[10px]"></i> Upgrade VIP
+          <i class="fa-solid fa-crown text-[10px]"></i> Premium Preview
         </button>
       </div>
     </div>
@@ -195,76 +215,48 @@
   </div>
 
   <!-- Main Viewport -->
-  <main class="flex-1 max-w-5xl mx-auto w-full px-6 py-6 space-y-8">
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 space-y-10">
 
     <!-- AMERICAN HERO BANNER -->
-    <div class="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-2xl bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white p-8 sm:p-10">
-      <div class="relative z-10 flex flex-col justify-between h-full space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest font-semibold text-blue-200">
-            <span class="w-2 h-2 rounded-full bg-red-500"></span> E Pluribus Unum • United States Naturalization
-          </div>
-          <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-            <i class="fa-solid fa-shield-halved text-amber-400"></i> Section 316 USCIS Standard
-          </div>
+    <section class="relative min-h-[430px] sm:min-h-[500px] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-2xl bg-slate-900 text-white px-7 py-8 sm:px-12 sm:py-10 flex items-end">
+      <img src="images/liberty-community.jpg" alt="A multigenerational group enjoying the waterfront near Ellis Island and the Statue of Liberty" class="absolute inset-0 h-full w-full object-cover object-center" fetchpriority="high">
+      <div class="hero-shade absolute inset-0"></div>
+      <div class="absolute top-6 right-6 hidden sm:block rounded-full border border-white/20 bg-black/25 backdrop-blur-md px-4 py-2 text-[10px] font-mono uppercase tracking-[.2em] text-white/90">Many stories. One shared home.</div>
+      <div class="relative z-10 flex flex-col gap-5 max-w-2xl">
+        <div class="inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest font-semibold text-blue-100">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span> Citizenship, culture & community
         </div>
-
-        <div class="space-y-1.5">
-          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white drop-shadow-md">
-            Pass the Official U.S. Citizenship Civics Exam
-          </h1>
-          <p class="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed font-light">
-            Master the 100 civics questions with customizable adjudicator personalities, real-time voice speech analysis, and statutory N-400 review checks.
-          </p>
+        <div class="space-y-3">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-md leading-[1.02]">Learn the story behind the questions.</h1>
+          <p class="text-sm sm:text-base text-slate-100/90 max-w-xl leading-relaxed">Explore the people, music, places and ideas that shape the United States—then build confidence with the 2025 citizenship civics test.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 pt-1">
+          <button onclick="switchMainTab('civics'); document.getElementById('section-civics').scrollIntoView({behavior:'smooth'});" class="px-5 py-3 rounded-xl bg-white text-slate-950 font-bold text-sm hover:bg-blue-50 transition shadow-lg">Start studying <i class="fa-solid fa-arrow-right ml-2"></i></button>
+          <button onclick="switchMainTab('english'); document.getElementById('section-english').scrollIntoView({behavior:'smooth'});" class="px-5 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur text-white font-semibold text-sm hover:bg-white/20 transition">Explore English practice</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- AMERICAN CULTURAL HERITAGE CARDS -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-      <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl font-bold flex-shrink-0">
-          <i class="fa-solid fa-landmark"></i>
-        </div>
-        <div>
-          <div class="text-[10px] uppercase font-mono tracking-wider text-blue-600 dark:text-blue-400 font-semibold">Law of Land</div>
-          <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">U.S. Constitution</div>
-        </div>
+    <section class="space-y-5" aria-labelledby="culture-heading">
+      <div class="flex items-end justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">Explore America</div><h2 id="culture-heading" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">A country told through its people</h2></div><span class="hidden sm:inline text-xs text-slate-400">Tap a story to explore</span></div>
+      <div class="grid md:grid-cols-3 gap-4 sm:gap-5">
+        <button onclick="openCultureStory('liberty')" class="culture-card panel-glass text-left group relative min-h-[310px] sm:min-h-[360px] overflow-hidden rounded-3xl border border-slate-200 dark:border-white/[0.08]">
+          <img src="images/liberty-community.jpg" alt="Visitors from many backgrounds at the Ellis Island waterfront" class="absolute inset-0 w-full h-full object-cover object-center" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/15 to-transparent"></div>
+          <span class="absolute top-4 left-4 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-white">A shared beginning</span><div class="absolute bottom-0 p-5 sm:p-6 text-white"><h3 class="text-xl font-bold">Ellis Island & new beginnings</h3><p class="mt-2 text-xs leading-relaxed text-white/80">Stories of arrival, belonging and building a life in a new place.</p><span class="mt-4 inline-flex items-center gap-2 text-xs font-semibold">Open story <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span></div>
+        </button>
+        <button onclick="openCultureStory('jazz')" class="culture-card panel-glass text-left group relative min-h-[310px] sm:min-h-[360px] overflow-hidden rounded-3xl border border-slate-200 dark:border-white/[0.08]">
+          <img src="images/new-orleans-jazz.jpg" alt="A multigenerational crowd enjoying live jazz on a New Orleans street" class="absolute inset-0 w-full h-full object-cover object-center" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/15 to-transparent"></div>
+          <span class="absolute top-4 left-4 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-white">Music & memory</span><div class="absolute bottom-0 p-5 sm:p-6 text-white"><h3 class="text-xl font-bold">Jazz on the streets</h3><p class="mt-2 text-xs leading-relaxed text-white/80">A living tradition shaped by Black American creativity and the people who carry it forward.</p><span class="mt-4 inline-flex items-center gap-2 text-xs font-semibold">Open story <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span></div>
+        </button>
+        <button onclick="openCultureStory('community')" class="culture-card panel-glass text-left group relative min-h-[310px] sm:min-h-[360px] overflow-hidden rounded-3xl border border-slate-200 dark:border-white/[0.08]">
+          <img src="images/neighborhood-market.jpg" alt="Neighbors and vendors sharing food and crafts at a city farmers market" class="absolute inset-0 w-full h-full object-cover object-center" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/15 to-transparent"></div>
+          <span class="absolute top-4 left-4 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-white">Everyday America</span><div class="absolute bottom-0 p-5 sm:p-6 text-white"><h3 class="text-xl font-bold">Community in every neighborhood</h3><p class="mt-2 text-xs leading-relaxed text-white/80">Local traditions, shared spaces and civic life bring neighbors together.</p><span class="mt-4 inline-flex items-center gap-2 text-xs font-semibold">Open story <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span></div>
+        </button>
       </div>
-
-      <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400 text-xl font-bold flex-shrink-0">
-          <i class="fa-solid fa-feather"></i>
-        </div>
-        <div>
-          <div class="text-[10px] uppercase font-mono tracking-wider text-amber-600 dark:text-amber-400 font-semibold">National Bird</div>
-          <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">The Bald Eagle</div>
-        </div>
-      </div>
-
-      <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xl font-bold flex-shrink-0">
-          <i class="fa-solid fa-monument"></i>
-        </div>
-        <div>
-          <div class="text-[10px] uppercase font-mono tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">Freedom Symbol</div>
-          <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">Statue of Liberty</div>
-        </div>
-      </div>
-
-      <div class="panel-glass rounded-2xl p-3 sm:p-4 flex items-center gap-3 border border-slate-200 dark:border-white/[0.08] hover:border-blue-500/40 transition group">
-        <div class="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center text-rose-600 dark:text-rose-400 text-xl font-bold flex-shrink-0">
-          <i class="fa-solid fa-building-columns"></i>
-        </div>
-        <div>
-          <div class="text-[10px] uppercase font-mono tracking-wider text-rose-600 dark:text-rose-400 font-semibold">Democracy</div>
-          <div class="text-xs font-bold text-slate-900 dark:text-white leading-tight">Congress & Capitol</div>
-        </div>
-      </div>
-    </div>
+    </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 1: 100 CIVICS STUDY ENGINE         -->
+    <!-- Sample civics study set -->
     <!-- ========================================== -->
     <div id="section-civics" class="space-y-6">
       
@@ -276,7 +268,7 @@
           </div>
           <div>
             <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Practice Session</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">60% passing requirement (6 of 10 oral answers)</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">A small practice set to help you review at your own pace.</p>
           </div>
         </div>
 
@@ -290,34 +282,49 @@
             <span id="stat-missed" class="text-rose-600 dark:text-rose-400 font-bold text-sm">0</span>
           </div>
           <div class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
-            <span class="text-slate-400 block text-[9px] uppercase">Pool</span>
-            <span class="text-slate-800 dark:text-slate-200 font-bold text-sm">100</span>
+            <span class="text-slate-400 block text-[9px] uppercase">Question bank</span>
+            <span class="text-slate-800 dark:text-slate-200 font-bold text-sm">128</span>
+          </div>
+          <div class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
+            <span class="text-slate-400 block text-[9px] uppercase">Due today</span>
+            <span id="stat-due" class="text-blue-600 dark:text-blue-400 font-bold text-sm">0</span>
           </div>
         </div>
       </div>
 
       <!-- Controls & Filter Toolbar -->
       <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-y border-slate-200 dark:border-white/[0.06] py-3">
-        <div class="flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
+        <div class="flex flex-wrap items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
           <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
           <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
-          <button onclick="startOralExam()" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">10-Question Test</button>
+          <button onclick="startOralExam('standard')" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">2025 Mock Test</button>
+          <button onclick="startOralExam('senior')" id="btn-mode-senior-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">65/20 Test</button>
         </div>
 
         <div class="flex items-center gap-2">
           <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2 text-xs">
             <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
-            <span>65/20 Exemption</span>
+            <span>65/20 Study Set</span>
           </button>
           <button onclick="filterMissedOnly()" class="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition text-xs">
             Missed (<span id="missed-count">0</span>)
           </button>
+          <button onclick="filterDueQuestions()" class="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-700 dark:text-blue-300 transition text-xs">
+            Review due (<span id="due-count">0</span>)
+          </button>
         </div>
+      </div>
+      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This practice app's prompts are in English.</p>
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-slate-400">Progress is saved in this browser.</span>
+        <button onclick="exportProgress()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Export progress</button>
+        <button onclick="document.getElementById('progress-import-file').click()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Import progress</button>
+        <input id="progress-import-file" type="file" accept="application/json,.json" class="hidden" onchange="importProgress(event)">
       </div>
 
       <!-- Category Filter Tabs -->
       <div class="flex flex-wrap gap-2 text-xs">
-        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (100)</button>
+        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (128)</button>
         <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
         <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
         <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
@@ -332,7 +339,7 @@
             <div class="card-face card-face-front p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden">
               <div class="flex justify-between items-center text-xs relative z-10">
                 <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
-                  USCIS #1
+                  Sample Question 1
                 </span>
                 <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-2 text-xs font-mono">
                   <span>Pronounce</span> <i class="fa-solid fa-volume-high"></i>
@@ -349,7 +356,7 @@
                   What is the supreme law of the land?
                 </h2>
                 <p id="fc-translation" class="text-xs text-slate-400 dark:text-slate-500 font-normal italic">
-                  ¿Cuál es la ley suprema de la nación?
+                  2025 USCIS Naturalization Civics Test question
                 </p>
               </div>
 
@@ -363,7 +370,7 @@
             <div class="card-face card-face-back p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden">
               <div class="flex justify-between items-center text-xs relative z-10">
                 <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
-                  USCIS Accepted Answer
+                  Practice Answer
                 </span>
                 <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
               </div>
@@ -373,10 +380,10 @@
                 <div class="w-16 h-16 mx-auto rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl shadow-inner">
                   <i class="fa-solid fa-check"></i>
                 </div>
-                <div id="fc-answer" class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight max-w-xl mx-auto leading-tight">
+                <div id="fc-answer" class="text-base sm:text-lg font-semibold text-slate-900 dark:text-white tracking-tight max-w-2xl mx-auto leading-relaxed">
                   The Constitution
                 </div>
-                <p class="text-xs text-slate-400 dark:text-slate-500 font-normal">
+                <p id="fc-answer-note" class="text-xs text-slate-400 dark:text-slate-500 font-normal">
                   Recite this answer clearly from memory during the interview.
                 </p>
               </div>
@@ -400,7 +407,7 @@
           <button onclick="prevCard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm font-medium">
             ← Previous Question
           </button>
-          <span>Question <strong id="fc-current-index" class="text-slate-900 dark:text-white">1</strong> of <span id="fc-total-count">100</span></span>
+          <span>Question <strong id="fc-current-index" class="text-slate-900 dark:text-white">1</strong> of <span id="fc-total-count">128</span></span>
           <button onclick="nextCard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:bg-slate-50 dark:hover:bg-white/[0.06] text-slate-800 dark:text-white transition shadow-sm font-medium">
             Next Question →
           </button>
@@ -411,7 +418,7 @@
       <div id="view-mcq" class="space-y-4 hidden">
         <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
           <div class="flex justify-between items-center text-xs">
-            <span id="mcq-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase font-semibold">Question 1 of 10</span>
+            <span id="mcq-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase font-semibold">Question 1 of 128</span>
             <button onclick="playMcqAudio()" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-mono text-xs">
               Audio <i class="fa-solid fa-volume-high ml-1"></i>
             </button>
@@ -427,7 +434,7 @@
           <div id="mcq-options" class="space-y-3 pt-2"></div>
           <div id="mcq-feedback" class="text-xs p-4 rounded-xl hidden"></div>
           <div class="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-white/[0.06]">
-            <span class="text-[11px] text-slate-400 font-mono">Standard: 60% Passing Ratio</span>
+            <span id="mcq-progress" class="text-[11px] text-slate-400 font-mono">Practice progress</span>
             <button id="mcq-next-btn" onclick="nextMcq()" class="px-6 py-2.5 text-xs font-semibold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 transition opacity-50 cursor-not-allowed shadow-sm" disabled>
               Next Question →
             </button>
@@ -475,8 +482,8 @@
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center"><i class="fa-solid fa-list-check"></i></div>
               <div>
-                <div class="font-bold text-sm">Take 10-Question Test</div>
-                <div class="text-[11px] text-blue-100 font-normal">Score at least 6 out of 10 to simulate passing</div>
+                <div class="font-bold text-sm">Take the 2025 mock test</div>
+                <div class="text-[11px] text-blue-100 font-normal">20 questions • 12 correct study target</div>
               </div>
             </div>
             <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
@@ -486,7 +493,7 @@
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-microphone"></i></div>
               <div>
-                <div class="font-bold text-sm">Practice with AI Voice Officer</div>
+                <div class="font-bold text-sm">Voice interview practice</div>
                 <div class="text-[11px] text-slate-500 dark:text-slate-400 font-normal">Spoken interview simulation with Officer Miller</div>
               </div>
             </div>
@@ -506,7 +513,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 2: AI VOICE OFFICER INTERVIEW SIM  -->
+    <!-- Interview practice simulation -->
     <!-- ========================================== -->
     <div id="section-interview" class="space-y-6 hidden">
       <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
@@ -522,7 +529,8 @@
                 <h2 id="officer-name-title" class="text-sm font-bold text-slate-900 dark:text-white">Officer Vance Miller</h2>
                 <span id="officer-persona-tag" class="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 font-semibold">Standard / Professional</span>
               </div>
-              <p class="text-xs text-slate-500 dark:text-slate-400 font-normal">Department of Homeland Security • Field Office Hearing</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 font-normal">Simulated practice conversation</p>
+              <p id="officer-status" class="mt-1 text-[10px] text-slate-400" aria-live="polite">Ready to practice</p>
             </div>
           </div>
           
@@ -540,7 +548,7 @@
         <!-- Audio Waveform Monitor -->
         <div class="bg-slate-50 dark:bg-[#090b10] rounded-xl border border-slate-200 dark:border-white/[0.05] p-3 flex flex-col items-center justify-center">
           <canvas id="waveformCanvas" width="550" height="40" class="w-full max-w-md h-10"></canvas>
-          <span class="text-[9px] font-mono text-slate-400 uppercase mt-1">Acoustic Speech Frequency Analyzer</span>
+          <span class="text-[9px] font-mono text-slate-400 uppercase mt-1">Voice playback visualizer</span>
         </div>
 
         <!-- Dialogue Box -->
@@ -566,6 +574,9 @@
             <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] hover:bg-slate-50 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-slate-300 text-xs font-medium transition shadow-sm">
               Repeat Question
             </button>
+            <button id="continue-interview-btn" onclick="continueInterview()" class="hidden w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition shadow-sm">
+              Continue
+            </button>
           </div>
 
           <form onsubmit="handleManualAnswer(event)" class="flex gap-2">
@@ -575,27 +586,27 @@
         </div>
 
         <div class="border-t border-slate-200 dark:border-white/[0.06] pt-4 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-          <span>Stage: <span id="stage-label" class="text-slate-700 dark:text-slate-300 font-medium">Oath of Allegiance</span></span>
+          <span>Practice step: <span id="stage-label" class="text-slate-700 dark:text-slate-300 font-medium">Interview warm-up</span></span>
           <span>Question <span id="sim-q-idx" class="text-slate-900 dark:text-white font-semibold">1</span> of 5</span>
         </div>
       </div>
 
-      <!-- Formal Form N-652 Official Adjudication Result Card -->
-      <div id="n652-card" class="panel-glass rounded-2xl p-6 sm:p-8 space-y-4 hidden border-slate-300 dark:border-white/[0.12]">
+      <!-- Practice feedback only. This is not an official result. -->
+      <div id="practice-summary-card" class="panel-glass rounded-2xl p-6 sm:p-8 space-y-4 hidden border-slate-300 dark:border-white/[0.12]">
         <div class="flex justify-between items-start border-b border-slate-200 dark:border-white/[0.06] pb-4">
           <div>
-            <div class="text-[9px] font-mono uppercase text-slate-400">Department of Homeland Security • USCIS</div>
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mt-0.5">Form N-652 Naturalization Examination Result</h3>
+            <div class="text-[9px] font-mono uppercase text-slate-400">Practice summary</div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mt-0.5">Interview practice feedback</h3>
           </div>
-          <span id="n652-badge" class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase">Pending</span>
+          <span id="practice-summary-badge" class="px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase">Pending</span>
         </div>
-        <div class="space-y-2 text-xs leading-relaxed" id="n652-reasons"></div>
+        <div class="space-y-2 text-xs leading-relaxed" id="practice-summary-reasons"></div>
         <div class="pt-2 flex gap-3">
           <button onclick="resetInterviewSession()" class="flex-1 bg-white dark:bg-white/[0.04] hover:bg-slate-50 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.06] text-slate-800 dark:text-white text-xs py-2.5 rounded-xl font-medium transition shadow-sm">
             Retake Interview
           </button>
           <button onclick="openCheckoutModal()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs py-2.5 rounded-xl font-semibold transition shadow-sm">
-            Unlock Full N-400 Suite
+            Explore Premium Preview
           </button>
         </div>
       </div>
@@ -607,9 +618,9 @@
     <div id="section-reps" class="space-y-6 hidden">
       <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-5">
         <div>
-          <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">State Officials Lookup</h2>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Sample State Lookup</h2>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-normal leading-relaxed">
-            USCIS questions #20, #23, #43, and #44 require naming your current Governor, U.S. Senators, and State Capital. Enter your ZIP code to load your jurisdiction:
+            See sample state information for a few ZIP codes. Public officials can change; confirm current answers with official sources before studying.
           </p>
         </div>
 
@@ -626,44 +637,80 @@
             <strong id="rep-state" class="text-slate-900 dark:text-white font-medium">-</strong>
           </div>
           <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Capital (USCIS Q#44):</span>
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Capital:</span>
             <strong id="rep-capital" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
           <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Governor (USCIS Q#43):</span>
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Governor:</span>
             <strong id="rep-governor" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
           <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Senators (USCIS Q#20):</span>
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">U.S. Senators:</span>
             <strong id="rep-senators" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
           </div>
         </div>
       </div>
     </div>
 
+    <div id="section-english" class="space-y-6 hidden">
+      <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-blue-600 dark:text-blue-400">English Skills</span>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mt-2">Reading and writing practice</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Short independent exercises with speech recognition and instant spelling feedback. This is not an official USCIS score.</p>
+        </div>
+        <div class="flex gap-2">
+          <button id="english-reading-tab" onclick="setEnglishMode('reading')" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold">Read aloud</button>
+          <button id="english-writing-tab" onclick="setEnglishMode('writing')" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold">Listen and write</button>
+        </div>
+        <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-6 sm:p-8 space-y-5">
+          <div id="english-prompt" class="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white text-center leading-relaxed">The President lives in the White House.</div>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button id="english-listen-btn" onclick="playEnglishPrompt()" class="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/[0.08] text-xs font-semibold">Hear sentence</button>
+            <button id="english-record-btn" onclick="recordEnglishReading()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Read aloud</button>
+          </div>
+          <form id="english-writing-form" class="hidden gap-2" onsubmit="checkEnglishWriting(event)">
+            <input id="english-writing-input" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.08] rounded-xl px-4 py-3 text-sm" placeholder="Type the sentence you heard" autocomplete="off">
+            <button class="px-4 py-3 rounded-xl bg-blue-600 text-white text-xs font-semibold">Check</button>
+          </form>
+          <p id="english-feedback" aria-live="polite" class="text-center text-sm text-slate-500 dark:text-slate-400"></p>
+          <div class="flex justify-center"><button onclick="nextEnglishPrompt()" class="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 dark:border-white/[0.08]">Next exercise →</button></div>
+        </div>
+        <p class="text-xs text-slate-400">Speech recognition depends on browser support and settings. For official preparation, use the current USCIS English test materials.</p>
+      </div>
+    </div>
+
   </main>
 
-  <!-- PRINT-READY OFFICIAL DOSSIER (TRIGGERED VIA PRINT) -->
+  <div id="culture-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="culture-modal-title" onclick="if(event.target===this) closeCultureStory()">
+    <div class="relative max-w-2xl w-full overflow-hidden rounded-3xl bg-white dark:bg-[#0e1117] shadow-2xl">
+      <button onclick="closeCultureStory()" aria-label="Close story" class="absolute z-10 top-4 right-4 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur hover:bg-black/60">✕</button>
+      <img id="culture-modal-image" src="images/liberty-community.jpg" alt="" class="w-full h-56 sm:h-72 object-cover">
+      <div class="p-6 sm:p-8 space-y-4"><div id="culture-modal-kicker" class="text-[10px] uppercase tracking-[.2em] font-mono text-blue-600 dark:text-blue-400">Culture story</div><h2 id="culture-modal-title" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Story title</h2><p id="culture-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p><button onclick="practiceCultureQuestion()" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold">Practice a related question <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
+    </div>
+  </div>
+
+  <!-- Printable personal practice notes -->
   <div id="print-dossier-area" class="hidden p-8 font-sans max-w-3xl mx-auto space-y-6 text-black bg-white">
     <div class="border-b-2 border-black pb-4 flex justify-between items-start">
       <div>
-        <h1 class="text-2xl font-black uppercase tracking-tight">USCIS Interview Day Fast-Review Dossier</h1>
-        <p class="text-xs text-gray-600 mt-1">Official Candidate Preparation Report • Prepared by CivicPass AI</p>
+        <h1 class="text-2xl font-black uppercase tracking-tight">Citizenship Practice Notes</h1>
+        <p class="text-xs text-gray-600 mt-1">Personal practice summary • Prepared by CivicPass</p>
       </div>
       <div class="text-right text-xs font-mono">
-        <div>Form N-400 Study Aid</div>
-        <div>Standard: 60% Passing</div>
+        <div>Citizenship practice notes</div>
+        <div>Sample study set</div>
       </div>
     </div>
 
     <!-- State Officials Box -->
     <div class="border border-gray-300 rounded-lg p-4 space-y-2 bg-gray-50">
-      <h3 class="text-xs font-bold uppercase tracking-wider text-gray-700">Mandatory Jurisdiction Officials</h3>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-gray-700">Sample state information</h3>
       <div class="grid grid-cols-2 gap-2 text-xs">
         <div><strong>State:</strong> <span id="print-state">California</span></div>
-        <div><strong>Capital (Q#44):</strong> <span id="print-capital">Sacramento</span></div>
-        <div><strong>Governor (Q#43):</strong> <span id="print-gov">Gavin Newsom</span></div>
-        <div><strong>U.S. Senators (Q#20):</strong> <span id="print-senators">Alex Padilla, Laphonza Butler</span></div>
+        <div><strong>Capital (state capital):</strong> <span id="print-capital">Sacramento</span></div>
+        <div><strong>Governor:</strong> <span id="print-gov">Gavin Newsom</span></div>
+        <div><strong>U.S. Senators:</strong> <span id="print-senators">Look up current senators</span></div>
       </div>
     </div>
 
@@ -690,28 +737,28 @@
       <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-mono">✕</button>
       
       <div class="text-center space-y-2">
-        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium">Pass Guarantee</span>
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">CivicPass Full License</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">Unlimited voice mock sessions, N-400 risk auditor, and full 100 civics question pronunciation bank.</p>
+        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium">Premium Preview</span>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">CivicPass Premium Preview</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">A refined independent study experience with flashcards, quizzes, and speech tools.</p>
       </div>
 
       <div class="p-4 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] flex items-center justify-between">
         <div>
-          <div class="text-sm font-semibold text-slate-900 dark:text-white">Full Access Pass</div>
-          <div class="text-[11px] text-slate-500 dark:text-slate-400">One-time payment • 100% money-back guarantee</div>
+          <div class="text-sm font-semibold text-slate-900 dark:text-white">Premium Look Preview</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">Premium styling preview • payments are not enabled</div>
         </div>
         <div class="text-right">
-          <div class="text-xl font-bold text-slate-900 dark:text-white">$39</div>
-          <div class="text-[10px] text-slate-400 line-through font-mono">$79</div>
+          <div class="text-sm font-bold text-slate-900 dark:text-white">Design preview</div>
+          <div class="text-[10px] text-slate-400 font-mono">No payment enabled</div>
         </div>
       </div>
 
       <button onclick="proceedToStripeCheckout()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition active:scale-[0.98] shadow-sm">
-        Proceed to Checkout
+        View Preview Details
       </button>
 
       <p class="text-[10px] text-center text-slate-400 font-mono">
-        Secured by Stripe. If you do not pass your official interview, email your Form N-14 or N-652 notice for a complete refund.
+        This preview does not process payments or guarantee an interview outcome.
       </p>
     </div>
   </div>
@@ -720,18 +767,18 @@
   <footer class="border-t border-slate-200 dark:border-white/[0.06] bg-slate-100 dark:bg-[#06070a] py-10 px-6 mt-20 text-xs text-slate-500 dark:text-slate-400 space-y-4 transition-colors">
     <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center space-x-2">
-        <span class="font-bold text-slate-900 dark:text-white text-xs">CivicPass AI</span>
+        <span class="font-bold text-slate-900 dark:text-white text-xs">CivicPass</span>
         <span>•</span>
-        <span class="text-xs">USCIS Naturalization Practice</span>
+        <span class="text-xs">Independent citizenship practice</span>
       </div>
       <div class="flex gap-4 font-mono text-[11px]">
         <a href="#" onclick="showToast('Educational preparation terms apply.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Terms</a>
-        <a href="#" onclick="showToast('Voice data is processed locally in browser memory.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Privacy</a>
-        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Refund Policy</a>
+        <a href="#" onclick="showToast('Voice input may be handled by your browser speech service; check your browser privacy settings.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Privacy</a>
+        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Payments</a>
       </div>
     </div>
     <div class="max-w-4xl mx-auto border-t border-slate-200 dark:border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed">
-      CivicPass AI is an independent educational training service. It is not affiliated with, endorsed by, or representing USCIS, the Department of Homeland Security, or any U.S. government agency.
+      CivicPass is an independent educational training service. It is not affiliated with, endorsed by, or representing USCIS, the Department of Homeland Security, or any U.S. government agency.
     </div>
   </footer>
 
@@ -763,8 +810,10 @@
       }
     }
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = AudioContextClass ? new AudioContextClass() : null;
     function playChime(success) {
+      if (!audioCtx) return;
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -806,32 +855,153 @@
       const cleanSel = cleanAndNormalize(selected);
       const cleanCor = cleanAndNormalize(correct);
       if (cleanSel === cleanCor) return true;
-      if (cleanSel.includes(cleanCor) || cleanCor.includes(cleanSel)) return true;
-      return false;
+      return (` ${cleanSel} `).includes(` ${cleanCor} `) || (` ${cleanCor} `).includes(` ${cleanSel} `);
     }
 
-    const CIVICS_POOL = [
-      { id: 1, senior: true, cat: "gov", icon: "fa-scale-balanced", q: "What is the supreme law of the land?", a: "The Constitution", tr: "¿Cuál es la ley suprema de la nación?", opts: ["The Declaration of Independence", "The Constitution", "The Articles of Confederation", "The Bill of Rights"] },
-      { id: 2, senior: false, cat: "gov", icon: "fa-landmark-dome", q: "What does the Constitution do?", a: "Sets up the government", tr: "¿Qué hace la Constitución?", opts: ["Sets up the government", "Declares war", "Collects taxes", "Builds public roads"] },
-      { id: 3, senior: false, cat: "gov", icon: "fa-users-line", q: "The idea of self-government is in the first three words of the Constitution. What are these words?", a: "We the People", tr: "¿Cuáles son las primeras tres palabras de la Constitución?", opts: ["In God We", "We the People", "Congress shall make", "United We Stand"] },
-      { id: 4, senior: false, cat: "gov", icon: "fa-pen-to-square", q: "What is an amendment?", a: "A change to the Constitution", tr: "¿Qué es una enmienda?", opts: ["A preamble to laws", "A change to the Constitution", "An executive veto", "A supreme court ruling"] },
-      { id: 5, senior: true, cat: "gov", icon: "fa-scroll", q: "What do we call the first ten amendments to the Constitution?", a: "The Bill of Rights", tr: "¿Cómo se llaman las diez primeras enmiendas?", opts: ["The Bill of Rights", "The Federalist Papers", "The Inalienable Rights", "The Magna Carta"] },
-      { id: 6, senior: false, cat: "gov", icon: "fa-microphone-lines", q: "What is one right or freedom from the First Amendment?", a: "Speech", tr: "¿Cuál es un derecho de la Primera Enmienda?", opts: ["Trial by jury", "Speech", "Bear arms", "Vote at 18"] },
-      { id: 7, senior: false, cat: "gov", icon: "fa-stamp", q: "How many amendments does the Constitution have?", a: "27", tr: "¿Cuántas enmiendas tiene la Constitución?", opts: ["21", "25", "27", "50"] },
-      { id: 8, senior: false, cat: "gov", icon: "fa-signature", q: "What did the Declaration of Independence do?", a: "Announced our independence from Great Britain", tr: "¿Qué hizo la Declaración de Independencia?", opts: ["Announced independence from Great Britain", "Formed the Supreme Court", "Freed all enslaved people", "Established the Senate"] },
-      { id: 9, senior: true, cat: "history", icon: "fa-sailboat", q: "What was one reason colonists came to America?", a: "Freedom", tr: "¿Por qué vinieron los colonos a América?", opts: ["To fight France", "Freedom", "To find Antarctica", "To serve the King"] },
-      { id: 10, senior: false, cat: "history", icon: "fa-campground", q: "Who lived in America before the Europeans arrived?", a: "American Indians", tr: "¿Quiénes vivían en América antes de los europeos?", opts: ["American Indians", "Vikings only", "No inhabitants", "Australian Aborigines"] },
-      { id: 11, senior: true, cat: "history", icon: "fa-feather-pointed", q: "Who wrote the Declaration of Independence?", a: "Thomas Jefferson", tr: "¿Quién escribió la Declaración de Independencia?", opts: ["George Washington", "Thomas Jefferson", "Alexander Hamilton", "Abraham Lincoln"] },
-      { id: 12, senior: true, cat: "integrated", icon: "fa-monument", q: "What is the capital of the United States?", a: "Washington, D.C.", tr: "¿Cuál es la capital de Estados Unidos?", opts: ["New York City", "Philadelphia", "Washington, D.C.", "Boston"] },
-      { id: 13, senior: true, cat: "integrated", icon: "fa-torch", q: "Where is the Statue of Liberty?", a: "New York Harbor", tr: "¿Dónde está la Estatua de la Libertad?", opts: ["Boston Harbor", "San Francisco Bay", "New York Harbor", "Washington D.C."] },
-      { id: 14, senior: true, cat: "integrated", icon: "fa-star", q: "Why does the flag have 50 stars?", a: "Because there is one star for each state", tr: "¿Por qué la bandera tiene 50 estrellas?", opts: ["One for each signer", "Because there is one star for each state", "One for each colony", "One for each amendment"] }
+    // 2025 USCIS civics test. A answers list holds accepted variants from USCIS M-1778.
+    // `current` questions require an answer that changes by place/person; they are self-check only.
+    const CIVICS_DATA = [
+      ["What is the form of government of the United States?",["Republic","Constitution-based federal republic","Representative democracy"]],
+      ["What is the supreme law of the land?",["U.S. Constitution","Constitution"],1],
+      ["Name one thing the U.S. Constitution does.",["Forms the government","Defines powers of government","Defines the parts of government","Protects the rights of the people"]],
+      ["The U.S. Constitution starts with the words 'We the People.' What does 'We the People' mean?",["Self-government","Popular sovereignty","Consent of the governed","People should govern themselves","Social contract"]],
+      ["How are changes made to the U.S. Constitution?",["Amendments","The amendment process"]],
+      ["What does the Bill of Rights protect?",["Basic rights of Americans","Basic rights of people living in the United States"]],
+      ["How many amendments does the U.S. Constitution have?",["Twenty-seven","27"],1],
+      ["Why is the Declaration of Independence important?",["It says America is free from British control","It says all people are created equal","It identifies inherent rights","It identifies individual freedoms"]],
+      ["What founding document said the American colonies were free from Britain?",["Declaration of Independence"]],
+      ["Name two important ideas from the Declaration of Independence and the U.S. Constitution.",["Equality","Liberty","Social contract","Natural rights","Limited government","Self-government"],0,"self"],
+      ["The words 'Life, Liberty, and the pursuit of Happiness' are in what founding document?",["Declaration of Independence"]],
+      ["What is the economic system of the United States?",["Capitalism","Free market economy"],1],
+      ["What is the rule of law?",["Everyone must follow the law","Leaders must obey the law","Government must obey the law","No one is above the law"]],
+      ["Many documents influenced the U.S. Constitution. Name one.",["Declaration of Independence","Articles of Confederation","Federalist Papers","Anti-Federalist Papers","Virginia Declaration of Rights","Fundamental Orders of Connecticut","Mayflower Compact","Iroquois Great Law of Peace"]],
+      ["There are three branches of government. Why?",["So one part does not become too powerful","Checks and balances","Separation of powers"]],
+      ["Name the three branches of government.",["Legislative, executive, and judicial","Congress, president, and the courts"]],
+      ["The President of the United States is in charge of which branch of government?",["Executive branch"]],
+      ["What part of the federal government writes laws?",["U.S. Congress","U.S. legislature","National legislature","Legislative branch"]],
+      ["What are the two parts of the U.S. Congress?",["Senate and House of Representatives","Senate and House"]],
+      ["Name one power of the U.S. Congress.",["Writes laws","Declares war","Makes the federal budget"],1],
+      ["How many U.S. senators are there?",["One hundred","100"]],
+      ["How long is a term for a U.S. senator?",["Six years","Six","6 years","6"]],
+      ["Who is one of your state's U.S. senators now?",[],0,"current"],
+      ["How many voting members are in the House of Representatives?",["Four hundred thirty-five","435"]],
+      ["How long is a term for a member of the House of Representatives?",["Two years","Two","2 years","2"]],
+      ["Why do U.S. representatives serve shorter terms than U.S. senators?",["To more closely follow public opinion"]],
+      ["How many senators does each state have?",["Two","2"]],
+      ["Why does each state have two senators?",["Equal representation for small states","The Great Compromise","Connecticut Compromise"]],
+      ["Name your U.S. representative.",[],0,"current"],
+      ["What is the name of the Speaker of the House of Representatives now?",[],1,"current"],
+      ["Who does a U.S. senator represent?",["Citizens of their state","People of their state"]],
+      ["Who elects U.S. senators?",["Citizens from their state"]],
+      ["Who does a member of the House of Representatives represent?",["Citizens in their congressional district","Citizens in their district","People from their congressional district","People in their district"]],
+      ["Who elects members of the House of Representatives?",["Citizens from their congressional district"]],
+      ["Some states have more representatives than other states. Why?",["Because of the state's population","Because they have more people","Because some states have more people"]],
+      ["The President of the United States is elected for how many years?",["Four years","Four","4 years","4"],1],
+      ["The President of the United States can serve only two terms. Why?",["Because of the 22nd Amendment","To keep the president from becoming too powerful"]],
+      ["What is the name of the President of the United States now?",[],1,"current"],
+      ["What is the name of the Vice President of the United States now?",[],1,"current"],
+      ["If the president can no longer serve, who becomes president?",["The Vice President of the United States","Vice President"]],
+      ["Name one power of the president.",["Signs bills into law","Vetoes bills","Enforces laws","Commander in Chief","Chief diplomat","Appoints federal judges"]],
+      ["Who is Commander in Chief of the U.S. military?",["The President of the United States","The President"]],
+      ["Who signs bills to become laws?",["The President of the United States","The President"]],
+      ["Who vetoes bills?",["The President of the United States","The President"],1],
+      ["Who appoints federal judges?",["The President of the United States","The President"]],
+      ["The executive branch has many parts. Name one.",["President of the United States","President","Cabinet","Federal departments and agencies"]],
+      ["What does the President's Cabinet do?",["Advises the President of the United States","Advises the President"]],
+      ["What are two Cabinet-level positions?",["Attorney General","Secretary of Agriculture","Secretary of Commerce","Secretary of Education","Secretary of Energy","Secretary of Health and Human Services","Secretary of Homeland Security","Secretary of Housing and Urban Development","Secretary of the Interior","Secretary of Labor","Secretary of State","Secretary of Transportation","Secretary of the Treasury","Secretary of Veterans Affairs","Secretary of War","Vice-President","Administrator of the Environmental Protection Agency","Administrator of the Small Business Administration","Director of the Central Intelligence Agency","Director of the Office of Management and Budget","Director of National Intelligence","United States Trade Representative"],0,"self"],
+      ["Why is the Electoral College important?",["It decides who is elected president","It provides a compromise between popular election of the president and congressional selection"]],
+      ["What is one part of the judicial branch?",["Supreme Court","Federal courts"]],
+      ["What does the judicial branch do?",["Reviews laws","Explains laws","Resolves disputes about the law","Decides if a law goes against the U.S. Constitution"]],
+      ["What is the highest court in the United States?",["Supreme Court"],1],
+      ["How many seats are on the Supreme Court?",["Nine","9"]],
+      ["How many Supreme Court justices are usually needed to decide a case?",["Five","5"]],
+      ["How long do Supreme Court justices serve?",["For life","Lifetime appointment","Until retirement"]],
+      ["Supreme Court justices serve for life. Why?",["To be independent of politics","To limit outside political influence"]],
+      ["Who is the Chief Justice of the United States now?",[],0,"current"],
+      ["Name one power that is only for the federal government.",["Print paper money","Mint coins","Declare war","Create an army","Make treaties","Set foreign policy"]],
+      ["Name one power that is only for the states.",["Provide schooling and education","Provide protection","Provide safety","Give a driver's license","Approve zoning and land use"]],
+      ["What is the purpose of the 10th Amendment?",["Powers not given to the federal government belong to the states or to the people"]],
+      ["Who is the governor of your state now?",[],1,"current"],
+      ["What is the capital of your state?",[],0,"current"],
+      ["There are four amendments to the U.S. Constitution about who can vote. Describe one of them.",["Citizens eighteen and older can vote","You do not have to pay a poll tax to vote","Any citizen can vote","Women and men can vote","A male citizen of any race can vote"]],
+      ["Who can vote in federal elections, run for federal office, and serve on a jury in the United States?",["Citizens","Citizens of the United States","U.S. citizens"]],
+      ["What are three rights of everyone living in the United States?",["Freedom of expression","Freedom of speech","Freedom of assembly","Freedom to petition the government","Freedom of religion","The right to bear arms"],0,"self"],
+      ["What do we show loyalty to when we say the Pledge of Allegiance?",["The United States","The flag"],1],
+      ["Name two promises that new citizens make in the Oath of Allegiance.",["Give up loyalty to other countries","Defend the Constitution","Obey the laws of the United States","Serve in the military if needed","Serve the nation if needed","Be loyal to the United States"],0,"self"],
+      ["How can people become United States citizens?",["Be born in the United States under the conditions set by the 14th Amendment","Naturalize","Derive citizenship under conditions set by Congress"]],
+      ["What are two examples of civic participation in the United States?",["Vote","Run for office","Join a political party","Help with a campaign","Join a civic group","Join a community group","Give an elected official your opinion","Contact elected officials","Support or oppose an issue or policy","Write to a newspaper"],0,"self"],
+      ["What is one way Americans can serve their country?",["Vote","Pay taxes","Obey the law","Serve in the military","Run for office","Work for local, state, or federal government"]],
+      ["Why is it important to pay federal taxes?",["Required by law","All people pay to fund the federal government","Required by the Constitution","Civic duty"]],
+      ["It is important for all men age 18 through 25 to register for the Selective Service. Name one reason why.",["Required by law","Civic duty","Makes the draft fair if needed"]],
+      ["The colonists came to America for many reasons. Name one.",["Freedom","Political liberty","Religious freedom","Economic opportunity","Escape persecution"]],
+      ["Who lived in America before the Europeans arrived?",["American Indians","Native Americans"],1],
+      ["What group of people was taken and sold as slaves?",["Africans","People from Africa"]],
+      ["What war did the Americans fight to win independence from Britain?",["American Revolution","The American Revolutionary War","War for American Independence"]],
+      ["Name one reason why the Americans declared independence from Britain.",["High taxes","Taxation without representation","British soldiers stayed in Americans' houses","Boston Massacre","Boston Tea Party","Stamp Act","Sugar Act","Townshend Acts","Intolerable Acts","They did not have self-government"]],
+      ["Who wrote the Declaration of Independence?",["Thomas Jefferson","Jefferson"],1],
+      ["When was the Declaration of Independence adopted?",["July 4, 1776","July fourth, seventeen seventy-six"]],
+      ["The American Revolution had many important events. Name one.",["Battle of Bunker Hill","Declaration of Independence","Washington Crossing the Delaware","Battle of Trenton","Battle of Saratoga","Valley Forge","Battle of Yorktown"]],
+      ["There were 13 original states. Name five.",["New Hampshire","Massachusetts","Rhode Island","Connecticut","New York","New Jersey","Pennsylvania","Delaware","Maryland","Virginia","North Carolina","South Carolina","Georgia"],0,"self"],
+      ["What founding document was written in 1787?",["U.S. Constitution","Constitution"]],
+      ["The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.",["James Madison","Madison","Alexander Hamilton","Hamilton","John Jay","Jay","Publius"]],
+      ["Why were the Federalist Papers important?",["They helped people understand the Constitution","They supported passing the Constitution"]],
+      ["Benjamin Franklin is famous for many things. Name one.",["Founded the first free public libraries","First Postmaster General of the United States","Helped write the Declaration of Independence","Inventor","U.S. diplomat"]],
+      ["George Washington is famous for many things. Name one.",["Father of Our Country","First president of the United States","General of the Continental Army","President of the Constitutional Convention"],1],
+      ["Thomas Jefferson is famous for many things. Name one.",["Writer of the Declaration of Independence","Third president of the United States","Doubled the size of the United States","First Secretary of State","Founded the University of Virginia","Writer of the Virginia Statute on Religious Freedom"]],
+      ["James Madison is famous for many things. Name one.",["Father of the Constitution","Fourth president of the United States","President during the War of 1812","One of the writers of the Federalist Papers"]],
+      ["Alexander Hamilton is famous for many things. Name one.",["First Secretary of the Treasury","One of the writers of the Federalist Papers","Helped establish the First Bank of the United States","Aide to General George Washington","Member of the Continental Congress"]],
+      ["What territory did the United States buy from France in 1803?",["Louisiana Territory","Louisiana"]],
+      ["Name one war fought by the United States in the 1800s.",["War of 1812","Mexican-American War","Civil War","Spanish-American War"]],
+      ["Name the U.S. war between the North and the South.",["The Civil War","Civil War"]],
+      ["The Civil War had many important events. Name one.",["Battle of Fort Sumter","Emancipation Proclamation","Battle of Vicksburg","Battle of Gettysburg","Sherman's March","Surrender at Appomattox","Battle of Antietam","Lincoln was assassinated"]],
+      ["Abraham Lincoln is famous for many things. Name one.",["Freed the slaves","Emancipation Proclamation","Saved the Union","Led the United States during the Civil War","16th president of the United States","Delivered the Gettysburg Address"],1],
+      ["What did the Emancipation Proclamation do?",["Freed the slaves","Freed slaves in the Confederacy","Freed slaves in the Confederate states","Freed slaves in most Southern states"]],
+      ["What U.S. war ended slavery?",["The Civil War","Civil War"]],
+      ["What amendment says all persons born or naturalized in the United States, and subject to the jurisdiction thereof, are U.S. citizens?",["14th Amendment","Fourteenth Amendment"]],
+      ["When did all men get the right to vote?",["After the Civil War","During Reconstruction","15th Amendment","1870"]],
+      ["Name one leader of the women's rights movement in the 1800s.",["Susan B. Anthony","Elizabeth Cady Stanton","Sojourner Truth","Harriet Tubman","Lucretia Mott","Lucy Stone"]],
+      ["Name one war fought by the United States in the 1900s.",["World War I","World War II","Korean War","Vietnam War","Persian Gulf War"]],
+      ["Why did the United States enter World War I?",["Germany attacked U.S. civilian ships","To support the Allied Powers","To oppose the Central Powers"]],
+      ["When did all women get the right to vote?",["1920","After World War I","19th Amendment","Nineteenth Amendment"]],
+      ["What was the Great Depression?",["Longest economic recession in modern history"]],
+      ["When did the Great Depression start?",["The Great Crash of 1929","Stock market crash of 1929","1929"]],
+      ["Who was president during the Great Depression and World War II?",["Franklin Roosevelt","Franklin D. Roosevelt","FDR"]],
+      ["Why did the United States enter World War II?",["Bombing of Pearl Harbor","Japanese attacked Pearl Harbor","To support the Allied Powers","To oppose the Axis Powers"]],
+      ["Dwight Eisenhower is famous for many things. Name one.",["General during World War II","President at the end of the Korean War","34th president of the United States","Signed the Federal-Aid Highway Act of 1956","Created the Interstate System"]],
+      ["Who was the United States' main rival during the Cold War?",["Soviet Union","USSR","Russia"]],
+      ["During the Cold War, what was one main concern of the United States?",["Communism","Nuclear war"]],
+      ["Why did the United States enter the Korean War?",["To stop the spread of communism"]],
+      ["Why did the United States enter the Vietnam War?",["To stop the spread of communism"]],
+      ["What did the civil rights movement do?",["Fought to end racial discrimination"]],
+      ["Martin Luther King, Jr. is famous for many things. Name one.",["Fought for civil rights","Worked for equality for all Americans","Worked so people would not be judged by skin color but by character"],1],
+      ["Why did the United States enter the Persian Gulf War?",["To force the Iraqi military from Kuwait"]],
+      ["What major event happened on September 11, 2001 in the United States?",["Terrorists attacked the United States","Terrorists crashed planes into the World Trade Center","Terrorists crashed a plane into the Pentagon","Terrorists crashed a plane in Pennsylvania"],1],
+      ["Name one U.S. military conflict after the September 11, 2001 attacks.",["Global War on Terror","War in Afghanistan","War in Iraq"]],
+      ["Name one American Indian tribe in the United States.",["Apache","Blackfeet","Cayuga","Cherokee","Cheyenne","Chippewa","Choctaw","Creek","Crow","Hopi","Huron","Inupiat","Lakota","Mohawk","Mohegan","Navajo","Oneida","Onondaga","Pueblo","Seminole","Seneca","Shawnee","Sioux","Teton","Tuscarora"]],
+      ["Name one example of an American innovation.",["Light bulb","Automobile","Internal combustion engine","Skyscrapers","Airplane","Assembly line","Landing on the moon","Integrated circuit"]],
+      ["What is the capital of the United States?",["Washington, D.C.","Washington, D.C"]],
+      ["Where is the Statue of Liberty?",["New York Harbor","Liberty Island","New Jersey","Near New York City","On the Hudson River"]],
+      ["Why does the flag have 13 stripes?",["13 original colonies","The stripes represent the original colonies"],1],
+      ["Why does the flag have 50 stars?",["One star for each state","Each star represents a state","Because there are 50 states"]],
+      ["What is the name of the national anthem?",["The Star-Spangled Banner"]],
+      ["The Nation's first motto was 'E Pluribus Unum.' What does that mean?",["Out of many, one","We all become one"]],
+      ["What is Independence Day?",["A holiday to celebrate U.S. independence from Britain","The country's birthday"]],
+      ["Name three national U.S. holidays.",["New Year's Day","Martin Luther King, Jr. Day","Presidents Day","Washington's Birthday","Memorial Day","Independence Day","Labor Day","Columbus Day","Veterans Day","Thanksgiving Day","Christmas Day"],1,"self"],
+      ["What is Memorial Day?",["A holiday to honor soldiers who died in military service"]],
+      ["What is Veterans Day?",["A holiday to honor people in the U.S. military","A holiday to honor people who have served in the U.S. military"]]
     ];
+    const CIVICS_POOL = CIVICS_DATA.map((row, index) => ({
+      id: index + 1, q: row[0], answers: row[1], a: row[1][0] || 'Answers vary; check current official sources.',
+      senior: !!row[2], dynamic: row[3] === 'current', selfCheck: row[3] === 'self', cat: index < 72 ? 'gov' : index < 118 ? 'history' : 'integrated',
+      icon: index < 72 ? 'fa-landmark' : index < 118 ? 'fa-book-open' : 'fa-flag',
+      tr: 'Official 2025 civics test question'
+    }));
 
     const ZIP_DIRECTORY = {
-      "90210": { state: "California", capital: "Sacramento", gov: "Gavin Newsom", senators: "Alex Padilla, Laphonza Butler" },
+      "90210": { state: "California", capital: "Sacramento", gov: "Gavin Newsom", senators: "Alex Padilla, Adam Schiff" },
       "75001": { state: "Texas", capital: "Austin", gov: "Greg Abbott", senators: "John Cornyn, Ted Cruz" },
       "10001": { state: "New York", capital: "Albany", gov: "Kathy Hochul", senators: "Chuck Schumer, Kirsten Gillibrand" },
-      "33101": { state: "Florida", capital: "Tallahassee", gov: "Ron DeSantis", senators: "Marco Rubio, Rick Scott" }
+      "33101": { state: "Florida", capital: "Tallahassee", gov: "Ron DeSantis", senators: "Rick Scott, Ashley Moody" }
     };
 
     let currentQuestions = [...CIVICS_POOL];
@@ -840,29 +1010,92 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = JSON.parse(localStorage.getItem('civicpass_v13_progress')) || {
-      mastered: [],
-      missed: []
-    };
+    let userProgress = { mastered: [], missed: [], review: {} };
+    try {
+      const savedProgress = JSON.parse(localStorage.getItem('civicpass_v13_progress'));
+      if (savedProgress && Array.isArray(savedProgress.mastered) && Array.isArray(savedProgress.missed)) {
+        userProgress = savedProgress;
+      }
+    } catch (error) {
+      userProgress = { mastered: [], missed: [] };
+    }
+    if (!userProgress.review || typeof userProgress.review !== 'object') userProgress.review = {};
+
+    function updateReviewSchedule(questionId, correct) {
+      const previous = userProgress.review[questionId] || { streak: 0, dueAt: 0 };
+      const streak = correct ? previous.streak + 1 : 0;
+      const intervalsDays = [1, 3, 7, 14, 30];
+      const dueAt = correct ? Date.now() + intervalsDays[Math.min(streak - 1, intervalsDays.length - 1)] * 86400000 : Date.now();
+      userProgress.review[questionId] = { streak, dueAt };
+    }
 
     function saveProgress() {
-      localStorage.setItem('civicpass_v13_progress', JSON.stringify(userProgress));
+      try {
+        localStorage.setItem('civicpass_v13_progress', JSON.stringify(userProgress));
+      } catch (error) {
+        showToast('Progress could not be saved in this browser session.');
+      }
       updateStatDisplays();
+    }
+
+    function exportProgress() {
+      const payload = { version: 1, savedAt: new Date().toISOString(), progress: userProgress };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'civicpass-study-progress.json';
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('Progress backup downloaded. Keep it somewhere safe.');
+    }
+
+    function importProgress(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const payload = JSON.parse(reader.result);
+          const imported = payload.progress || payload;
+          if (!Array.isArray(imported.mastered) || !Array.isArray(imported.missed)) throw new Error('Invalid progress file');
+          const validIds = new Set(CIVICS_POOL.map(q => q.id));
+          userProgress = {
+            mastered: [...new Set(imported.mastered.map(Number).filter(id => validIds.has(id)))],
+            missed: [...new Set(imported.missed.map(Number).filter(id => validIds.has(id)))],
+            review: imported.review && typeof imported.review === 'object' ? imported.review : {}
+          };
+          saveProgress();
+          showToast('Progress imported into this browser.');
+        } catch (error) {
+          showToast('That progress file could not be read. Choose a CivicPass JSON backup.');
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
     }
 
     function updateStatDisplays() {
       document.getElementById('stat-mastered').innerText = userProgress.mastered.length;
       document.getElementById('stat-missed').innerText = userProgress.missed.length;
       document.getElementById('missed-count').innerText = userProgress.missed.length;
+      const dueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
+      document.getElementById('stat-due').innerText = dueCount;
+      document.getElementById('due-count').innerText = dueCount;
     }
 
     function renderFlashcard() {
       if (currentQuestions.length === 0) return;
       const q = currentQuestions[cardIndex];
-      document.getElementById('fc-badge').innerText = `USCIS #${q.id}${q.senior ? ' *' : ''}`;
+      document.getElementById('fc-badge').innerText = `2025 USCIS #${q.id}${q.senior ? ' • 65/20' : ''}`;
       document.getElementById('fc-question').innerText = q.q;
       document.getElementById('fc-translation').innerText = q.tr;
-      document.getElementById('fc-answer').innerText = q.a;
+      document.getElementById('fc-answer').innerText = q.dynamic
+        ? 'This answer changes by person or location. Check the current USCIS Test Updates page or your state and district sources.'
+        : q.answers.join(' • ');
+      document.getElementById('fc-answer-note').innerText = q.selfCheck
+        ? 'Give the number of examples requested. Any valid examples from this list may count.'
+        : q.dynamic ? 'This practice app does not score current or personal answers.' : 'Say one accepted answer clearly, then self-score your recall.';
       
       const iconElem = document.getElementById('fc-icon');
       iconElem.className = `fa-solid ${q.icon || 'fa-landmark'}`;
@@ -905,6 +1138,7 @@
         if (!userProgress.missed.includes(qId)) userProgress.missed.push(qId);
         userProgress.mastered = userProgress.mastered.filter(id => id !== qId);
       }
+      updateReviewSchedule(qId, knewIt);
       saveProgress();
 
       if (cardIndex < currentQuestions.length - 1) {
@@ -948,11 +1182,11 @@
       if (seniorExemptionActive) {
         icon.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
         currentQuestions = CIVICS_POOL.filter(q => q.senior);
-        showToast("65/20 Exemption active: 20 designated questions loaded.");
+        showToast(`65/20 study set active: ${currentQuestions.length} starred questions.`);
       } else {
         icon.className = "w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600";
         currentQuestions = [...CIVICS_POOL];
-        showToast("Standard 100 civics questions curriculum restored.");
+        showToast("All 128 questions restored.");
       }
       cardIndex = 0;
       renderFlashcard();
@@ -969,6 +1203,23 @@
       showToast(`Showing ${currentQuestions.length} missed questions.`);
     }
 
+    function filterDueQuestions() {
+      const dueIds = Object.entries(userProgress.review)
+        .filter(([, item]) => item && item.dueAt <= Date.now())
+        .map(([id]) => Number(id));
+      currentQuestions = CIVICS_POOL.filter(q => dueIds.includes(q.id));
+      if (!currentQuestions.length) {
+        showToast('Nothing is due yet. Missed answers are added to review immediately.');
+        currentQuestions = [...CIVICS_POOL];
+        cardIndex = 0;
+        renderFlashcard();
+        return;
+      }
+      cardIndex = 0;
+      renderFlashcard();
+      showToast(`${currentQuestions.length} questions ready for spaced review.`);
+    }
+
     function filterCategory(cat) {
       if (cat === 'all') {
         currentQuestions = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : [...CIVICS_POOL];
@@ -980,6 +1231,10 @@
     }
 
     function playCurrentCardAudio() {
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+        showToast('Speech playback is unavailable in this browser.');
+        return;
+      }
       window.speechSynthesis.cancel();
       const q = currentQuestions[cardIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
@@ -1000,15 +1255,26 @@
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
         ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
         : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+      const inactiveModeClass = "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+      document.getElementById('btn-mode-exam').className = inactiveModeClass;
+      document.getElementById('btn-mode-senior-exam').className = inactiveModeClass;
 
       if (mode === 'mcq') renderMcqQuestion();
     }
 
     let mcqIndex = 0;
+    let activeQuiz = null;
     function renderMcqQuestion() {
-      const q = CIVICS_POOL[mcqIndex];
-      document.getElementById('mcq-badge').innerText = `USCIS #${q.id} • Question ${mcqIndex + 1} of ${CIVICS_POOL.length}`;
+      const q = activeQuiz ? activeQuiz.questions[activeQuiz.index] : CIVICS_POOL[mcqIndex];
+      const quizQuestions = activeQuiz ? activeQuiz.questions : CIVICS_POOL;
+      const quizIndex = activeQuiz ? activeQuiz.index : mcqIndex;
+      document.getElementById('mcq-badge').innerText = activeQuiz
+        ? `${activeQuiz.mode === 'senior' ? '65/20' : '2025 Mock'} • Question ${quizIndex + 1} of ${quizQuestions.length}`
+        : `2025 USCIS #${q.id} • Question ${quizIndex + 1} of ${quizQuestions.length}`;
       document.getElementById('mcq-question').innerText = q.q;
+      document.getElementById('mcq-progress').innerText = activeQuiz
+        ? `Correct so far: ${activeQuiz.correct}`
+        : 'Study mode • No score recorded';
       
       const mcqIcon = document.getElementById('mcq-icon');
       mcqIcon.className = `fa-solid ${q.icon || 'fa-landmark'}`;
@@ -1019,23 +1285,58 @@
       const feedback = document.getElementById('mcq-feedback');
       feedback.classList.add('hidden');
       const nextBtn = document.getElementById('mcq-next-btn');
+      nextBtn.onclick = nextMcq;
       nextBtn.disabled = true;
       nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      nextBtn.innerText = activeQuiz && activeQuiz.index === activeQuiz.questions.length - 1 ? 'Finish Test' : 'Next Question →';
 
-      q.opts.forEach(option => {
+      const options = (q.dynamic || q.selfCheck)
+        ? ['I got this one right', 'I need to review this one']
+        : makeAnswerOptions(q);
+      options.forEach(option => {
         const btn = document.createElement('button');
         btn.className = "w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-[#090b10] hover:bg-slate-50 dark:hover:bg-white/[0.04] text-xs text-slate-800 dark:text-white transition flex items-center justify-between shadow-sm";
         btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase">Select</span>`;
-        btn.onclick = () => selectMcqOption(btn, option, q.a);
+        btn.onclick = () => selectMcqOption(btn, option, q);
         optsContainer.appendChild(btn);
       });
     }
 
-    function selectMcqOption(selectedBtn, selectedText, correctText) {
+    function shuffleArray(values) {
+      const shuffled = [...values];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    function makeAnswerOptions(question) {
+      const correct = question.answers[0];
+      const otherAnswers = CIVICS_POOL.filter(q => !q.dynamic && q.id !== question.id)
+        .map(q => q.answers[0]).filter(a => a && a !== correct);
+      const distractors = shuffleArray([...new Set(otherAnswers)]).slice(0, 3);
+      return shuffleArray([correct, ...distractors]);
+    }
+
+    function selectMcqOption(selectedBtn, selectedText, question) {
       const allButtons = document.querySelectorAll('#mcq-options button');
       allButtons.forEach(b => b.disabled = true);
 
-      const isCorrect = checkAnswerEquivalence(selectedText, correctText);
+      const isCorrect = (question.dynamic || question.selfCheck)
+        ? selectedText === 'I got this one right'
+        : question.answers.some(answer => checkAnswerEquivalence(selectedText, answer));
+      if (activeQuiz && isCorrect) activeQuiz.correct++;
+      if (activeQuiz) activeQuiz.answered = true;
+      if (isCorrect) {
+        if (!userProgress.mastered.includes(question.id)) userProgress.mastered.push(question.id);
+        userProgress.missed = userProgress.missed.filter(id => id !== question.id);
+      } else {
+        if (!userProgress.missed.includes(question.id)) userProgress.missed.push(question.id);
+        userProgress.mastered = userProgress.mastered.filter(id => id !== question.id);
+      }
+      updateReviewSchedule(question.id, isCorrect);
+      saveProgress();
       playChime(isCorrect);
 
       const feedback = document.getElementById('mcq-feedback');
@@ -1044,11 +1345,12 @@
       if (isCorrect) {
         selectedBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-500/10', 'border-emerald-300', 'dark:border-emerald-500/30', 'text-emerald-700', 'dark:text-emerald-300');
         feedback.className = "text-xs p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300";
-        feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Correct response. Recognized under official USCIS guidelines.`;
+        feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Correct for this practice question.`;
       } else {
         selectedBtn.classList.add('bg-rose-50', 'dark:bg-rose-500/10', 'border-rose-300', 'dark:border-rose-500/30', 'text-rose-700', 'dark:text-rose-300');
         feedback.className = "text-xs p-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300";
-        feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1.5"></i> Incorrect. The official USCIS answer is: "<strong>${correctText}</strong>".`;
+        const expected = question.dynamic ? 'This answer depends on your current officials or personal circumstances. Check USCIS Test Updates.' : question.answers.join('; ');
+        feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1.5"></i> Review this answer: "<strong>${expected}</strong>".`;
       }
 
       const nextBtn = document.getElementById('mcq-next-btn');
@@ -1057,6 +1359,17 @@
     }
 
     function nextMcq() {
+      if (activeQuiz) {
+        if (!activeQuiz.answered) return;
+        if (activeQuiz.index < activeQuiz.questions.length - 1) {
+          activeQuiz.index++;
+          activeQuiz.answered = false;
+          renderMcqQuestion();
+        } else {
+          finishPracticeQuiz();
+        }
+        return;
+      }
       if (mcqIndex < CIVICS_POOL.length - 1) {
         mcqIndex++;
         renderMcqQuestion();
@@ -1068,18 +1381,49 @@
     }
 
     function playMcqAudio() {
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+        showToast('Speech playback is unavailable in this browser.');
+        return;
+      }
       window.speechSynthesis.cancel();
-      const q = CIVICS_POOL[mcqIndex];
+      const q = activeQuiz ? activeQuiz.questions[activeQuiz.index] : CIVICS_POOL[mcqIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
       utter.rate = currentPersona.rate;
       window.speechSynthesis.speak(utter);
     }
 
-    function startOralExam() {
+    function startOralExam(mode = 'standard') {
+      const source = mode === 'senior' ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
+      const length = mode === 'senior' ? 10 : 20;
+      const questions = shuffleArray(source).slice(0, length);
+      activeQuiz = { mode, questions, index: 0, correct: 0, answered: false };
       setStudyMode('mcq');
-      mcqIndex = 0;
+      const activeModeButton = document.getElementById(mode === 'senior' ? 'btn-mode-senior-exam' : 'btn-mode-exam');
+      activeModeButton.className = "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition";
       renderMcqQuestion();
-      showToast("10-Question oral exam initiated. 6 correct answers needed to pass.");
+      showToast(mode === 'senior'
+        ? '65/20 practice started: 10 questions, 6 correct to meet the study target. Dynamic answers are self-checked.'
+        : '2025 mock test started: 20 questions; 12 correct is the study target. Current answers and multi-part answers are self-checked.');
+    }
+
+    function finishPracticeQuiz() {
+      const quiz = activeQuiz;
+      const target = quiz.mode === 'senior' ? 6 : 12;
+      const success = quiz.correct >= target;
+      activeQuiz = null;
+      document.getElementById('mcq-badge').innerText = `${quiz.mode === 'senior' ? '65/20' : '2025 Mock'} complete`;
+      document.getElementById('mcq-question').innerText = `${quiz.correct} of ${quiz.questions.length} correct`;
+      document.getElementById('mcq-icon').className = `fa-solid ${success ? 'fa-circle-check' : 'fa-rotate-right'}`;
+      document.getElementById('mcq-options').innerHTML = '';
+      const feedback = document.getElementById('mcq-feedback');
+      feedback.className = `text-xs p-4 rounded-xl ${success ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`;
+      feedback.innerText = `${success ? 'Practice target reached.' : 'Keep studying and try again.'} This is a study result, not an official score.`;
+      const nextBtn = document.getElementById('mcq-next-btn');
+      nextBtn.innerText = 'Start another test';
+      nextBtn.onclick = () => startOralExam(quiz.mode);
+      nextBtn.disabled = false;
+      nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      showToast(`${quiz.correct}/${quiz.questions.length} correct. Study target: ${target}.`);
     }
 
     // MULTI-OFFICER PERSONALITY ENGINE
@@ -1134,14 +1478,14 @@
         officerSays: "We will begin with the Civics examination. What is the supreme law of the land?",
         type: "civics",
         requiredKeywords: ["constitution"],
-        bannedKeywords: ["trump", "musk", "bible", "police"]
+        bannedKeywords: []
       },
       {
         id: "q_congress",
         officerSays: "What are the two parts of the U.S. Congress?",
         type: "civics",
         requiredKeywords: ["senate", "house"],
-        bannedKeywords: ["trump", "musk", "republican", "democrat"]
+        bannedKeywords: []
       },
       {
         id: "support_constitution",
@@ -1159,14 +1503,19 @@
 
     let currentStepIdx = 0;
     let isSpeaking = false;
+    let awaitingInterviewContinue = false;
     let speechRecognitionInstance = null;
+    let isListening = false;
     let interviewFindings = [];
 
-    const BANNED_HOSTILE_WORDS = [
-      'bitch', 'stupid', 'idiot', 'asshole', 'fuck', 'shit', 'dumb', 'bastard', 'crap', 'hell', 'shut up'
-    ];
 
     function speakOfficer(text, onComplete) {
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+        const status = document.getElementById('officer-status');
+        if (status) status.innerText = 'Voice playback is unavailable. Use the text prompt below.';
+        if (onComplete) onComplete();
+        return;
+      }
       window.speechSynthesis.cancel();
       isSpeaking = true;
       startWaveform();
@@ -1189,12 +1538,24 @@
 
     function repeatOfficerQuestion() {
       const step = INTERVIEW_STEPS[currentStepIdx];
+      if (!step) {
+        showToast('This practice session is complete. Retake it to start again.');
+        return;
+      }
       speakOfficer(step.officerSays);
     }
 
     function toggleSpeechRecording() {
+      if (awaitingInterviewContinue) {
+        showToast('Your answer was accepted. Press Continue for the next prompt.');
+        return;
+      }
+      if (currentStepIdx >= INTERVIEW_STEPS.length) {
+        showToast('This practice session is complete. Retake it to start again.');
+        return;
+      }
       if (isSpeaking) {
-        showToast("Please wait until the adjudicator finishes speaking.");
+        showToast("Please wait until the practice voice finishes speaking.");
         return;
       }
 
@@ -1218,13 +1579,30 @@
         };
 
         speechRecognitionInstance.onerror = (e) => {
+          isListening = false;
           document.getElementById('mic-label').innerText = "Speak Answer";
           showToast(`Microphone notice: ${e.error}. You can submit via text input.`);
         };
+        speechRecognitionInstance.onend = () => {
+          isListening = false;
+          document.getElementById('mic-label').innerText = "Speak Answer";
+        };
       }
 
-      document.getElementById('mic-label').innerText = "Listening...";
-      speechRecognitionInstance.start();
+      if (isListening) {
+        speechRecognitionInstance.stop();
+        isListening = false;
+        document.getElementById('mic-label').innerText = "Speak Answer";
+      } else {
+        document.getElementById('mic-label').innerText = "Listening...";
+        try {
+          speechRecognitionInstance.start();
+          isListening = true;
+        } catch (error) {
+          document.getElementById('mic-label').innerText = "Speak Answer";
+          showToast('Microphone could not start. Please try again or use text input.');
+        }
+      }
     }
 
     function handleManualAnswer(e) {
@@ -1239,47 +1617,48 @@
 
     function processApplicantAnswer(rawText) {
       const text = rawText.toLowerCase().trim();
-      const step = INTERVIEW_STEPS[currentStepIdx];
-
-      const isHostile = BANNED_HOSTILE_WORDS.some(w => text.includes(w));
-      if (isHostile) {
-        terminateInterviewWithFailure("ADVERSE FINDING (Demeanor & Good Moral Character): Inappropriate or hostile language detected. Under 8 CFR § 316.10, interview is immediately suspended.");
+      if (!text || currentStepIdx >= INTERVIEW_STEPS.length) return;
+      if (awaitingInterviewContinue) {
+        showToast("Your answer was accepted. Press Continue for the next prompt.");
         return;
       }
-
+      const step = INTERVIEW_STEPS[currentStepIdx];
       let passedStep = false;
-      let reason = "";
 
       if (step.type === "affirmation") {
-        const isNegated = ['no', 'nope', 'nah', 'never', 'refuse'].some(n => text.split(/\s+/).includes(n));
-        const hasAffirmative = step.validKey.some(k => text.includes(k));
-        
-        if (hasAffirmative && !isNegated) {
-          passedStep = true;
-          reason = "Affirmation satisfied under INA § 337.";
-        } else {
-          terminateInterviewWithFailure("STATUTORY DISQUALIFICATION: Under INA § 337, applicant must demonstrate attachment to the U.S. Constitution and take the oath.");
-          return;
-        }
+        const normalizedAnswer = ` ${text.replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()} `;
+        const isNegated = /\b(no|nope|nah|never|refuse)\b/.test(text);
+        const hasAffirmative = step.validKey.some(k => normalizedAnswer.includes(` ${k} `));
+        passedStep = hasAffirmative && !isNegated;
       } else if (step.type === "civics") {
         const hasBanned = step.bannedKeywords.some(bk => text.includes(bk));
         const hasAllRequired = step.requiredKeywords.every(rk => text.includes(rk));
-        
-        if (hasAllRequired && !hasBanned) {
-          passedStep = true;
-          reason = "Civics answer verified accurate.";
-        } else {
-          passedStep = false;
-          reason = `Civics response rejected. Core statutory elements missing.`;
-        }
+        passedStep = hasAllRequired && !hasBanned;
       }
 
-      interviewFindings.push({ step: step.id, passed: passedStep, note: reason });
+      if (!passedStep) {
+        const hint = step.type === 'civics' ? `Try an answer that includes: ${step.requiredKeywords.join(' and ')}.` : 'Please answer yes to continue this practice step.';
+        document.getElementById('officer-status').innerText = 'Not quite. Try this question again.';
+        showToast(hint);
+        speakOfficer(hint);
+        return;
+      }
 
+      interviewFindings.push({ step: step.id, passed: true });
+      awaitingInterviewContinue = true;
+      document.getElementById('officer-status').innerText = 'Answer accepted. Continue when you are ready.';
+      document.getElementById('continue-interview-btn').classList.remove('hidden');
+    }
+
+    function continueInterview() {
+      if (!awaitingInterviewContinue) return;
+      awaitingInterviewContinue = false;
+      document.getElementById('continue-interview-btn').classList.add('hidden');
       currentStepIdx++;
       if (currentStepIdx < INTERVIEW_STEPS.length) {
         const nextStep = INTERVIEW_STEPS[currentStepIdx];
         document.getElementById('sim-q-idx').innerText = currentStepIdx + 1;
+        document.getElementById('stage-label').innerText = nextStep.type === 'civics' ? 'Civics practice' : 'Interview warm-up';
         document.getElementById('officer-transcript').innerText = `"${nextStep.officerSays}"`;
         speakOfficer(nextStep.officerSays);
       } else {
@@ -1287,54 +1666,32 @@
       }
     }
 
-    function terminateInterviewWithFailure(failureReason) {
-      window.speechSynthesis.cancel();
-      stopWaveform();
-      const officerMsg = "This examination is concluded. Due to statutory non-compliance, I cannot recommend approval at this time.";
-      document.getElementById('officer-transcript').innerText = `"${officerMsg}"`;
-      speakOfficer(officerMsg);
-
-      const n652 = document.getElementById('n652-card');
-      n652.classList.remove('hidden');
-      const badge = document.getElementById('n652-badge');
-      badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-500/20";
-      badge.innerText = "DENIED / FORM N-14 CONTINUED";
-
-      const reasonsContainer = document.getElementById('n652-reasons');
-      reasonsContainer.innerHTML = `
-        <div class="p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl text-rose-700 dark:text-rose-300">
-          <strong>Adjudication Finding:</strong> ${failureReason}
-        </div>
-      `;
-    }
-
     function concludeInterviewSuccessfully() {
       stopWaveform();
-      const civicsMisses = interviewFindings.filter(f => !f.passed).length;
-      const passed = civicsMisses <= 1;
+      const passed = interviewFindings.length === INTERVIEW_STEPS.length && interviewFindings.every(f => f.passed);
 
-      const n652 = document.getElementById('n652-card');
+      const n652 = document.getElementById('practice-summary-card');
       n652.classList.remove('hidden');
-      const badge = document.getElementById('n652-badge');
-      const reasonsContainer = document.getElementById('n652-reasons');
+      const badge = document.getElementById('practice-summary-badge');
+      const reasonsContainer = document.getElementById('practice-summary-reasons');
 
       if (passed) {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        speakOfficer("Congratulations. You have met all statutory educational and character requirements today. I will recommend your Form N-400 for approval.");
+        speakOfficer("Practice complete. Keep reviewing and confirm current information with USCIS study materials.");
         badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20";
-        badge.innerText = "RECOMMENDED FOR APPROVAL";
+        badge.innerText = "PRACTICE COMPLETE";
         reasonsContainer.innerHTML = `
           <div class="p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl text-emerald-700 dark:text-emerald-300">
-            <strong>Adjudication Finding:</strong> Candidate demonstrated English and Civics proficiency, and established attachment to the Constitution under INA § 316 and § 337.
+            <strong>Practice feedback:</strong> Practice responses matched the sample answers. This is not an official result.
           </div>
         `;
       } else {
-        speakOfficer("You did not attain the passing threshold on the civics portion. A re-test will be scheduled within 60 to 90 days.");
+        speakOfficer("Practice complete. Review the questions you missed and try again when ready.");
         badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20";
-        badge.innerText = "RE-TEST SCHEDULED (60-90 DAYS)";
+        badge.innerText = "KEEP PRACTICING";
         reasonsContainer.innerHTML = `
           <div class="p-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl text-amber-700 dark:text-amber-300">
-            <strong>Notice of Continuation:</strong> Did not meet the 60% civics standard. Entitled to one re-examination under 8 CFR § 312.5.
+            <strong>Practice feedback:</strong> Review the sample answers you missed. This score is not an official result.
           </div>
         `;
       }
@@ -1342,9 +1699,12 @@
 
     function resetInterviewSession() {
       currentStepIdx = 0;
+      awaitingInterviewContinue = false;
       interviewFindings = [];
-      document.getElementById('n652-card').classList.add('hidden');
+      document.getElementById('practice-summary-card').classList.add('hidden');
+      document.getElementById('continue-interview-btn').classList.add('hidden');
       document.getElementById('sim-q-idx').innerText = '1';
+      document.getElementById('stage-label').innerText = 'Interview warm-up';
       const first = INTERVIEW_STEPS[0];
       document.getElementById('officer-transcript').innerText = `"${first.officerSays}"`;
       speakOfficer(first.officerSays);
@@ -1352,6 +1712,7 @@
 
     let animFrame = null;
     function startWaveform() {
+      if (animFrame) cancelAnimationFrame(animFrame);
       const canvas = document.getElementById('waveformCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -1390,15 +1751,135 @@
       ctx.stroke();
     }
 
+    const ENGLISH_SENTENCES = [
+      'The President lives in the White House.',
+      'Citizens can vote in federal elections.',
+      'The flag has fifty stars.',
+      'Congress makes federal laws.',
+      'The United States has three branches of government.',
+      'People pay taxes to support the government.',
+      'The Constitution is the supreme law of the land.',
+      'Washington, D.C. is the capital of the United States.',
+      'The United States became independent in 1776.',
+      'The people elect the President for four years.'
+    ];
+    let englishSentenceIndex = 0;
+    let englishMode = 'reading';
+    let activeCultureQuestionId = 120;
+    const CULTURE_STORIES = {
+      liberty: { kicker: 'A shared beginning', title: 'Ellis Island & new beginnings', image: 'images/liberty-community.jpg', alt: 'Visitors from many backgrounds at the Ellis Island waterfront', copy: 'Ellis Island is a place to reflect on migration, belonging and the many journeys that have shaped American communities. The Statue of Liberty nearby became a lasting symbol of welcome and freedom.', questionId: 120 },
+      jazz: { kicker: 'Music & memory', title: 'Jazz on the streets', image: 'images/new-orleans-jazz.jpg', alt: 'A multigenerational crowd enjoying live jazz on a New Orleans street', copy: 'Jazz grew in New Orleans from Black American musical traditions and many cultural influences. Its improvisation and rhythms travelled far beyond the city, becoming part of a distinctly American art form.', questionId: 113 },
+      community: { kicker: 'Everyday America', title: 'Community in every neighborhood', image: 'images/neighborhood-market.jpg', alt: 'Neighbors and vendors sharing food and crafts at a city farmers market', copy: 'Across the country, local markets, festivals and civic groups bring neighbors together. Everyday participation—sharing ideas, volunteering and supporting local groups—is one way people shape community life.', questionId: 69 }
+    };
+
+    function openCultureStory(key) {
+      const story = CULTURE_STORIES[key];
+      if (!story) return;
+      activeCultureQuestionId = story.questionId;
+      document.getElementById('culture-modal-kicker').innerText = story.kicker;
+      document.getElementById('culture-modal-title').innerText = story.title;
+      document.getElementById('culture-modal-copy').innerText = story.copy;
+      const image = document.getElementById('culture-modal-image');
+      image.src = story.image;
+      image.alt = story.alt;
+      const modal = document.getElementById('culture-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeCultureStory() {
+      const modal = document.getElementById('culture-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function practiceCultureQuestion() {
+      const question = CIVICS_POOL.find(q => q.id === activeCultureQuestionId);
+      if (!question) return;
+      closeCultureStory();
+      switchMainTab('civics');
+      currentQuestions = [...CIVICS_POOL];
+      cardIndex = currentQuestions.findIndex(item => item.id === question.id);
+      setStudyMode('flashcard');
+      renderFlashcard();
+      document.getElementById('section-civics').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function setEnglishMode(mode) {
+      englishMode = mode;
+      document.getElementById('english-reading-tab').className = mode === 'reading'
+        ? 'px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold'
+        : 'px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold';
+      document.getElementById('english-writing-tab').className = mode === 'writing'
+        ? 'px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold'
+        : 'px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold';
+      const writing = mode === 'writing';
+      document.getElementById('english-prompt').innerText = writing ? 'Listen to the sentence, then type what you heard.' : ENGLISH_SENTENCES[englishSentenceIndex];
+      document.getElementById('english-writing-form').classList.toggle('hidden', !writing);
+      document.getElementById('english-writing-form').classList.toggle('flex', writing);
+      document.getElementById('english-record-btn').classList.toggle('hidden', writing);
+      document.getElementById('english-listen-btn').classList.toggle('hidden', !writing);
+      document.getElementById('english-feedback').innerText = '';
+    }
+
+    function playEnglishPrompt() {
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
+        showToast('Speech playback is unavailable in this browser.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(ENGLISH_SENTENCES[englishSentenceIndex]);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function recordEnglishReading() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast('Speech recognition is unavailable. Try the writing exercise instead.');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.onresult = event => {
+        const said = normalizeEnglishText(event.results[0][0].transcript);
+        const expected = normalizeEnglishText(ENGLISH_SENTENCES[englishSentenceIndex]);
+        const matches = said === expected;
+        document.getElementById('english-feedback').innerText = `${matches ? 'Nice reading.' : 'Keep practicing.'} Speech recognition heard: “${event.results[0][0].transcript}”. This is an approximate browser check.`;
+      };
+      recognition.onerror = () => showToast('Could not recognize that reading. Check microphone access and try again.');
+      try { recognition.start(); } catch (error) { showToast('Microphone is busy. Try again in a moment.'); }
+    }
+
+    function normalizeEnglishText(value) {
+      return value.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function checkEnglishWriting(event) {
+      event.preventDefault();
+      const answer = normalizeEnglishText(document.getElementById('english-writing-input').value);
+      if (!answer) return;
+      const expected = normalizeEnglishText(ENGLISH_SENTENCES[englishSentenceIndex]);
+      document.getElementById('english-feedback').innerText = answer === expected
+        ? 'That matches the practice sentence.'
+        : `Compare your spelling with: “${ENGLISH_SENTENCES[englishSentenceIndex]}”`;
+    }
+
+    function nextEnglishPrompt() {
+      englishSentenceIndex = (englishSentenceIndex + 1) % ENGLISH_SENTENCES.length;
+      document.getElementById('english-writing-input').value = '';
+      setEnglishMode(englishMode);
+    }
+
     function lookupZip() {
       const zip = document.getElementById('zip-input').value.trim();
       const resultsBox = document.getElementById('reps-results');
       
       let data = ZIP_DIRECTORY[zip];
-      if (!data && /^\d{5}$/.test(zip)) {
-        data = { state: "California", capital: "Sacramento", gov: "Gavin Newsom", senators: "Alex Padilla, Laphonza Butler" };
-      }
-
       if (data) {
         document.getElementById('rep-state').innerText = data.state;
         document.getElementById('rep-capital').innerText = data.capital;
@@ -1413,7 +1894,8 @@
 
         resultsBox.classList.remove('hidden');
       } else {
-        showToast("Please enter a valid 5-digit US ZIP Code.");
+        resultsBox.classList.add('hidden');
+        showToast("No sample data for that ZIP code. Try 90210, 75001, 10001, or 33101.");
       }
     }
 
@@ -1428,7 +1910,7 @@
       questionsToPrint.forEach(q => {
         const div = document.createElement('div');
         div.className = "p-2 border-b border-gray-200";
-        div.innerHTML = `<strong>Q: ${q.q}</strong><br><span class="text-gray-700">USCIS Answer: ${q.a}</span>`;
+        div.innerHTML = `<strong>Q: ${q.q}</strong><br><span class="text-gray-700">Suggested answer: ${q.a}</span>`;
         missedContainer.appendChild(div);
       });
 
@@ -1442,6 +1924,7 @@
       document.getElementById('section-civics').classList.toggle('hidden', tab !== 'civics');
       document.getElementById('section-interview').classList.toggle('hidden', tab !== 'interview');
       document.getElementById('section-reps').classList.toggle('hidden', tab !== 'reps');
+      document.getElementById('section-english').classList.toggle('hidden', tab !== 'english');
 
       document.getElementById('nav-civics').className = tab === 'civics' 
         ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition" 
@@ -1455,10 +1938,16 @@
         ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition"
         : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
 
+      document.getElementById('nav-english').className = tab === 'english'
+        ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition"
+        : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+
       if (tab === 'interview') {
-        speakOfficer(INTERVIEW_STEPS[currentStepIdx].officerSays);
+        if (currentStepIdx < INTERVIEW_STEPS.length && !awaitingInterviewContinue) {
+          speakOfficer(INTERVIEW_STEPS[currentStepIdx].officerSays);
+        }
       } else {
-        window.speechSynthesis.cancel();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         stopWaveform();
       }
     }
@@ -1472,11 +1961,8 @@
     }
 
     function proceedToStripeCheckout() {
-      const STRIPE_LINK = "https://buy.stripe.com/test_placeholder";
-      showToast("Redirecting to secure Stripe checkout...");
-      setTimeout(() => {
-        window.open(STRIPE_LINK, "_blank");
-      }, 700);
+      showToast("Premium design preview. Checkout is not configured.");
+      closeCheckoutModal();
     }
 
     function showToast(msg) {
@@ -1489,6 +1975,7 @@
     }
 
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCultureStory();
       if (e.code === 'Space' && activeStudyMode === 'flashcard' && !document.getElementById('section-civics').classList.contains('hidden')) {
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
         if (activeTag !== 'input' && activeTag !== 'textarea') {
