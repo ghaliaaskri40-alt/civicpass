@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CivicPass — Citizenship Practice Studio</title>
-  <meta name="description" content="A polished, independent citizenship civics practice studio with flashcards, quizzes, and speech tools.">
+  <meta name="description" content="Build a steady citizenship study habit with a personalized civics plan, spaced review, practice tests, and English exercises.">
+  <meta name="theme-color" content="#f8fafc">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CivicPass — Citizenship Practice Studio">
+  <meta property="og:description" content="A welcoming, independent study studio for citizenship civics and English practice.">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -39,7 +43,8 @@
     .culture-card img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
     .culture-card:hover img, .culture-card:focus-visible img { transform: scale(1.06); }
     .hero-shade { background: linear-gradient(90deg, rgba(8,15,31,.9) 0%, rgba(8,15,31,.66) 48%, rgba(8,15,31,.08) 100%); }
-    button:focus-visible, input:focus-visible { outline: 3px solid rgba(59,130,246,.5); outline-offset: 2px; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid rgba(59,130,246,.65); outline-offset: 2px; }
+    #flashcard-hit-area:focus-visible { outline: 3px solid rgba(59,130,246,.65); outline-offset: 5px; border-radius: 1.5rem; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     html.dark body {
       background-color: #08090d;
@@ -188,7 +193,7 @@
           English Lab
         </button>
       </nav>
-      <select class="md:hidden text-xs rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#090b10] px-2 py-2" aria-label="Choose section" onchange="switchMainTab(this.value)">
+      <select id="mobile-section-switcher" class="md:hidden text-xs rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#090b10] px-2 py-2" aria-label="Choose section" onchange="switchMainTab(this.value)">
         <option value="civics">Civics</option>
         <option value="interview">Interview</option>
         <option value="reps">State reps</option>
@@ -197,7 +202,7 @@
 
       <!-- Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <button onclick="toggleTheme()" id="themeToggleBtn" aria-label="Toggle theme" class="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.1] transition flex items-center justify-center">
+        <button type="button" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Switch to dark theme" aria-pressed="false" class="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.1] transition flex items-center justify-center">
           <span id="themeIcon" class="text-xs">☀️</span>
         </button>
 
@@ -209,7 +214,7 @@
   </header>
 
   <!-- Notification Toast -->
-  <div id="statusToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm panel-glass p-4 rounded-xl text-xs text-slate-800 dark:text-slate-200 shadow-2xl flex items-start gap-3">
+  <div id="statusToast" role="status" aria-live="polite" aria-atomic="true" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm panel-glass p-4 rounded-xl text-xs text-slate-800 dark:text-slate-200 shadow-2xl flex items-start gap-3">
     <div id="toastIcon" class="text-blue-500 text-sm mt-0.5"><i class="fa-solid fa-circle-info"></i></div>
     <div class="flex-1 leading-relaxed" id="toastMessage">Notification message</div>
   </div>
@@ -303,11 +308,19 @@
             <button onclick="startStudyPlanSession()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.1] text-slate-800 dark:text-white text-xs font-semibold hover:bg-slate-50 dark:hover:bg-white/[0.1] transition">Start today’s session <i class="fa-solid fa-arrow-right ml-1.5"></i></button>
           </div>
           <div class="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
-            <label for="study-daily-goal" class="text-xs font-semibold text-slate-700 dark:text-slate-200">Daily pace</label>
+            <label for="study-daily-goal" class="text-xs font-semibold text-slate-700 dark:text-slate-200">Daily target</label>
             <select id="study-daily-goal" onchange="setDailyGoal(this.value)" class="rounded-lg border border-slate-200 dark:border-white/[0.1] bg-white dark:bg-[#090b10] px-2.5 py-1.5 text-xs text-slate-800 dark:text-white">
               <option value="5">5 questions</option><option value="10" selected>10 questions</option><option value="15">15 questions</option><option value="20">20 questions</option>
             </select>
             <span id="study-plan-estimate" class="text-[11px] text-slate-500 dark:text-slate-400">Choose a pace to estimate your review plan.</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
+            <div class="flex items-center justify-between gap-3 text-[11px]">
+              <span class="font-semibold text-slate-700 dark:text-slate-200">Today’s practice</span>
+              <span class="flex items-center gap-3 font-mono text-slate-500 dark:text-slate-400"><span id="daily-progress-label">0 / 10 questions</span><span id="daily-streak-label" class="text-amber-700 dark:text-amber-300">0-day streak</span></span>
+            </div>
+            <div id="daily-progress-track" role="progressbar" aria-label="Daily practice target" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" class="h-2 rounded-full bg-blue-100 dark:bg-white/[0.08] mt-2 overflow-hidden"><div id="daily-progress-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 transition-all duration-500"></div></div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-2">Any answered practice question counts. Your target and streak stay on this device.</p>
           </div>
         </div>
 
@@ -334,14 +347,14 @@
       <!-- Controls & Filter Toolbar -->
       <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-y border-slate-200 dark:border-white/[0.06] py-3">
         <div class="flex flex-wrap items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
-          <button onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
-          <button onclick="setStudyMode('mcq')" id="btn-mode-mcq" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
-          <button onclick="startOralExam('standard')" id="btn-mode-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">2025 Mock Test</button>
-          <button onclick="startOralExam('senior')" id="btn-mode-senior-exam" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">65/20 Test</button>
+          <button type="button" onclick="setStudyMode('flashcard')" id="btn-mode-flashcard" aria-pressed="true" class="px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition">Flashcards</button>
+          <button type="button" onclick="setStudyMode('mcq')" id="btn-mode-mcq" aria-pressed="false" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">4-Choice Quiz</button>
+          <button type="button" onclick="startOralExam('standard')" id="btn-mode-exam" aria-pressed="false" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">2025 Mock Test</button>
+          <button type="button" onclick="startOralExam('senior')" id="btn-mode-senior-exam" aria-pressed="false" class="px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">65/20 Test</button>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="toggleSeniorExemption()" id="senior-exempt-toggle" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2 text-xs">
+          <button type="button" onclick="toggleSeniorExemption()" id="senior-exempt-toggle" aria-pressed="false" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition flex items-center gap-2 text-xs">
             <span id="senior-icon" class="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600"></span>
             <span>65/20 Study Set</span>
           </button>
@@ -363,19 +376,19 @@
 
       <!-- Category Filter Tabs -->
       <div class="flex flex-wrap gap-2 text-xs">
-        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium">All Questions (128)</button>
-        <button onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
-        <button onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
-        <button onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
+        <button type="button" data-category="all" aria-pressed="true" onclick="filterCategory('all')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white/[0.08] text-white border border-slate-900 dark:border-white/[0.1] transition font-medium"><span id="category-all-label">All Questions (128)</span></button>
+        <button type="button" data-category="gov" aria-pressed="false" onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
+        <button type="button" data-category="history" aria-pressed="false" onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
+        <button type="button" data-category="integrated" aria-pressed="false" onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
       </div>
 
       <!-- FLASHCARD WITH INLINE VECTOR GRAPHICS -->
       <div id="view-flashcard" class="space-y-6 pt-2">
-        <div class="relative w-full perspective-1000 cursor-pointer select-none" onclick="toggleCardFlip()">
+        <div id="flashcard-hit-area" class="relative w-full perspective-1000 cursor-pointer select-none" role="group" tabindex="0" aria-label="Flashcard. Press Space or Enter to reveal the answer." onclick="toggleCardFlip()" onkeydown="if(event.target===this&&(event.key==='Enter'||event.code==='Space')){event.preventDefault();event.stopPropagation();toggleCardFlip()}">
           <div id="flashcard-inner" class="flip-container rounded-3xl">
             
             <!-- Front Face -->
-            <div class="card-face card-face-front p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden">
+            <div id="flashcard-front" class="card-face card-face-front p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden" aria-hidden="false">
               <div class="flex justify-between items-center text-xs relative z-10">
                 <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
                   Sample Question 1
@@ -400,13 +413,13 @@
               </div>
 
               <div class="text-center text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center justify-center gap-2 relative z-10">
-                <span>Tap card or press spacebar to check answer</span>
+                <span>Tap the card, or focus it and press Space or Enter to check the answer</span>
                 <i class="fa-solid fa-arrow-rotate-right text-blue-500"></i>
               </div>
             </div>
 
             <!-- Back Face (Answer) -->
-            <div class="card-face card-face-back p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden">
+            <div id="flashcard-back" class="card-face card-face-back p-8 sm:p-10 flex flex-col justify-between transition-colors overflow-hidden" aria-hidden="true" inert>
               <div class="flex justify-between items-center text-xs relative z-10">
                 <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
                   Practice Answer
@@ -470,8 +483,8 @@
             <h2 id="mcq-question" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex-1">What do we call the first ten amendments to the Constitution?</h2>
           </div>
 
-          <div id="mcq-options" class="space-y-3 pt-2"></div>
-          <div id="mcq-feedback" class="text-xs p-4 rounded-xl hidden"></div>
+          <div id="mcq-options" role="group" aria-labelledby="mcq-question" class="space-y-3 pt-2"></div>
+          <div id="mcq-feedback" role="status" aria-live="polite" class="text-xs p-4 rounded-xl hidden"></div>
           <div class="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-white/[0.06]">
             <span id="mcq-progress" class="text-[11px] text-slate-400 font-mono">Practice progress</span>
             <button id="mcq-next-btn" onclick="nextMcq()" class="px-6 py-2.5 text-xs font-semibold rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 transition opacity-50 cursor-not-allowed shadow-sm" disabled>
@@ -484,8 +497,9 @@
     </div>
 
     <!-- END-OF-DECK COMPLETION MODAL -->
-    <div id="completion-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
+    <div id="completion-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden" role="dialog" aria-modal="true" aria-labelledby="completion-title" onclick="if(event.target===this) closeCompletionModal()">
       <div class="panel-glass max-w-lg w-full rounded-3xl p-8 sm:p-10 space-y-6 text-center shadow-2xl relative border border-slate-200 dark:border-white/[0.1]">
+        <button type="button" onclick="closeCompletionModal()" aria-label="Close study summary" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-white">✕</button>
         
         <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-emerald-500/20">
           <i class="fa-solid fa-trophy"></i>
@@ -495,7 +509,7 @@
           <span class="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-bold">
             Deck Completed
           </span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h2 id="completion-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Great Job! You Finished the Deck
           </h2>
           <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
@@ -576,8 +590,8 @@
           
           <!-- Select Adjudicator Personality -->
           <div class="flex items-center gap-2">
-            <span class="text-[10px] font-mono uppercase text-slate-400 hidden sm:inline">Adjudicator Persona:</span>
-            <select id="officer-persona-select" onchange="changeOfficerPersona(this.value)" class="text-xs bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.08] text-slate-800 dark:text-white rounded-xl px-3 py-1.5 outline-none font-medium cursor-pointer">
+            <label for="officer-persona-select" class="text-[10px] font-mono uppercase text-slate-400 hidden sm:inline">Adjudicator Persona:</label>
+            <select id="officer-persona-select" aria-label="Choose an interview persona" onchange="changeOfficerPersona(this.value)" class="text-xs bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.08] text-slate-800 dark:text-white rounded-xl px-3 py-1.5 outline-none font-medium cursor-pointer">
               <option value="miller">Officer Miller (Standard)</option>
               <option value="hernandez">Officer Hernandez (Fast / Direct)</option>
               <option value="sterling">Officer Sterling (Strict N-400 Examiner)</option>
@@ -587,7 +601,7 @@
 
         <!-- Audio Waveform Monitor -->
         <div class="bg-slate-50 dark:bg-[#090b10] rounded-xl border border-slate-200 dark:border-white/[0.05] p-3 flex flex-col items-center justify-center">
-          <canvas id="waveformCanvas" width="550" height="40" class="w-full max-w-md h-10"></canvas>
+          <canvas id="waveformCanvas" width="550" height="40" aria-hidden="true" class="w-full max-w-md h-10"></canvas>
           <span class="text-[9px] font-mono text-slate-400 uppercase mt-1">Voice playback visualizer</span>
         </div>
 
@@ -608,7 +622,7 @@
         <!-- Inputs: Mic & Universal Text Fallback -->
         <div class="space-y-3 pt-2">
           <div class="flex flex-col sm:flex-row items-center gap-2.5">
-            <button id="mic-trigger-btn" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight flex items-center justify-center gap-2 transition active:scale-[0.98] shadow-sm">
+            <button type="button" id="mic-trigger-btn" aria-pressed="false" onclick="toggleSpeechRecording()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight flex items-center justify-center gap-2 transition active:scale-[0.98] shadow-sm">
               <span id="mic-icon"><i class="fa-solid fa-microphone"></i></span> <span id="mic-label">Speak Answer</span>
             </button>
             <button onclick="repeatOfficerQuestion()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.03] hover:bg-slate-50 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.06] text-slate-700 dark:text-slate-300 text-xs font-medium transition shadow-sm">
@@ -620,7 +634,8 @@
           </div>
 
           <form onsubmit="handleManualAnswer(event)" class="flex gap-2">
-            <input type="text" id="manual-text-input" placeholder="Or type your spoken response here..." class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-blue-400 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-normal transition">
+            <label for="manual-text-input" class="sr-only">Type your response to the interview prompt</label>
+            <input type="text" id="manual-text-input" placeholder="Or type your response here..." class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-blue-400 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-normal transition">
             <button type="submit" class="bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-300 text-xs px-4 py-2.5 rounded-xl font-medium transition border border-slate-200 dark:border-white/[0.06]">Submit</button>
           </form>
         </div>
@@ -660,33 +675,27 @@
         <div>
           <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">ZIP Code Lookup · Sample Data</h2>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-normal leading-relaxed">
-            Demo data for four ZIP codes only—not a live elected-officials directory. Public officials can change; confirm current answers with official sources before studying.
+            Sample state and capital data is available for four ZIP codes. Use the official links for current representatives, senators, and governors; this page does not guess district boundaries or store your ZIP code.
           </p>
         </div>
 
-        <div class="flex gap-2">
-          <input type="text" id="zip-input" maxlength="5" placeholder="Enter 5-digit US ZIP Code (e.g. 90210, 75001)" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-blue-400 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-mono">
-          <button onclick="lookupZip()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">
-            Search
-          </button>
-        </div>
+        <form id="zip-search-form" onsubmit="lookupZip(event)" class="flex flex-col sm:flex-row gap-2">
+          <label for="zip-input" class="sr-only">Five-digit United States ZIP Code</label>
+          <input type="text" id="zip-input" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" maxlength="5" required placeholder="Enter a 5-digit ZIP Code" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.07] focus:border-blue-400 text-xs px-3.5 py-2.5 rounded-xl text-slate-900 dark:text-white outline-none font-mono">
+          <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition shadow-sm">Find official sources</button>
+        </form>
 
-        <div id="reps-results" class="space-y-2 pt-2 hidden">
-          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">State:</span>
-            <strong id="rep-state" class="text-slate-900 dark:text-white font-medium">-</strong>
+        <div id="reps-results" role="status" aria-live="polite" class="space-y-3 pt-2 hidden">
+          <p id="zip-result-message" class="text-sm text-slate-700 dark:text-slate-200"></p>
+          <div id="zip-sample-details" class="space-y-2 hidden">
+            <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center"><span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">State:</span><strong id="rep-state" class="text-slate-900 dark:text-white font-medium">-</strong></div>
+            <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center"><span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">State capital:</span><strong id="rep-capital" class="text-slate-800 dark:text-slate-200 font-medium">-</strong></div>
           </div>
-          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Capital:</span>
-            <strong id="rep-capital" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
-          </div>
-          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Governor:</span>
-            <strong id="rep-governor" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
-          </div>
-          <div class="p-3 bg-slate-50 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/[0.04] text-xs flex justify-between items-center">
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">U.S. Senators:</span>
-            <strong id="rep-senators" class="text-slate-800 dark:text-slate-200 font-medium">-</strong>
+          <p class="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">CivicPass does not store or send your ZIP code. ZIP codes can cover multiple congressional districts; use official directories for current names and boundaries.</p>
+          <div class="grid sm:grid-cols-3 gap-2 text-xs">
+            <a href="https://www.house.gov/representatives/find-your-representative" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-slate-200 dark:border-white/[0.08] p-3 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-white/[0.04]">Find your U.S. House member <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+            <a href="https://www.senate.gov/senators/" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-slate-200 dark:border-white/[0.08] p-3 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-white/[0.04]">Find your U.S. senators <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+            <a href="https://www.usa.gov/state-governor" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-slate-200 dark:border-white/[0.08] p-3 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-white/[0.04]">Find your governor <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
           </div>
         </div>
       </div>
@@ -700,8 +709,8 @@
           <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Short independent exercises with speech recognition and instant spelling feedback. This is not an official USCIS score.</p>
         </div>
         <div class="flex gap-2">
-          <button id="english-reading-tab" onclick="setEnglishMode('reading')" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold">Read aloud</button>
-          <button id="english-writing-tab" onclick="setEnglishMode('writing')" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold">Listen and write</button>
+          <button type="button" id="english-reading-tab" aria-pressed="true" onclick="setEnglishMode('reading')" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold">Read aloud</button>
+          <button type="button" id="english-writing-tab" aria-pressed="false" onclick="setEnglishMode('writing')" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold">Listen and write</button>
         </div>
         <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-6 sm:p-8 space-y-5">
           <div id="english-prompt" class="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white text-center leading-relaxed">The President lives in the White House.</div>
@@ -710,7 +719,8 @@
             <button id="english-record-btn" onclick="recordEnglishReading()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Read aloud</button>
           </div>
           <form id="english-writing-form" class="hidden gap-2" onsubmit="checkEnglishWriting(event)">
-            <input id="english-writing-input" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.08] rounded-xl px-4 py-3 text-sm" placeholder="Type the sentence you heard" autocomplete="off">
+            <label for="english-writing-input" class="sr-only">Type the sentence you heard</label>
+            <input id="english-writing-input" aria-label="Type the sentence you heard" class="flex-1 bg-white dark:bg-[#090b10] border border-slate-200 dark:border-white/[0.08] rounded-xl px-4 py-3 text-sm" placeholder="Type the sentence you heard" autocomplete="off">
             <button class="px-4 py-3 rounded-xl bg-blue-600 text-white text-xs font-semibold">Check</button>
           </form>
           <p id="english-feedback" aria-live="polite" class="text-center text-sm text-slate-500 dark:text-slate-400"></p>
@@ -722,15 +732,15 @@
 
   </main>
 
-  <div id="culture-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="culture-modal-title" onclick="if(event.target===this) closeCultureStory()">
+  <div id="culture-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="culture-modal-title" tabindex="-1" onclick="if(event.target===this) closeCultureStory()">
     <div class="relative max-w-2xl w-full overflow-hidden rounded-3xl bg-white dark:bg-[#0e1117] shadow-2xl">
-      <button onclick="closeCultureStory()" aria-label="Close story" class="absolute z-10 top-4 right-4 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur hover:bg-black/60">✕</button>
+      <button type="button" onclick="closeCultureStory()" aria-label="Close story" class="absolute z-10 top-4 right-4 w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur hover:bg-black/60">✕</button>
       <img id="culture-modal-image" src="images/liberty-community.jpg" alt="" class="w-full h-56 sm:h-72 object-cover">
       <div class="p-6 sm:p-8 space-y-4"><div id="culture-modal-kicker" class="text-[10px] uppercase tracking-[.2em] font-mono text-blue-600 dark:text-blue-400">Culture story</div><h2 id="culture-modal-title" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Story title</h2><p id="culture-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p><button onclick="practiceCultureQuestion()" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold">Practice a related question <i class="fa-solid fa-arrow-right ml-2"></i></button></div>
     </div>
   </div>
 
-  <div id="info-modal" class="fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" onclick="if(event.target===this) closeInfoPanel()">
+  <div id="info-modal" class="fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" tabindex="-1" onclick="if(event.target===this) closeInfoPanel()">
     <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-[#0e1117] border border-slate-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-8 space-y-4">
       <div class="flex items-start justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">CivicPass prototype notes</div><h2 id="info-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mt-1">Use and accuracy</h2></div><button type="button" onclick="closeInfoPanel()" aria-label="Close information" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-white">✕</button></div>
       <p id="info-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
@@ -752,15 +762,14 @@
       </div>
     </div>
 
-    <!-- State Officials Box -->
+    <!-- Sample state information -->
     <div class="border border-gray-300 rounded-lg p-4 space-y-2 bg-gray-50">
       <h3 class="text-xs font-bold uppercase tracking-wider text-gray-700">Sample state information</h3>
       <div class="grid grid-cols-2 gap-2 text-xs">
-        <div><strong>State:</strong> <span id="print-state">California</span></div>
-        <div><strong>Capital (state capital):</strong> <span id="print-capital">Sacramento</span></div>
-        <div><strong>Governor:</strong> <span id="print-gov">Gavin Newsom</span></div>
-        <div><strong>U.S. Senators:</strong> <span id="print-senators">Look up current senators</span></div>
+        <div><strong>State:</strong> <span id="print-state">Not selected</span></div>
+        <div><strong>State capital:</strong> <span id="print-capital">Not selected</span></div>
       </div>
+      <p class="text-[10px] text-gray-600">Confirm current officials with official government directories. ZIP codes may overlap congressional districts.</p>
     </div>
 
     <!-- Candidate Missed Drill Bank -->
@@ -781,20 +790,20 @@
   </div>
 
   <!-- Current product preview; no checkout is configured -->
-  <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
+  <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-title" tabindex="-1" onclick="if(event.target===this) closeCheckoutModal()">
     <div class="panel-glass max-w-md w-full rounded-2xl p-6 sm:p-8 space-y-6 relative border-slate-200 dark:border-white/[0.1]">
-      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-mono">✕</button>
+      <button type="button" onclick="closeCheckoutModal()" aria-label="Close product preview" class="absolute top-5 right-5 text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-mono">✕</button>
       
       <div class="text-center space-y-2">
         <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20 font-medium">Prototype · Free preview</span>
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">What CivicPass includes today</h3>
+        <h3 id="checkout-title" class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">What CivicPass includes today</h3>
         <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">A 128-question study bank, an adaptive review plan, practice quizzes, and browser-based voice exercises.</p>
       </div>
       <div class="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-4 space-y-2 text-xs text-slate-600 dark:text-slate-300">
         <p><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>There is no account, subscription, or payment processing in this prototype.</p>
         <p><i class="fa-solid fa-mobile-screen text-blue-500 mr-2"></i>Progress stays in this browser; export a backup to move it to another device.</p>
       </div>
-      <button onclick="closeCheckoutModal()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition">Got it</button>
+      <button type="button" onclick="closeCheckoutModal()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition">Got it</button>
     </div>
   </div>
 
@@ -819,78 +828,98 @@
 
   <!-- Core Script Engine -->
   <script>
+    function readLocalPreference(key) {
+      try { return localStorage.getItem(key); } catch (error) { return null; }
+    }
+
+    function writeLocalPreference(key, value) {
+      try { localStorage.setItem(key, value); return true; } catch (error) { return false; }
+    }
+
+    function applyTheme(theme) {
+      const isDark = theme === 'dark';
+      document.documentElement.classList.toggle('dark', isDark);
+      const icon = document.getElementById('themeIcon');
+      const button = document.getElementById('themeToggleBtn');
+      if (icon) icon.innerText = isDark ? '☀️' : '🌙';
+      if (button) {
+        button.setAttribute('aria-pressed', String(isDark));
+        button.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+      }
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      if (themeColor) themeColor.content = isDark ? '#08090d' : '#f8fafc';
+    }
+
     function initTheme() {
-      const savedTheme = localStorage.getItem('civicpass_theme') || 'light';
-      if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('themeIcon').innerText = '🌙';
-      } else {
-        document.documentElement.classList.add('dark');
-        document.getElementById('themeIcon').innerText = '☀️';
+      const preference = readLocalPreference('civicpass_theme');
+      const media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+      applyTheme(preference === 'dark' || (preference !== 'light' && !!media?.matches) ? 'dark' : 'light');
+      if (media) {
+        const followSystem = event => {
+          if (!readLocalPreference('civicpass_theme')) applyTheme(event.matches ? 'dark' : 'light');
+        };
+        if (media.addEventListener) media.addEventListener('change', followSystem);
+        else if (media.addListener) media.addListener(followSystem);
       }
     }
 
     function toggleTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      if (isDark) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('civicpass_theme', 'light');
-        document.getElementById('themeIcon').innerText = '🌙';
-        showToast("Switched to Light mode");
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('civicpass_theme', 'dark');
-        document.getElementById('themeIcon').innerText = '☀️';
-        showToast("Switched to Dark mode");
-      }
+      const theme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      applyTheme(theme);
+      if (!writeLocalPreference('civicpass_theme', theme)) showToast('Theme changed for this visit, but browser storage is unavailable.');
+      else showToast(`Switched to ${theme === 'dark' ? 'dark' : 'light'} mode`);
     }
 
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = AudioContextClass ? new AudioContextClass() : null;
-    function playChime(success) {
-      if (!audioCtx) return;
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      const now = audioCtx.currentTime;
-      if (success) {
-        osc.frequency.setValueAtTime(523.25, now);
-        osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
-        osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
-        osc.start(now);
-        osc.stop(now + 0.35);
-      } else {
-        osc.frequency.setValueAtTime(220, now);
-        osc.frequency.exponentialRampToValueAtTime(196, now + 0.15);
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-        osc.start(now);
-        osc.stop(now + 0.3);
-      }
+    let audioCtx = null;
+    try { audioCtx = AudioContextClass ? new AudioContextClass() : null; } catch (error) { audioCtx = null; }
+
+    function celebrate(options) {
+      try { if (typeof window.confetti === 'function') window.confetti(options); } catch (error) { /* Visual effects must not interrupt practice. */ }
     }
 
-    function cleanAndNormalize(str) {
-      if (!str) return '';
-      const stopWords = ['the', 'a', 'an', 'our', 'to', 'of', 'for', 'in', 'on', 'that', 'because', 'there', 'is', 'are'];
-      return str.toLowerCase()
-        .replace(/[\(\)\.\,\'\"\-\_\;\:\!\?]/g, ' ')
+    function playChime(success) {
+      if (!audioCtx) return;
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        const now = audioCtx.currentTime;
+        if (success) {
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else {
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(196, now + 0.15);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        }
+      } catch (error) { /* Sound is optional; scoring continues if audio is blocked. */ }
+    }
+
+    function normalizeCivicsAnswer(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/\bu\.?\s*s\.?(?=$|[^a-z0-9])/g, 'united states')
+        .replace(/[’']/g, '')
+        .replace(/\b(?:the|a|an)\b/g, ' ')
+        .replace(/[^a-z0-9]+/g, ' ')
         .replace(/\s+/g, ' ')
-        .trim()
-        .split(' ')
-        .filter(w => !stopWords.includes(w) && w.length > 0)
-        .join(' ');
+        .trim();
     }
 
     function checkAnswerEquivalence(selected, correct) {
-      const cleanSel = cleanAndNormalize(selected);
-      const cleanCor = cleanAndNormalize(correct);
-      if (cleanSel === cleanCor) return true;
-      return (` ${cleanSel} `).includes(` ${cleanCor} `) || (` ${cleanCor} `).includes(` ${cleanSel} `);
+      return normalizeCivicsAnswer(selected) === normalizeCivicsAnswer(correct);
     }
 
     // 2025 USCIS civics test. A answers list holds accepted variants from USCIS M-1778.
@@ -1033,11 +1062,74 @@
     }));
 
     const ZIP_DIRECTORY = {
-      "90210": { state: "California", capital: "Sacramento", gov: "Gavin Newsom", senators: "Alex Padilla, Adam Schiff" },
-      "75001": { state: "Texas", capital: "Austin", gov: "Greg Abbott", senators: "John Cornyn, Ted Cruz" },
-      "10001": { state: "New York", capital: "Albany", gov: "Kathy Hochul", senators: "Chuck Schumer, Kirsten Gillibrand" },
-      "33101": { state: "Florida", capital: "Tallahassee", gov: "Ron DeSantis", senators: "Rick Scott, Ashley Moody" }
+      "90210": { state: "California", capital: "Sacramento" },
+      "75001": { state: "Texas", capital: "Austin" },
+      "10001": { state: "New York", capital: "Albany" },
+      "33101": { state: "Florida", capital: "Tallahassee" }
     };
+
+    function localDateKey(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function sanitizeReviewEntries(source) {
+      if (!source || typeof source !== 'object' || Array.isArray(source)) return {};
+      const validIds = new Set(CIVICS_POOL.map(question => question.id));
+      const now = Date.now();
+      const intervalsDays = [1, 3, 7, 14, 30];
+      return Object.fromEntries(Object.entries(source).flatMap(([rawId, item]) => {
+        const id = Number(rawId);
+        if (!Number.isInteger(id) || !validIds.has(id) || !item || typeof item !== 'object' || Array.isArray(item)) return [];
+        const streak = Math.min(1000, Math.max(0, Math.floor(Number(item.streak) || 0)));
+        const dueAtValue = Number(item.dueAt);
+        const dueAt = Number.isFinite(dueAtValue) ? dueAtValue : now;
+        const previousReviewValue = Number(item.lastReviewedAt);
+        const interval = intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)];
+        const lastReviewedAt = Number.isFinite(previousReviewValue) && previousReviewValue > 0
+          ? previousReviewValue
+          : dueAt <= now ? dueAt : dueAt - interval * 86400000;
+        const attemptsValue = Number(item.attempts);
+        return [[String(id), {
+          streak,
+          dueAt,
+          attempts: Number.isFinite(attemptsValue) ? Math.min(100000, Math.max(0, Math.floor(attemptsValue))) : 0,
+          lastReviewedAt,
+          lastCorrect: typeof item.lastCorrect === 'boolean' ? item.lastCorrect : null
+        }]];
+      }));
+    }
+
+    function practiceStreakDays() {
+      const log = userProgress.dailyLog || {};
+      const today = localDateKey();
+      let offset = Number(log[today]) > 0 ? 0 : 1;
+      let streak = 0;
+      while (streak < 365) {
+        const date = new Date();
+        date.setHours(12, 0, 0, 0);
+        date.setDate(date.getDate() - offset);
+        if (!(Number(log[localDateKey(date)]) > 0)) break;
+        streak++;
+        offset++;
+      }
+      return streak;
+    }
+
+    function recordDailyActivity() {
+      const today = localDateKey();
+      const count = (Number(userProgress.dailyLog[today]) || 0) + 1;
+      userProgress.dailyLog[today] = count;
+      const cutoff = new Date();
+      cutoff.setHours(12, 0, 0, 0);
+      cutoff.setDate(cutoff.getDate() - 89);
+      const firstSavedDay = localDateKey(cutoff);
+      userProgress.dailyLog = Object.fromEntries(Object.entries(userProgress.dailyLog).filter(([day, total]) => day >= firstSavedDay && Number.isFinite(Number(total)) && Number(total) >= 0));
+      if (count === Number(userProgress.dailyGoal)) showToast('Daily practice target reached. Nice work!');
+      return count;
+    }
 
     let currentQuestions = [...CIVICS_POOL];
     let cardIndex = 0;
@@ -1045,16 +1137,18 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10 };
+    let userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
     try {
       const savedProgress = JSON.parse(localStorage.getItem('civicpass_v13_progress'));
       if (savedProgress && Array.isArray(savedProgress.mastered) && Array.isArray(savedProgress.missed)) {
         userProgress = savedProgress;
       }
     } catch (error) {
-      userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10 };
+      userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
     }
-    if (!userProgress.review || typeof userProgress.review !== 'object' || Array.isArray(userProgress.review)) userProgress.review = {};
+    userProgress.review = sanitizeReviewEntries(userProgress.review);
+    if (!userProgress.dailyLog || typeof userProgress.dailyLog !== 'object' || Array.isArray(userProgress.dailyLog)) userProgress.dailyLog = {};
+    userProgress.dailyLog = Object.fromEntries(Object.entries(userProgress.dailyLog).filter(([day, total]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && Number.isFinite(Number(total)) && Number(total) >= 0 && Number(total) <= 100000));
     if (!Array.isArray(userProgress.quizHistory)) userProgress.quizHistory = [];
     userProgress.quizHistory = userProgress.quizHistory.filter(item => item && typeof item === 'object' && Number.isFinite(Number(item.correct)) && Number.isFinite(Number(item.total)) && Number.isFinite(Number(item.completedAt))).slice(-20);
     if (!userProgress.lastDiagnostic || typeof userProgress.lastDiagnostic !== 'object' || Array.isArray(userProgress.lastDiagnostic)) userProgress.lastDiagnostic = null;
@@ -1066,18 +1160,11 @@
     userProgress.mastered.forEach(id => {
       if (!userProgress.review[id]) userProgress.review[id] = { streak: 3, dueAt: Date.now(), attempts: 3 };
     });
-    Object.values(userProgress.review).forEach(item => {
-      if (!item || item.lastReviewedAt) return;
-      const intervalsDays = [1, 3, 7, 14, 30];
-      const streak = Math.max(0, Number(item.streak) || 0);
-      const interval = intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)];
-      const dueAt = Number(item.dueAt) || Date.now();
-      item.lastReviewedAt = dueAt <= Date.now() ? dueAt : dueAt - interval * 86400000;
-    });
 
     function updateReviewSchedule(questionId, correct) {
       const previous = userProgress.review[questionId] || { streak: 0, dueAt: 0, attempts: 0 };
       const now = Date.now();
+      recordDailyActivity();
       const previousStreak = Math.max(0, Number(previous.streak) || 0);
       const scheduledReviewIsDue = !previous.lastReviewedAt || Number(previous.dueAt) <= now;
       const streak = correct ? previousStreak + (scheduledReviewIsDue ? 1 : 0) : 0;
@@ -1088,6 +1175,9 @@
       userProgress.review[questionId] = { streak, dueAt, attempts: (Number(previous.attempts) || 0) + 1, lastReviewedAt: now, lastCorrect: correct };
       if (correct) {
         userProgress.missed = userProgress.missed.filter(id => id !== questionId);
+        if (userProgress.lastDiagnostic && Array.isArray(userProgress.lastDiagnostic.weakIds)) {
+          userProgress.lastDiagnostic.weakIds = userProgress.lastDiagnostic.weakIds.filter(id => Number(id) !== questionId);
+        }
         if (streak >= 3) {
           if (!userProgress.mastered.includes(questionId)) userProgress.mastered.push(questionId);
         } else {
@@ -1101,13 +1191,16 @@
     }
 
     function saveProgress() {
+      let saved = false;
       try {
         userProgress.updatedAt = Date.now();
         localStorage.setItem('civicpass_v13_progress', JSON.stringify(userProgress));
+        saved = true;
       } catch (error) {
         showToast('Progress could not be saved in this browser session.');
       }
       updateStatDisplays();
+      return saved;
     }
 
     function exportProgress() {
@@ -1118,7 +1211,7 @@
       link.href = url;
       link.download = 'civicpass-study-progress.json';
       link.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
       showToast('Progress backup downloaded. Keep it somewhere safe.');
     }
 
@@ -1135,26 +1228,25 @@
           userProgress = {
             mastered: [...new Set(imported.mastered.map(Number).filter(id => validIds.has(id)))],
             missed: [...new Set(imported.missed.map(Number).filter(id => validIds.has(id)))],
-            review: imported.review && typeof imported.review === 'object' && !Array.isArray(imported.review) ? imported.review : {},
+            review: sanitizeReviewEntries(imported.review),
+            dailyLog: imported.dailyLog && typeof imported.dailyLog === 'object' && !Array.isArray(imported.dailyLog)
+              ? Object.fromEntries(Object.entries(imported.dailyLog).filter(([day, total]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && Number.isFinite(Number(total)) && Number(total) >= 0 && Number(total) <= 100000))
+              : {},
             quizHistory: Array.isArray(imported.quizHistory) ? imported.quizHistory.filter(item => item && typeof item === 'object' && Number.isFinite(Number(item.correct)) && Number.isFinite(Number(item.total)) && Number.isFinite(Number(item.completedAt))).slice(-20) : [],
             lastDiagnostic: imported.lastDiagnostic && typeof imported.lastDiagnostic === 'object' && !Array.isArray(imported.lastDiagnostic)
               ? { correct: Number(imported.lastDiagnostic.correct) || 0, total: Number(imported.lastDiagnostic.total) || 10, completedAt: Number(imported.lastDiagnostic.completedAt) || Date.now(), weakIds: Array.isArray(imported.lastDiagnostic.weakIds) ? [...new Set(imported.lastDiagnostic.weakIds.map(Number).filter(id => validIds.has(id)))] : [] }
               : null,
             dailyGoal: [5, 10, 15, 20].includes(Number(imported.dailyGoal)) ? Number(imported.dailyGoal) : 10
           };
-          Object.values(userProgress.review).forEach(item => {
-            if (!item || item.lastReviewedAt) return;
-            const intervalsDays = [1, 3, 7, 14, 30];
-            const streak = Math.max(0, Number(item.streak) || 0);
-            const interval = intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)];
-            const dueAt = Number(item.dueAt) || Date.now();
-            item.lastReviewedAt = dueAt <= Date.now() ? dueAt : dueAt - interval * 86400000;
-          });
-          saveProgress();
-          showToast('Progress imported into this browser.');
+          const saved = saveProgress();
+          showToast(saved ? 'Progress imported and saved in this browser.' : 'Progress imported for this session, but browser storage is unavailable.');
         } catch (error) {
           showToast('That progress file could not be read. Choose a CivicPass JSON backup.');
         }
+        event.target.value = '';
+      };
+      reader.onerror = () => {
+        showToast('The selected progress file could not be opened. Try choosing it again.');
         event.target.value = '';
       };
       reader.readAsText(file);
@@ -1163,16 +1255,22 @@
     function updateStatDisplays() {
       document.getElementById('stat-mastered').innerText = userProgress.mastered.length;
       document.getElementById('stat-missed').innerText = userProgress.missed.length;
-      document.getElementById('missed-count').innerText = userProgress.missed.length;
-      const dueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
-      document.getElementById('stat-due').innerText = dueCount;
-      document.getElementById('due-count').innerText = dueCount;
+      const overallDueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
+      const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const studyIds = new Set(studyPool.map(question => question.id));
+      const studyMissedCount = userProgress.missed.filter(id => studyIds.has(id)).length;
+      const studyDueCount = Object.entries(userProgress.review).filter(([id, item]) => studyIds.has(Number(id)) && item && item.dueAt <= Date.now()).length;
+      document.getElementById('missed-count').innerText = studyMissedCount;
+      document.getElementById('stat-due').innerText = overallDueCount;
+      document.getElementById('due-count').innerText = studyDueCount;
       updateStudyPlanSummary();
     }
 
     function updateStudyPlanSummary() {
-      const count = CIVICS_POOL.length;
-      const mastered = userProgress.mastered.length;
+      const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const studyIds = new Set(studyPool.map(question => question.id));
+      const count = studyPool.length;
+      const mastered = userProgress.mastered.filter(id => studyIds.has(id)).length;
       const goal = Number(userProgress.dailyGoal) || 10;
       const remaining = Math.max(0, count - mastered);
       const estimate = Math.ceil(remaining / goal);
@@ -1181,8 +1279,19 @@
       const track = document.getElementById('plan-mastery-track');
       if (!bar || !track) return;
       document.getElementById('study-daily-goal').value = String(goal);
+      const todayCount = Number(userProgress.dailyLog[localDateKey()]) || 0;
+      const dailyProgress = Math.min(todayCount, goal);
+      const dailyTrack = document.getElementById('daily-progress-track');
+      document.getElementById('daily-progress-label').innerText = `${todayCount} / ${goal} questions`;
+      document.getElementById('daily-streak-label').innerText = `${practiceStreakDays()}-day streak`;
+      document.getElementById('daily-progress-bar').style.width = `${Math.round((dailyProgress / goal) * 100)}%`;
+      dailyTrack.setAttribute('aria-valuemax', String(goal));
+      dailyTrack.setAttribute('aria-valuenow', String(dailyProgress));
+      dailyTrack.setAttribute('aria-valuetext', `${todayCount} of ${goal} practice questions today`);
       document.getElementById('plan-mastery-count').innerText = `${mastered} / ${count}`;
-      document.getElementById('plan-mastery-caption').innerText = `${progress}% mastered • A question counts after three correct recalls on its spaced-review schedule.`;
+      track.setAttribute('aria-valuemax', String(count));
+      track.setAttribute('aria-label', seniorExemptionActive ? '65/20 study-set questions mastered' : 'Civics questions mastered');
+      document.getElementById('plan-mastery-caption').innerText = `${progress}% of the ${seniorExemptionActive ? '65/20 study set' : 'question bank'} marked mastered • A question counts after three correct recalls on its spaced-review schedule.`;
       bar.style.width = `${progress}%`;
       track.setAttribute('aria-valuenow', String(mastered));
       document.getElementById('study-plan-estimate').innerText = remaining ? `About ${estimate} sessions to encounter unmastered questions; spaced reviews add calendar time.` : 'All questions are marked mastered. Take a mock test to check retention.';
@@ -1191,13 +1300,16 @@
       const guidance = document.getElementById('study-plan-guidance');
       const title = document.getElementById('study-plan-title');
       if (diagnostic && guidance && title) {
-        const weakCount = Array.isArray(diagnostic.weakIds) ? diagnostic.weakIds.length : 0;
+        const weakCount = Array.isArray(diagnostic.weakIds) ? diagnostic.weakIds.filter(id => studyIds.has(Number(id))).length : 0;
         title.innerText = 'Your starting point is saved';
         guidance.innerText = `Your latest check-in was ${diagnostic.correct} of ${diagnostic.total}. Today's session will put ${weakCount ? `${weakCount} question${weakCount === 1 ? '' : 's'} to revisit` : 'new and due questions'} first, then continue through the bank.`;
       }
 
-      const dueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
-      document.getElementById('study-review-count').innerText = `${dueCount} question${dueCount === 1 ? '' : 's'} due for review today • ${userProgress.missed.length} marked for extra practice.`;
+      const selectedPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const selectedIds = new Set(selectedPool.map(question => question.id));
+      const dueCount = Object.entries(userProgress.review).filter(([id, item]) => selectedIds.has(Number(id)) && item && item.dueAt <= Date.now()).length;
+      const missedCount = userProgress.missed.filter(id => selectedIds.has(id)).length;
+      document.getElementById('study-review-count').innerText = `${dueCount} question${dueCount === 1 ? '' : 's'} due in this study set • ${missedCount} marked for extra practice.`;
       const latestMock = [...(userProgress.quizHistory || [])].reverse().find(item => item.mode !== 'diagnostic');
       const latestMockEl = document.getElementById('study-last-mock');
       if (latestMockEl) {
@@ -1241,7 +1353,8 @@
     }
 
     function startStudyDiagnostic() {
-      const eligible = CIVICS_POOL.filter(question => !question.dynamic && !question.selfCheck);
+      const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const eligible = studyPool.filter(question => !question.dynamic && !question.selfCheck);
       activeQuiz = { mode: 'diagnostic', questions: shuffleArray(eligible).slice(0, 10), index: 0, correct: 0, answered: false, results: [] };
       setStudyMode('mcq');
       document.getElementById('mcq-badge').innerText = 'Starting check • Question 1 of 10';
@@ -1289,17 +1402,30 @@
 
       cardFlipped = false;
       document.getElementById('flashcard-inner').classList.remove('flipped');
+      document.getElementById('flashcard-front').setAttribute('aria-hidden', 'false');
+      document.getElementById('flashcard-back').setAttribute('aria-hidden', 'true');
+      document.getElementById('flashcard-front').inert = false;
+      document.getElementById('flashcard-back').inert = true;
+      document.getElementById('flashcard-hit-area').setAttribute('aria-label', 'Flashcard question. Press Space or Enter to reveal the answer.');
     }
 
     function toggleCardFlip() {
       cardFlipped = !cardFlipped;
       document.getElementById('flashcard-inner').classList.toggle('flipped', cardFlipped);
+      document.getElementById('flashcard-front').setAttribute('aria-hidden', String(cardFlipped));
+      document.getElementById('flashcard-back').setAttribute('aria-hidden', String(!cardFlipped));
+      document.getElementById('flashcard-front').inert = cardFlipped;
+      document.getElementById('flashcard-back').inert = !cardFlipped;
+      document.getElementById('flashcard-hit-area').setAttribute('aria-label', cardFlipped
+        ? 'Flashcard answer. Press Space or Enter to return to the question.'
+        : 'Flashcard question. Press Space or Enter to reveal the answer.');
     }
 
     function nextCard() {
       if (cardIndex < currentQuestions.length - 1) {
         cardIndex++;
         renderFlashcard();
+        document.getElementById('flashcard-hit-area').focus({ preventScroll: true });
       } else {
         showDeckCompletionModal();
       }
@@ -1321,13 +1447,14 @@
       if (cardIndex < currentQuestions.length - 1) {
         cardIndex++;
         renderFlashcard();
+        document.getElementById('flashcard-hit-area').focus({ preventScroll: true });
       } else {
         showDeckCompletionModal();
       }
     }
 
     function showDeckCompletionModal() {
-      confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      celebrate({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
       playChime(true);
       
       document.getElementById('complete-mastered').innerText = userProgress.mastered.length;
@@ -1340,11 +1467,81 @@
         reviewMissedBtn.classList.remove('hidden');
       }
 
-      document.getElementById('completion-modal').classList.remove('hidden');
+      showAppModal('completion-modal');
     }
 
     function closeCompletionModal() {
-      document.getElementById('completion-modal').classList.add('hidden');
+      hideAppModal('completion-modal');
+    }
+
+    let lastModalFocus = null;
+    const APP_MODAL_IDS = ['completion-modal', 'checkout-modal', 'culture-modal', 'info-modal'];
+
+    function visibleAppModals() {
+      return APP_MODAL_IDS.map(id => document.getElementById(id)).filter(modal => modal && !modal.classList.contains('hidden'));
+    }
+
+    function showAppModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      if (visibleAppModals().length === 0) lastModalFocus = document.activeElement;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.classList.add('overflow-hidden');
+      requestAnimationFrame(() => {
+        const firstFocusable = modal.querySelector('button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])');
+        (firstFocusable || modal).focus({ preventScroll: true });
+      });
+    }
+
+    function hideAppModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('hidden');
+      if (visibleAppModals().length === 0) {
+        document.body.classList.remove('overflow-hidden');
+        if (lastModalFocus && lastModalFocus.isConnected && typeof lastModalFocus.focus === 'function') lastModalFocus.focus({ preventScroll: true });
+        lastModalFocus = null;
+      }
+    }
+
+    function getTopAppModal() {
+      const visible = visibleAppModals();
+      return visible[visible.length - 1] || null;
+    }
+
+    function closeTopAppModal() {
+      const modal = getTopAppModal();
+      if (!modal) return false;
+      const closeActions = {
+        'completion-modal': closeCompletionModal,
+        'checkout-modal': closeCheckoutModal,
+        'culture-modal': closeCultureStory,
+        'info-modal': closeInfoPanel
+      };
+      closeActions[modal.id]?.();
+      return true;
+    }
+
+    function trapAppModalFocus(event) {
+      const modal = getTopAppModal();
+      if (!modal) return;
+      const focusable = [...modal.querySelectorAll('button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+        .filter(element => element.getClientRects().length > 0);
+      if (!focusable.length) {
+        event.preventDefault();
+        modal.focus({ preventScroll: true });
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function restartCurrentDeck() {
@@ -1355,27 +1552,46 @@
 
     function toggleSeniorExemption() {
       seniorExemptionActive = !seniorExemptionActive;
+      document.getElementById('senior-exempt-toggle').setAttribute('aria-pressed', String(seniorExemptionActive));
+      mcqIndex = 0;
       const icon = document.getElementById('senior-icon');
       if (seniorExemptionActive) {
         icon.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
         currentQuestions = CIVICS_POOL.filter(q => q.senior);
+        document.getElementById('category-all-label').innerText = `65/20 Questions (${currentQuestions.length})`;
         showToast(`65/20 study set active: ${currentQuestions.length} starred questions.`);
       } else {
         icon.className = "w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-600";
         currentQuestions = [...CIVICS_POOL];
+        document.getElementById('category-all-label').innerText = 'All Questions (128)';
         showToast("All 128 questions restored.");
       }
+      setActiveCategory('all');
       cardIndex = 0;
       setStudyMode('flashcard');
       renderFlashcard();
+      updateStatDisplays();
+    }
+
+    function setActiveCategory(category) {
+      const activeClasses = ['bg-slate-900', 'dark:bg-white/[0.08]', 'text-white', 'border-slate-900', 'dark:border-white/[0.1]', 'font-medium'];
+      const inactiveClasses = ['bg-slate-100', 'dark:bg-white/[0.02]', 'text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-white/[0.05]', 'hover:text-slate-900', 'dark:hover:text-white'];
+      document.querySelectorAll('.cat-pill').forEach(button => {
+        const selected = button.dataset.category === category;
+        button.classList.remove(...activeClasses, ...inactiveClasses);
+        button.classList.add(...(selected ? activeClasses : inactiveClasses));
+        button.setAttribute('aria-pressed', String(selected));
+      });
     }
 
     function filterMissedOnly() {
-      if (userProgress.missed.length === 0) {
-        showToast("No missed questions logged yet. Great job!");
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
+      const missedQuestions = pool.filter(q => userProgress.missed.includes(q.id));
+      if (missedQuestions.length === 0) {
+        showToast(seniorExemptionActive ? 'No missed questions logged in the 65/20 study set.' : 'No missed questions logged yet. Great job!');
         return;
       }
-      currentQuestions = CIVICS_POOL.filter(q => userProgress.missed.includes(q.id));
+      currentQuestions = missedQuestions;
       cardIndex = 0;
       setStudyMode('flashcard');
       renderFlashcard();
@@ -1383,14 +1599,16 @@
     }
 
     function filterDueQuestions() {
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
       const dueIds = Object.entries(userProgress.review)
         .filter(([, item]) => item && item.dueAt <= Date.now())
         .map(([id]) => Number(id));
-      currentQuestions = CIVICS_POOL.filter(q => dueIds.includes(q.id));
-      if (!currentQuestions.length) {
+      const dueQuestions = pool.filter(q => dueIds.includes(q.id));
+      if (!dueQuestions.length) {
         showToast('Nothing is due today. Your current study set is unchanged.');
         return;
       }
+      currentQuestions = dueQuestions;
       cardIndex = 0;
       setStudyMode('flashcard');
       renderFlashcard();
@@ -1398,11 +1616,15 @@
     }
 
     function filterCategory(cat) {
-      if (cat === 'all') {
-        currentQuestions = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : [...CIVICS_POOL];
-      } else {
-        currentQuestions = CIVICS_POOL.filter(q => q.cat === cat && (!seniorExemptionActive || q.senior));
+      const filteredQuestions = cat === 'all'
+        ? seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : [...CIVICS_POOL]
+        : CIVICS_POOL.filter(q => q.cat === cat && (!seniorExemptionActive || q.senior));
+      if (!filteredQuestions.length) {
+        showToast('No questions from this category are in the selected study set.');
+        return;
       }
+      currentQuestions = filteredQuestions;
+      setActiveCategory(cat);
       cardIndex = 0;
       setStudyMode('flashcard');
       renderFlashcard();
@@ -1422,6 +1644,10 @@
     }
 
     function setStudyMode(mode) {
+      if (mode === 'flashcard' && activeQuiz) {
+        activeQuiz = null;
+        showToast('The in-progress quiz was ended when you switched to flashcards.');
+      }
       activeStudyMode = mode;
       document.getElementById('view-flashcard').classList.toggle('hidden', mode !== 'flashcard');
       document.getElementById('view-mcq').classList.toggle('hidden', mode !== 'mcq');
@@ -1433,18 +1659,27 @@
       document.getElementById('btn-mode-mcq').className = mode === 'mcq'
         ? "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition"
         : "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+      document.getElementById('btn-mode-flashcard').setAttribute('aria-pressed', String(mode === 'flashcard'));
+      document.getElementById('btn-mode-mcq').setAttribute('aria-pressed', String(mode === 'mcq'));
       const inactiveModeClass = "px-3.5 py-1.5 font-medium rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
       document.getElementById('btn-mode-exam').className = inactiveModeClass;
       document.getElementById('btn-mode-senior-exam').className = inactiveModeClass;
+      document.getElementById('btn-mode-exam').setAttribute('aria-pressed', 'false');
+      document.getElementById('btn-mode-senior-exam').setAttribute('aria-pressed', 'false');
 
       if (mode === 'mcq') renderMcqQuestion();
     }
 
     let mcqIndex = 0;
     let activeQuiz = null;
+    function currentMcqPracticePool() {
+      return seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+    }
+
     function renderMcqQuestion() {
-      const q = activeQuiz ? activeQuiz.questions[activeQuiz.index] : CIVICS_POOL[mcqIndex];
-      const quizQuestions = activeQuiz ? activeQuiz.questions : CIVICS_POOL;
+      const practicePool = currentMcqPracticePool();
+      const q = activeQuiz ? activeQuiz.questions[activeQuiz.index] : practicePool[mcqIndex];
+      const quizQuestions = activeQuiz ? activeQuiz.questions : practicePool;
       const quizIndex = activeQuiz ? activeQuiz.index : mcqIndex;
       document.getElementById('mcq-badge').innerText = activeQuiz
         ? `${activeQuiz.mode === 'diagnostic' ? 'Starting check' : activeQuiz.mode === 'senior' ? '65/20' : '2025 Mock'} • Question ${quizIndex + 1} of ${quizQuestions.length}`
@@ -1475,11 +1710,17 @@
         : makeAnswerOptions(q);
       options.forEach(option => {
         const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.answer = option;
         btn.className = "w-full text-left p-4 rounded-2xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-[#090b10] hover:bg-slate-50 dark:hover:bg-white/[0.04] text-xs text-slate-800 dark:text-white transition flex items-center justify-between shadow-sm";
         btn.innerHTML = `<span>${option}</span><span class="font-mono text-[9px] text-slate-400 uppercase">Select</span>`;
         btn.onclick = () => selectMcqOption(btn, option, q);
         optsContainer.appendChild(btn);
       });
+      const previousResult = activeQuiz && activeQuiz.answered ? activeQuiz.results[activeQuiz.results.length - 1] : null;
+      if (previousResult && previousResult.questionId === q.id) {
+        applyMcqFeedback(q, previousResult.selectedText, previousResult.correct);
+      }
     }
 
     function shuffleArray(values) {
@@ -1492,26 +1733,34 @@
     }
 
     function makeAnswerOptions(question) {
-      const correct = question.answers[0];
-      const otherAnswers = CIVICS_POOL.filter(q => !q.dynamic && q.id !== question.id)
-        .map(q => q.answers[0]).filter(a => a && a !== correct);
-      const distractors = shuffleArray([...new Set(otherAnswers)]).slice(0, 3);
+      const correct = question.answers[Math.floor(Math.random() * question.answers.length)];
+      const acceptedAnswers = new Set(question.answers.map(normalizeCivicsAnswer));
+      const distractorsByAnswer = new Map();
+      CIVICS_POOL.filter(q => !q.dynamic && !q.selfCheck && q.id !== question.id)
+        .flatMap(q => q.answers)
+        .filter(answer => answer && !acceptedAnswers.has(normalizeCivicsAnswer(answer)))
+        .forEach(answer => {
+          const normalized = normalizeCivicsAnswer(answer);
+          if (normalized && !distractorsByAnswer.has(normalized)) distractorsByAnswer.set(normalized, answer);
+        });
+      const distractors = shuffleArray([...distractorsByAnswer.values()]).slice(0, 3);
       return shuffleArray([correct, ...distractors]);
     }
 
     function selectMcqOption(selectedBtn, selectedText, question) {
-      const allButtons = document.querySelectorAll('#mcq-options button');
-      allButtons.forEach(b => b.disabled = true);
-
+      if (activeQuiz && activeQuiz.answered) return;
       const isCorrect = (question.dynamic || question.selfCheck)
         ? selectedText === 'I got this one right'
         : question.answers.some(answer => checkAnswerEquivalence(selectedText, answer));
       if (activeQuiz) {
-        activeQuiz.results.push({ questionId: question.id, correct: isCorrect, selfChecked: !!(question.dynamic || question.selfCheck) });
+        activeQuiz.results.push({ questionId: question.id, correct: isCorrect, selfChecked: !!(question.dynamic || question.selfCheck), selectedText });
         if (isCorrect) activeQuiz.correct++;
         activeQuiz.answered = true;
         if (activeQuiz.mode !== 'diagnostic') {
           updateReviewSchedule(question.id, isCorrect);
+          saveProgress();
+        } else {
+          recordDailyActivity();
           saveProgress();
         }
       } else {
@@ -1519,19 +1768,41 @@
         saveProgress();
       }
       playChime(isCorrect);
+      applyMcqFeedback(question, selectedText, isCorrect, selectedBtn);
+    }
+
+    function applyMcqFeedback(question, selectedText, isCorrect, clickedButton = null) {
+      const allButtons = [...document.querySelectorAll('#mcq-options button')];
+      const selectedBtn = clickedButton || allButtons.find(button => button.dataset.answer === selectedText);
+      allButtons.forEach(button => { button.disabled = true; });
+      if (selectedBtn) selectedBtn.classList.add(...(isCorrect
+        ? ['bg-emerald-50', 'dark:bg-emerald-500/10', 'border-emerald-300', 'dark:border-emerald-500/30', 'text-emerald-700', 'dark:text-emerald-300']
+        : ['bg-rose-50', 'dark:bg-rose-500/10', 'border-rose-300', 'dark:border-rose-500/30', 'text-rose-700', 'dark:text-rose-300']));
 
       const feedback = document.getElementById('mcq-feedback');
       feedback.classList.remove('hidden');
+      const selfChecked = question.dynamic || question.selfCheck;
+      const isSelfCheckFailure = selfChecked && !isCorrect;
+      const expected = question.dynamic
+        ? 'This answer changes by location or current officeholder. Confirm it with USCIS Test Updates and official government sources.'
+        : question.answers.join('; ');
+      const message = selfChecked
+        ? isCorrect
+          ? 'Self-check recorded as correct. The app cannot verify current or multi-part answers, so confirm you gave the number of examples requested.'
+          : `Marked for review. Compare your response with these accepted examples: ${expected}.`
+        : isCorrect
+          ? 'Correct for this practice question.'
+          : `Review this answer: ${expected}.`;
+      feedback.className = `text-xs p-3.5 rounded-xl border ${isCorrect ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300' : isSelfCheckFailure ? 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/20 text-amber-800 dark:text-amber-200' : 'bg-rose-50 dark:bg-rose-500/10 border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300'}`;
+      feedback.replaceChildren();
+      const feedbackIcon = document.createElement('i');
+      feedbackIcon.className = `fa-solid ${isCorrect ? 'fa-circle-check' : isSelfCheckFailure ? 'fa-circle-info' : 'fa-circle-xmark'} mr-1.5`;
+      feedbackIcon.setAttribute('aria-hidden', 'true');
+      feedback.append(feedbackIcon, document.createTextNode(message));
 
-      if (isCorrect) {
-        selectedBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-500/10', 'border-emerald-300', 'dark:border-emerald-500/30', 'text-emerald-700', 'dark:text-emerald-300');
-        feedback.className = "text-xs p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-300";
-        feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i> Correct for this practice question.`;
-      } else {
-        selectedBtn.classList.add('bg-rose-50', 'dark:bg-rose-500/10', 'border-rose-300', 'dark:border-rose-500/30', 'text-rose-700', 'dark:text-rose-300');
-        feedback.className = "text-xs p-3.5 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300";
-        const expected = question.dynamic ? 'This answer depends on your current officials or personal circumstances. Check USCIS Test Updates.' : question.answers.join('; ');
-        feedback.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1.5"></i> Review this answer: "<strong>${expected}</strong>".`;
+      if (!isCorrect && !selfChecked) {
+        const accepted = allButtons.find(button => question.answers.some(answer => checkAnswerEquivalence(button.dataset.answer, answer)));
+        if (accepted) accepted.classList.add('ring-2', 'ring-emerald-400', 'dark:ring-emerald-500');
       }
 
       const nextBtn = document.getElementById('mcq-next-btn');
@@ -1551,7 +1822,8 @@
         }
         return;
       }
-      if (mcqIndex < CIVICS_POOL.length - 1) {
+      const practicePool = currentMcqPracticePool();
+      if (mcqIndex < practicePool.length - 1) {
         mcqIndex++;
         renderMcqQuestion();
       } else {
@@ -1581,6 +1853,7 @@
       setStudyMode('mcq');
       const activeModeButton = document.getElementById(mode === 'senior' ? 'btn-mode-senior-exam' : 'btn-mode-exam');
       activeModeButton.className = "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition";
+      activeModeButton.setAttribute('aria-pressed', 'true');
       renderMcqQuestion();
       showToast(mode === 'senior'
         ? '65/20 practice started: 10 questions, 6 correct to meet the study target. Dynamic answers are self-checked.'
@@ -1721,6 +1994,7 @@
 
     let currentStepIdx = 0;
     let isSpeaking = false;
+    let officerSpeechSequence = 0;
     let awaitingInterviewContinue = false;
     let speechRecognitionInstance = null;
     let isListening = false;
@@ -1730,10 +2004,12 @@
     function speakOfficer(text, onComplete) {
       if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
         const status = document.getElementById('officer-status');
-        if (status) status.innerText = 'Voice playback is unavailable. Use the text prompt below.';
+        if (status) status.innerText = 'Voice playback is unavailable. Use the visible prompt and type your answer.';
         if (onComplete) onComplete();
         return;
       }
+      stopInterviewListening();
+      const sequence = ++officerSpeechSequence;
       window.speechSynthesis.cancel();
       isSpeaking = true;
       startWaveform();
@@ -1745,15 +2021,17 @@
       utter.lang = 'en-US';
       
       utter.onend = () => {
+        if (sequence !== officerSpeechSequence) return;
         isSpeaking = false;
         stopWaveform();
         if (onComplete) {
           onComplete();
           return;
         }
-        document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Listening to You`;
+        document.getElementById('officer-status').innerText = 'Voice ready. Use the microphone or type your answer.';
       };
       utter.onerror = () => {
+        if (sequence !== officerSpeechSequence) return;
         isSpeaking = false;
         stopWaveform();
         if (onComplete) onComplete();
@@ -1761,6 +2039,24 @@
       };
       
       window.speechSynthesis.speak(utter);
+    }
+
+    function cancelOfficerSpeech() {
+      officerSpeechSequence++;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      isSpeaking = false;
+      stopWaveform();
+    }
+
+    function stopInterviewListening() {
+      if (isListening && speechRecognitionInstance) {
+        try { speechRecognitionInstance.stop(); } catch (error) { /* The recognizer may already be stopping. */ }
+      }
+      isListening = false;
+      const label = document.getElementById('mic-label');
+      const button = document.getElementById('mic-trigger-btn');
+      if (label) label.innerText = 'Speak Answer';
+      if (button) button.setAttribute('aria-pressed', 'false');
     }
 
     function repeatOfficerQuestion() {
@@ -1788,6 +2084,7 @@
 
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
+        document.getElementById('officer-status').innerText = 'Speech recognition is unavailable here. Type your answer below.';
         showToast("Speech recognition not supported in this browser. Please use text input below.");
         return;
       }
@@ -1802,31 +2099,40 @@
           const transcript = e.results[0][0].transcript;
           document.getElementById('user-live-speech').innerText = `"${transcript}"`;
           document.getElementById('mic-label').innerText = "Speak Answer";
+          document.getElementById('mic-trigger-btn').setAttribute('aria-pressed', 'false');
           processApplicantAnswer(transcript);
         };
 
         speechRecognitionInstance.onerror = (e) => {
           isListening = false;
           document.getElementById('mic-label').innerText = "Speak Answer";
+          document.getElementById('mic-trigger-btn').setAttribute('aria-pressed', 'false');
+          document.getElementById('officer-status').innerText = 'Microphone recognition stopped. You can type your answer instead.';
           showToast(`Microphone notice: ${e.error}. You can submit via text input.`);
         };
         speechRecognitionInstance.onend = () => {
           isListening = false;
           document.getElementById('mic-label').innerText = "Speak Answer";
+          document.getElementById('mic-trigger-btn').setAttribute('aria-pressed', 'false');
+          const status = document.getElementById('officer-status');
+          if (status.innerText.startsWith('Listening for your answer')) status.innerText = 'No response heard yet. Try the microphone again or type your answer.';
         };
       }
 
       if (isListening) {
-        speechRecognitionInstance.stop();
-        isListening = false;
-        document.getElementById('mic-label').innerText = "Speak Answer";
+        stopInterviewListening();
+        document.getElementById('officer-status').innerText = 'Microphone paused. Use the microphone again or type your answer.';
       } else {
         document.getElementById('mic-label').innerText = "Listening...";
         try {
           speechRecognitionInstance.start();
           isListening = true;
+          document.getElementById('mic-trigger-btn').setAttribute('aria-pressed', 'true');
+          document.getElementById('officer-status').innerText = 'Listening for your answer. Speak now or type below.';
         } catch (error) {
           document.getElementById('mic-label').innerText = "Speak Answer";
+          document.getElementById('mic-trigger-btn').setAttribute('aria-pressed', 'false');
+          document.getElementById('officer-status').innerText = 'Microphone could not start. Type your answer below.';
           showToast('Microphone could not start. Please try again or use text input.');
         }
       }
@@ -1834,6 +2140,7 @@
 
     function handleManualAnswer(e) {
       e.preventDefault();
+      stopInterviewListening();
       const input = document.getElementById('manual-text-input');
       const val = input.value.trim();
       if (!val) return;
@@ -1872,16 +2179,16 @@
       if (!passedStep) {
         const hint = step.type === 'civics' ? `Try an answer that includes: ${step.requiredKeywords.join(' and ')}.` : 'Please answer yes to continue this practice step.';
         const status = document.getElementById('officer-status');
-        status.innerText = `Not accepted. The same prompt is still waiting. ${hint}`;
-        showToast(hint);
-        speakOfficer(hint, () => { status.innerText = `Not accepted. The same prompt is still waiting. ${hint}`; });
+        status.innerText = `Not accepted. The same prompt is still waiting. ${hint} Speak again or type a response.`;
         return;
       }
 
       interviewFindings.push({ step: step.id, passed: true });
       awaitingInterviewContinue = true;
       document.getElementById('officer-status').innerText = 'Answer accepted. Continue when you are ready.';
-      document.getElementById('continue-interview-btn').classList.remove('hidden');
+      const continueButton = document.getElementById('continue-interview-btn');
+      continueButton.classList.remove('hidden');
+      continueButton.focus({ preventScroll: true });
     }
 
     function continueInterview() {
@@ -1910,7 +2217,7 @@
       const reasonsContainer = document.getElementById('practice-summary-reasons');
 
       if (passed) {
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        celebrate({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         speakOfficer("Practice complete. Keep reviewing and confirm current information with USCIS study materials.");
         badge.className = "px-2.5 py-1 rounded-md text-[10px] font-mono font-semibold uppercase bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20";
         badge.innerText = "PRACTICE COMPLETE";
@@ -1935,6 +2242,7 @@
       currentStepIdx = 0;
       awaitingInterviewContinue = false;
       interviewFindings = [];
+      stopInterviewListening();
       document.getElementById('practice-summary-card').classList.add('hidden');
       document.getElementById('continue-interview-btn').classList.add('hidden');
       document.getElementById('sim-q-idx').innerText = '1';
@@ -1999,6 +2307,8 @@
     ];
     let englishSentenceIndex = 0;
     let englishMode = 'reading';
+    let englishRecognitionInstance = null;
+    let englishRecognitionActive = false;
     let activeCultureQuestionId = 120;
     const CULTURE_STORIES = {
       liberty: { kicker: 'A shared beginning', title: 'Ellis Island & new beginnings', image: 'images/liberty-community.jpg', alt: 'Visitors from many backgrounds at the Ellis Island waterfront', copy: 'Ellis Island is a place to reflect on migration, belonging and the many journeys that have shaped American communities. The Statue of Liberty nearby became a lasting symbol of welcome and freedom.', questionId: 120 },
@@ -2017,16 +2327,11 @@
       image.src = story.image;
       image.alt = story.alt;
       const modal = document.getElementById('culture-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.classList.add('overflow-hidden');
+      showAppModal('culture-modal');
     }
 
     function closeCultureStory() {
-      const modal = document.getElementById('culture-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.classList.remove('overflow-hidden');
+      hideAppModal('culture-modal');
     }
 
     function practiceCultureQuestion() {
@@ -2042,6 +2347,8 @@
     }
 
     function setEnglishMode(mode) {
+      stopEnglishRecognition();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       englishMode = mode;
       document.getElementById('english-reading-tab').className = mode === 'reading'
         ? 'px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold'
@@ -2049,6 +2356,8 @@
       document.getElementById('english-writing-tab').className = mode === 'writing'
         ? 'px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold'
         : 'px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 text-xs font-semibold';
+      document.getElementById('english-reading-tab').setAttribute('aria-pressed', String(mode === 'reading'));
+      document.getElementById('english-writing-tab').setAttribute('aria-pressed', String(mode === 'writing'));
       const writing = mode === 'writing';
       document.getElementById('english-prompt').innerText = writing ? 'Listen to the sentence, then type what you heard.' : ENGLISH_SENTENCES[englishSentenceIndex];
       document.getElementById('english-writing-form').classList.toggle('hidden', !writing);
@@ -2056,6 +2365,16 @@
       document.getElementById('english-record-btn').classList.toggle('hidden', writing);
       document.getElementById('english-listen-btn').classList.toggle('hidden', !writing);
       document.getElementById('english-feedback').innerText = '';
+      if (writing) document.getElementById('english-writing-input').focus({ preventScroll: true });
+    }
+
+    function stopEnglishRecognition() {
+      const recognition = englishRecognitionInstance;
+      englishRecognitionInstance = null;
+      englishRecognitionActive = false;
+      if (recognition) {
+        try { recognition.stop(); } catch (error) { /* The recognizer may already be stopping. */ }
+      }
     }
 
     function playEnglishPrompt() {
@@ -2070,26 +2389,56 @@
     }
 
     function recordEnglishReading() {
+      if (englishRecognitionActive && englishRecognitionInstance) {
+        stopEnglishRecognition();
+        document.getElementById('english-feedback').innerText = 'Listening stopped.';
+        return;
+      }
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         showToast('Speech recognition is unavailable. Try the writing exercise instead.');
         return;
       }
-      const recognition = new SpeechRecognition();
+      englishRecognitionInstance = new SpeechRecognition();
+      const recognition = englishRecognitionInstance;
       recognition.lang = 'en-US';
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.onresult = event => {
+        if (englishRecognitionInstance !== recognition) return;
         const transcript = event.results[0][0].transcript;
         const said = normalizeEnglishText(transcript);
         const expected = normalizeEnglishText(ENGLISH_SENTENCES[englishSentenceIndex]);
         const expectedWords = expected.split(' ');
         const saidWords = said.split(' ');
         const matchingWords = expectedWords.reduce((count, word, index) => count + (saidWords[index] === word ? 1 : 0), 0);
-        document.getElementById('english-feedback').innerText = `${matchingWords === expectedWords.length ? 'The browser recognized every word.' : `The browser recognized ${matchingWords} of ${expectedWords.length} words in the right position.`} Heard: “${transcript}”. This browser estimate is not a pronunciation grade.`;
+        const exactMatch = said === expected;
+        const extraWords = Math.max(0, saidWords.length - expectedWords.length);
+        const comparison = exactMatch
+          ? 'The browser recognized the full practice sentence.'
+          : `The browser matched ${matchingWords} of ${expectedWords.length} target words in the right position${extraWords ? ` and heard ${extraWords} extra word${extraWords === 1 ? '' : 's'}` : ''}.`;
+        document.getElementById('english-feedback').innerText = `${comparison} Heard: “${transcript}”. This is an approximate browser text check, not a pronunciation grade.`;
       };
-      recognition.onerror = () => showToast('Could not recognize that reading. Check microphone access and try again.');
-      try { recognition.start(); } catch (error) { showToast('Microphone is busy. Try again in a moment.'); }
+      recognition.onerror = () => {
+        if (englishRecognitionInstance !== recognition) return;
+        englishRecognitionActive = false;
+        document.getElementById('english-feedback').innerText = 'Speech could not be recognized. Check microphone access or continue with the writing exercise.';
+        showToast('Could not recognize that reading. Check microphone access and try again.');
+      };
+      recognition.onend = () => {
+        if (englishRecognitionInstance !== recognition) return;
+        englishRecognitionActive = false;
+        englishRecognitionInstance = null;
+      };
+      document.getElementById('english-feedback').innerText = 'Listening for the practice sentence…';
+      try {
+        recognition.start();
+        englishRecognitionActive = true;
+      } catch (error) {
+        englishRecognitionActive = false;
+        englishRecognitionInstance = null;
+        showToast('Microphone is busy. Try again in a moment.');
+      }
     }
 
     function normalizeEnglishText(value) {
@@ -2116,33 +2465,39 @@
     }
 
     function nextEnglishPrompt() {
+      stopEnglishRecognition();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       englishSentenceIndex = (englishSentenceIndex + 1) % ENGLISH_SENTENCES.length;
       document.getElementById('english-writing-input').value = '';
       setEnglishMode(englishMode);
     }
 
-    function lookupZip() {
+    function lookupZip(event) {
+      if (event) event.preventDefault();
       const zip = document.getElementById('zip-input').value.trim();
       const resultsBox = document.getElementById('reps-results');
-      
-      let data = ZIP_DIRECTORY[zip];
+      const sampleDetails = document.getElementById('zip-sample-details');
+      if (!/^\d{5}$/.test(zip)) {
+        resultsBox.classList.add('hidden');
+        showToast('Enter a valid 5-digit ZIP code.');
+        return;
+      }
+
+      const data = ZIP_DIRECTORY[zip];
       if (data) {
+        document.getElementById('zip-result-message').innerText = `Sample state-level information for ZIP code ${zip}.`;
         document.getElementById('rep-state').innerText = data.state;
         document.getElementById('rep-capital').innerText = data.capital;
-        document.getElementById('rep-governor').innerText = data.gov;
-        document.getElementById('rep-senators').innerText = data.senators;
-
-        // Update print dossier
+        sampleDetails.classList.remove('hidden');
         document.getElementById('print-state').innerText = data.state;
         document.getElementById('print-capital').innerText = data.capital;
-        document.getElementById('print-gov').innerText = data.gov;
-        document.getElementById('print-senators').innerText = data.senators;
-
-        resultsBox.classList.remove('hidden');
       } else {
-        resultsBox.classList.add('hidden');
-        showToast("No sample data for that ZIP code. Try 90210, 75001, 10001, or 33101.");
+        document.getElementById('zip-result-message').innerText = `No local sample data for ${zip}; use the official directories below to find current officials.`;
+        sampleDetails.classList.add('hidden');
+        document.getElementById('print-state').innerText = 'Not available in sample data';
+        document.getElementById('print-capital').innerText = 'Not available in sample data';
       }
+      resultsBox.classList.remove('hidden');
     }
 
     // ONE-CLICK PRINT DOSSIER
@@ -2156,17 +2511,37 @@
       questionsToPrint.forEach(q => {
         const div = document.createElement('div');
         div.className = "p-2 border-b border-gray-200";
-        div.innerHTML = `<strong>Q: ${q.q}</strong><br><span class="text-gray-700">Suggested answer: ${q.a}</span>`;
+        const question = document.createElement('strong');
+        question.textContent = `Q: ${q.q}`;
+        const answer = document.createElement('span');
+        answer.className = 'text-gray-700';
+        answer.textContent = `Suggested answer: ${q.a}`;
+        div.append(question, document.createElement('br'), answer);
         missedContainer.appendChild(div);
       });
 
       const printArea = document.getElementById('print-dossier-area');
       printArea.classList.remove('hidden');
-      window.print();
-      printArea.classList.add('hidden');
+      const finishPrint = () => printArea.classList.add('hidden');
+      window.addEventListener('afterprint', finishPrint, { once: true });
+      try { window.print(); } catch (error) {
+        window.removeEventListener('afterprint', finishPrint);
+        finishPrint();
+        showToast('The print dialog could not be opened in this browser.');
+      }
     }
 
+    let currentMainTab = 'civics';
     function switchMainTab(tab) {
+      const previousTab = currentMainTab;
+      if (!['civics', 'interview', 'reps', 'english'].includes(tab)) return;
+      currentMainTab = tab;
+      if (previousTab === 'english' && tab !== 'english') {
+        stopEnglishRecognition();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      } else if (previousTab === 'civics' && tab !== 'civics' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       document.getElementById('section-civics').classList.toggle('hidden', tab !== 'civics');
       document.getElementById('section-interview').classList.toggle('hidden', tab !== 'interview');
       document.getElementById('section-reps').classList.toggle('hidden', tab !== 'reps');
@@ -2187,23 +2562,30 @@
       document.getElementById('nav-english').className = tab === 'english'
         ? "px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition"
         : "px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+      ['civics', 'interview', 'reps', 'english'].forEach(name => {
+        document.getElementById(`nav-${name}`).setAttribute('aria-pressed', String(tab === name));
+      });
+      const mobileSwitcher = document.getElementById('mobile-section-switcher');
+      if (mobileSwitcher) mobileSwitcher.value = tab;
 
       if (tab === 'interview') {
-        if (currentStepIdx < INTERVIEW_STEPS.length && !awaitingInterviewContinue) {
+        if (previousTab !== 'interview' && currentStepIdx < INTERVIEW_STEPS.length && !awaitingInterviewContinue) {
           speakOfficer(INTERVIEW_STEPS[currentStepIdx].officerSays);
         }
       } else {
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-        stopWaveform();
+        if (previousTab === 'interview') {
+          stopInterviewListening();
+          cancelOfficerSpeech();
+        }
       }
     }
 
     function openCheckoutModal() {
-      document.getElementById('checkout-modal').classList.remove('hidden');
+      showAppModal('checkout-modal');
     }
 
     function closeCheckoutModal() {
-      document.getElementById('checkout-modal').classList.add('hidden');
+      hideAppModal('checkout-modal');
     }
 
     function openInfoPanel(kind) {
@@ -2212,35 +2594,38 @@
         : { title: 'Use and accuracy', copy: 'CivicPass is independent study practice, not USCIS, legal advice, an eligibility check, or a prediction of interview results. The civics bank references USCIS Form M-1778 (2025). Some answers change over time or depend on your state or personal situation; check the official USCIS Test Updates page and study guide before your interview. Mock scores are practice feedback only.' };
       document.getElementById('info-modal-title').innerText = content.title;
       document.getElementById('info-modal-copy').innerText = content.copy;
-      const modal = document.getElementById('info-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.classList.add('overflow-hidden');
+      showAppModal('info-modal');
     }
 
     function closeInfoPanel() {
-      const modal = document.getElementById('info-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.body.classList.remove('overflow-hidden');
+      hideAppModal('info-modal');
     }
 
+    let toastTimer = null;
     function showToast(msg) {
       const toast = document.getElementById('statusToast');
       document.getElementById('toastMessage').innerText = msg;
       toast.classList.remove('translate-y-24', 'opacity-0');
-      setTimeout(() => {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.add('translate-y-24', 'opacity-0');
+        toastTimer = null;
       }, 3500);
     }
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeCultureStory();
-      if (e.key === 'Escape') closeInfoPanel();
-      if (e.key === 'Escape') closeCheckoutModal();
+      if (e.key === 'Escape' && closeTopAppModal()) {
+        e.preventDefault();
+        return;
+      }
+      if (e.key === 'Tab' && getTopAppModal()) {
+        trapAppModalFocus(e);
+        return;
+      }
       if (e.code === 'Space' && activeStudyMode === 'flashcard' && !document.getElementById('section-civics').classList.contains('hidden')) {
-        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-        if (activeTag !== 'input' && activeTag !== 'textarea') {
+        const activeElement = document.activeElement;
+        const isInteractive = !!(activeElement && activeElement.closest && activeElement.closest('button, a[href], input, textarea, select, [role="button"], [contenteditable="true"]'));
+        if (!isInteractive) {
           e.preventDefault();
           toggleCardFlip();
         }
@@ -2249,6 +2634,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      switchMainTab('civics');
       renderFlashcard();
       updateStatDisplays();
       stopWaveform();
