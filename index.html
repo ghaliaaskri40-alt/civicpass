@@ -1715,15 +1715,28 @@
     }
 
     function importProgress(event) {
-      resetQuestionSearch();
       const file = event.target.files && event.target.files[0];
       if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        showToast('That backup is larger than 2 MB. Choose a CivicPass progress export instead.');
+        event.target.value = '';
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => {
         try {
           const payload = JSON.parse(reader.result);
           const imported = payload.progress || payload;
           if (!Array.isArray(imported.mastered) || !Array.isArray(imported.missed)) throw new Error('Invalid progress file');
+          const includesSetup = payload.studySetup && typeof payload.studySetup === 'object';
+          const confirmation = includesSetup
+            ? 'This backup will replace your saved study progress and study setup on this device. Export a backup first if you need to keep them. Continue?'
+            : 'This backup will replace your saved study progress on this device. Export a backup first if you need to keep it. Continue?';
+          if (!window.confirm(confirmation)) {
+            event.target.value = '';
+            return;
+          }
+          resetQuestionSearch();
           const validIds = ALL_CIVICS_IDS;
           userProgress = {
             mastered: [...new Set(imported.mastered.map(Number).filter(id => validIds.has(id)))],
