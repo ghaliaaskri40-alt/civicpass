@@ -123,19 +123,26 @@
     .hero-photo-caption span { display:block; font:500 9px/1.4 'JetBrains Mono',monospace; letter-spacing:.19em; text-transform:uppercase; color:rgba(255,255,255,.78); }
     .hero-photo-caption strong { display:block; margin-top:.4rem; font:400 1.55rem/1.1 'DM Serif Display',Georgia,serif; }
     .hero-version-stamp { position:absolute; top:1.25rem; right:1.25rem; z-index:1; padding:.65rem .9rem; border:1px solid rgba(255,255,255,.55); border-radius:999px; color:white; background:rgba(24,37,64,.34); backdrop-filter:blur(12px); font:500 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; }
-    .journey-section { padding:.25rem 0; }
-    .journey-heading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1.15rem; }
+    .journey-section { position:relative; padding:1.15rem 0 1.5rem; }
+    .journey-heading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1.7rem; }
     .journey-title,.culture-title { color:var(--ink); font:400 clamp(2rem,3vw,2.75rem)/1.05 'DM Serif Display',Georgia,serif; letter-spacing:-.02em; }
     .journey-subtitle { color:var(--muted-ink); font-size:12px; margin-top:.45rem; }
-    .journey-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
-    .journey-card { position:relative; display:flex; min-height:138px; gap:1rem; align-items:flex-start; padding:1.25rem; overflow:hidden; text-align:left; border:1px solid rgba(109,77,56,.13); border-radius:1.25rem; background:linear-gradient(145deg,#fffefa,#fff7eb); box-shadow:0 12px 30px -25px rgba(73,48,32,.32); transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
-    .journey-card::after { content:""; position:absolute; width:90px; height:90px; right:-38px; bottom:-50px; border-radius:50%; background:rgba(215,163,78,.15); }
-    .journey-card:hover { transform:translateY(-3px); border-color:rgba(177,79,57,.35); box-shadow:0 18px 35px -24px rgba(73,48,32,.28); }
-    .journey-number { flex:0 0 auto; display:grid; place-items:center; width:39px; height:39px; border-radius:13px; color:#8b4936; background:#fae8d5; font:600 11px 'Plus Jakarta Sans',sans-serif; }
-    .journey-card h3 { color:#1b2945; font:600 13px/1.35 'Plus Jakarta Sans',sans-serif; }
-    .journey-card p { max-width:245px; color:#727c8f; font-size:10px; line-height:1.65; margin-top:.4rem; }
-    .journey-arrow { position:absolute; top:1.4rem; right:1.25rem; color:#9b8055; font-size:11px; transition:transform .2s ease; }
-    .journey-card:hover .journey-arrow { transform:translateX(3px); }
+    .journey-map { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1.25rem,4vw,4rem); padding:1.15rem 1rem 1.3rem; overflow:hidden; border:1px solid #ead9c4; border-radius:2rem; background:radial-gradient(ellipse at 50% 0%,#fffdf8 0%,#fff8ee 57%,#f7ecdc 100%); }
+    .journey-route { position:absolute; top:1.8rem; left:7%; width:86%; height:140px; overflow:visible; pointer-events:none; }
+    .journey-route path { fill:none; stroke:#bd5945; stroke-width:3; stroke-linecap:round; stroke-dasharray:2 12; opacity:.8; }
+    .journey-stop { position:relative; z-index:1; display:flex; align-items:center; flex-direction:column; padding:0 .25rem .5rem; text-align:center; background:transparent; border:0; cursor:pointer; }
+    .journey-stop:nth-of-type(2) { margin-top:3.3rem; }
+    .journey-stop:nth-of-type(3) { margin-top:.4rem; }
+    .journey-illustration { display:grid; place-items:center; width:82px; height:82px; margin-bottom:1rem; border:5px solid #fffaf1; border-radius:50%; color:#a94e38; background:#f5d9c2; box-shadow:0 7px 0 #ead3b7,0 15px 30px -17px rgba(112,61,40,.5); font-size:25px; transition:transform .22s ease; }
+    .journey-stop:nth-of-type(2) .journey-illustration { color:#6a7650; background:#e3e6c8; }
+    .journey-stop:nth-of-type(3) .journey-illustration { color:#a65b32; background:#f4d99e; }
+    .journey-stop:hover .journey-illustration { transform:translateY(-5px) rotate(-4deg); }
+    .journey-stop-copy { max-width:245px; padding:.2rem .3rem; }
+    .journey-number { display:inline-block; margin-bottom:.55rem; color:#a34d39; font:600 9px/1.4 'JetBrains Mono',monospace; letter-spacing:.17em; text-transform:uppercase; }
+    .journey-stop h3 { color:#49342e; font:400 1.35rem/1.1 'DM Serif Display',Georgia,serif; }
+    .journey-stop p { color:#79695e; font-size:11px; line-height:1.7; margin-top:.55rem; }
+    .journey-arrow { display:inline-block; margin-top:.75rem; color:#ad503b; font-size:12px; transition:transform .2s ease; }
+    .journey-stop:hover .journey-arrow { transform:translateX(4px); }
     .culture-title { font-size:clamp(2rem,3vw,2.65rem); }
     .culture-card { box-shadow:0 16px 42px -32px rgba(18,31,58,.6); }
     .culture-card:hover { transform:translateY(-3px); }
@@ -157,10 +164,12 @@
     html.dark .hero-secondary { color:#f8ead9; background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); }
     html.dark .hero-secondary:hover { background:rgba(255,255,255,.12); }
     html.dark .hero-proof { color:#c0c8d6; }
-    html.dark .journey-card { background:linear-gradient(145deg,#26221f,#1b1d19); border-color:rgba(255,239,213,.1); }
-    html.dark .journey-card h3 { color:#f5f6fa; }
-    html.dark .journey-card p { color:#a4afc0; }
-    html.dark .journey-number { color:#ffe3c1; background:#583e31; }
+    html.dark .journey-map { background:radial-gradient(ellipse at 50% 0%,#29241e,#211e1a 72%); border-color:rgba(240,212,174,.18); }
+    html.dark .journey-route path { stroke:#dc8067; }
+    html.dark .journey-illustration { border-color:#29241e; box-shadow:0 7px 0 #40352b,0 15px 30px -17px rgba(0,0,0,.8); }
+    html.dark .journey-stop h3 { color:#f5e9d7; }
+    html.dark .journey-stop p { color:#c0ae98; }
+    html.dark .journey-number, html.dark .journey-arrow { color:#e18a70; }
     html.dark #section-civics .practice-metrics { background:linear-gradient(120deg,#121824,#10151f); border-color:rgba(255,255,255,.1); }
     html.dark #section-civics .practice-metrics h2, html.dark #section-civics #test-setup-title, html.dark #section-civics #study-plan-title { color:#f5f3ed; }
     html.dark #section-civics .practice-metrics #active-bank-description { color:#aeb9ca; }
@@ -210,8 +219,8 @@
     html.dark #section-civics .card-face-front { background:radial-gradient(ellipse at 50% 42%,rgba(176,111,67,.16),transparent 45%),linear-gradient(155deg,#24231e,#2b2923)!important; border-color:rgba(240,212,174,.15)!important; }
     html.dark #section-civics #language-support-note { background:#273126!important; border-color:rgba(180,203,166,.2)!important; color:#d9e5d1!important; }
     @media (max-width: 900px) { .editorial-hero { grid-template-columns:1fr 0.9fr; min-height:440px; } .hero-copy { padding:2rem; } .hero-title { font-size:clamp(2.7rem,6vw,4rem); } }
-    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; } .hero-copy { padding:2rem 1.5rem; } .hero-visual { min-height:260px; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-grid { grid-template-columns:1fr; } .journey-card { min-height:110px; } }
-    @media (prefers-reduced-motion: reduce) { .journey-card,.culture-card { transition:none; } .journey-card:hover,.culture-card:hover { transform:none; } }
+    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; } .hero-copy { padding:2rem 1.5rem; } .hero-visual { min-height:260px; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-map { grid-template-columns:1fr; gap:1rem; padding:1.5rem 1rem; } .journey-map::before { content:""; position:absolute; top:3.1rem; bottom:3.1rem; left:3.15rem; width:3px; background:repeating-linear-gradient(to bottom,#bd5945 0 3px,transparent 3px 13px); opacity:.8; } .journey-route { display:none; } .journey-stop,.journey-stop:nth-of-type(2),.journey-stop:nth-of-type(3) { flex-direction:row; align-items:center; gap:1rem; margin:0; text-align:left; } .journey-illustration { flex:0 0 70px; width:70px; height:70px; margin:0; font-size:21px; } .journey-stop-copy { max-width:none; } .journey-stop h3 { font-size:1.3rem; } }
+    @media (prefers-reduced-motion: reduce) { .journey-stop,.culture-card { transition:none; } .journey-stop:hover,.culture-card:hover { transform:none; } }
 
     /* 3D Flip Mechanics */
     .perspective-1000 {
@@ -375,10 +384,11 @@
 
     <section class="journey-section" aria-labelledby="journey-heading">
       <div class="journey-heading"><div><p class="hero-eyebrow">A simple place to begin</p><h2 id="journey-heading" class="journey-title mt-2">Your next step is ready.</h2><p class="journey-subtitle">No pressure. Just a clear path forward.</p></div><span class="hidden md:inline text-[10px] font-mono uppercase tracking-widest text-slate-400">Built around your pace</span></div>
-      <div class="journey-grid">
-        <button type="button" onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'});" class="journey-card"><span class="journey-number">01</span><span><h3>Choose the right civics test</h3><p>Use your filing date to select the matching study bank and interview format.</p></span><i class="journey-arrow fa-solid fa-arrow-right"></i></button>
-        <button type="button" onclick="switchMainTab('civics'); startStudyDiagnostic();" class="journey-card"><span class="journey-number">02</span><span><h3>Find your starting point</h3><p>Take a short check-in. Missed questions help shape your next session.</p></span><i class="journey-arrow fa-solid fa-arrow-right"></i></button>
-        <button type="button" onclick="switchMainTab('civics'); startStudyPlanSession();" class="journey-card"><span class="journey-number">03</span><span><h3>Build steady confidence</h3><p>Review what is due, revisit tricky topics, and practice a little each day.</p></span><i class="journey-arrow fa-solid fa-arrow-right"></i></button>
+      <div class="journey-map" aria-label="Three steps in your citizenship study journey">
+        <svg class="journey-route" viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true"><path d="M150 46 C270 42 280 135 495 126 S720 35 850 56" /></svg>
+        <button type="button" onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'});" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-landmark" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 01 · THE RIGHT TEST</span><h3>Start with your filing date</h3><p>Choose the civics question bank and interview format that fit your case.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
+        <button type="button" onclick="switchMainTab('civics'); startStudyDiagnostic();" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 02 · YOUR STARTING POINT</span><h3>See what you already know</h3><p>A quick check-in finds the questions worth practicing next.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
+        <button type="button" onclick="switchMainTab('civics'); startStudyPlanSession();" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-flag" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 03 · YOUR NEXT MILE</span><h3>Practice toward confidence</h3><p>Follow a steady routine with due reviews, oral practice, and English.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
       </div>
     </section>
 
