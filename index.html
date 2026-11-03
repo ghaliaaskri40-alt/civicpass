@@ -100,8 +100,8 @@
     }
 
     /* CivicPass editorial art direction */
-    :root { --canvas: #f6f4ee; --ink: #17243d; --muted-ink: #657086; --civic-blue: #3155c8; --civic-brass: #d1a45b; }
-    html:not(.dark) body { background-color: var(--canvas); background-image: radial-gradient(ellipse 70% 35% at 50% -10%, rgba(209,164,91,.10), transparent); }
+    :root { --canvas: #fbf6ed; --ink: #3c2c29; --muted-ink: #78695f; --civic-blue: #b14f39; --civic-brass: #d7a34e; --civic-sage: #607c65; --civic-rose: #c87563; }
+    html:not(.dark) body { background-color: var(--canvas); color:#3d302a; background-image: radial-gradient(ellipse 70% 35% at 50% -10%, rgba(215,163,78,.12), transparent); }
     header .max-w-5xl { max-width: 76rem; }
     .editorial-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.92fr); min-height:500px; overflow:hidden; background:#fff; border:1px solid rgba(23,36,61,.08); border-radius:2rem; box-shadow:0 28px 70px -46px rgba(26,38,68,.38); }
     .hero-copy { padding:clamp(2rem,5vw,4.5rem); display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
@@ -110,10 +110,10 @@
     .hero-title { margin-top:1.2rem; color:var(--ink); font:400 clamp(3rem,5.2vw,5rem)/.98 'DM Serif Display',Georgia,serif; letter-spacing:-.035em; }
     .hero-title em { color:var(--civic-blue); font-weight:400; }
     .hero-copy .hero-description { margin-top:1.35rem; max-width:35rem; color:var(--muted-ink); font-size:15px; line-height:1.8; }
-    .hero-primary { background:#253c75; border:1px solid #253c75; color:white; box-shadow:0 12px 26px -14px rgba(28,52,112,.72); }
-    .hero-primary:hover { background:#304c91; }
-    .hero-secondary { color:#24395f; border-color:rgba(36,57,95,.2); background:white; }
-    .hero-secondary:hover { background:#f5f6fb; }
+    .hero-primary { background:#47634d; border:1px solid #47634d; color:white; box-shadow:0 12px 26px -14px rgba(62,91,67,.62); }
+    .hero-primary:hover { background:#58765e; }
+    .hero-secondary { color:#64463b; border-color:rgba(119,83,64,.22); background:#fffdfa; }
+    .hero-secondary:hover { background:#fff4e5; }
     .hero-proof { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.65rem 1.1rem; color:#68738a; font-size:10px; }
     .hero-proof i { color:#9c7742; margin-right:.4rem; }
     .hero-visual { position:relative; min-height:390px; overflow:hidden; background:#d8dfeb; }
@@ -128,10 +128,10 @@
     .journey-title,.culture-title { color:var(--ink); font:400 clamp(2rem,3vw,2.75rem)/1.05 'DM Serif Display',Georgia,serif; letter-spacing:-.02em; }
     .journey-subtitle { color:var(--muted-ink); font-size:12px; margin-top:.45rem; }
     .journey-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
-    .journey-card { position:relative; display:flex; min-height:138px; gap:1rem; align-items:flex-start; padding:1.25rem; overflow:hidden; text-align:left; border:1px solid rgba(26,42,73,.1); border-radius:1.25rem; background:linear-gradient(145deg,#fff,#fbfaf7); box-shadow:0 12px 30px -25px rgba(24,38,67,.4); transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
-    .journey-card::after { content:""; position:absolute; width:90px; height:90px; right:-38px; bottom:-50px; border-radius:50%; background:rgba(209,164,91,.12); }
-    .journey-card:hover { transform:translateY(-3px); border-color:rgba(49,85,200,.35); box-shadow:0 18px 35px -24px rgba(24,38,67,.35); }
-    .journey-number { flex:0 0 auto; display:grid; place-items:center; width:39px; height:39px; border-radius:13px; color:#344c88; background:#eef1f8; font:500 10px 'JetBrains Mono',monospace; }
+    .journey-card { position:relative; display:flex; min-height:138px; gap:1rem; align-items:flex-start; padding:1.25rem; overflow:hidden; text-align:left; border:1px solid rgba(109,77,56,.13); border-radius:1.25rem; background:linear-gradient(145deg,#fffefa,#fff7eb); box-shadow:0 12px 30px -25px rgba(73,48,32,.32); transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+    .journey-card::after { content:""; position:absolute; width:90px; height:90px; right:-38px; bottom:-50px; border-radius:50%; background:rgba(215,163,78,.15); }
+    .journey-card:hover { transform:translateY(-3px); border-color:rgba(177,79,57,.35); box-shadow:0 18px 35px -24px rgba(73,48,32,.28); }
+    .journey-number { flex:0 0 auto; display:grid; place-items:center; width:39px; height:39px; border-radius:13px; color:#8b4936; background:#fae8d5; font:600 11px 'Plus Jakarta Sans',sans-serif; }
     .journey-card h3 { color:#1b2945; font:600 13px/1.35 'Plus Jakarta Sans',sans-serif; }
     .journey-card p { max-width:245px; color:#727c8f; font-size:10px; line-height:1.65; margin-top:.4rem; }
     .journey-arrow { position:absolute; top:1.4rem; right:1.25rem; color:#9b8055; font-size:11px; transition:transform .2s ease; }
@@ -152,17 +152,63 @@
     html.dark .hero-title, html.dark .journey-title, html.dark .culture-title { color:#f5f3ed; }
     html.dark .hero-copy .hero-description, html.dark .journey-subtitle { color:#b3bdce; }
     html.dark .hero-eyebrow { color:#bdc8dc; }
-    html.dark .hero-secondary { color:#f1f4fa; background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.16); }
+    html.dark .hero-primary { background:#67816a; border-color:#67816a; }
+    html.dark .hero-primary:hover { background:#789579; }
+    html.dark .hero-secondary { color:#f8ead9; background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); }
     html.dark .hero-secondary:hover { background:rgba(255,255,255,.12); }
     html.dark .hero-proof { color:#c0c8d6; }
-    html.dark .journey-card { background:linear-gradient(145deg,#141a25,#10151f); border-color:rgba(255,255,255,.1); }
+    html.dark .journey-card { background:linear-gradient(145deg,#26221f,#1b1d19); border-color:rgba(255,239,213,.1); }
     html.dark .journey-card h3 { color:#f5f6fa; }
     html.dark .journey-card p { color:#a4afc0; }
-    html.dark .journey-number { color:#d7e0fa; background:#26324d; }
+    html.dark .journey-number { color:#ffe3c1; background:#583e31; }
     html.dark #section-civics .practice-metrics { background:linear-gradient(120deg,#121824,#10151f); border-color:rgba(255,255,255,.1); }
     html.dark #section-civics .practice-metrics h2, html.dark #section-civics #test-setup-title, html.dark #section-civics #study-plan-title { color:#f5f3ed; }
     html.dark #section-civics .practice-metrics #active-bank-description { color:#aeb9ca; }
     html.dark #section-civics #test-setup { background:linear-gradient(145deg,#141a25,#10151f); border-color:rgba(255,255,255,.1); }
+
+    /* Warm, human study-room palette for the practice interface */
+    html:not(.dark) #section-civics .practice-metrics { background:linear-gradient(105deg,#fffdf8,#f6eddf); border-color:#eadcc7; box-shadow:0 18px 44px -34px rgba(102,69,42,.34); }
+    html:not(.dark) #section-civics .practice-metrics h2, html:not(.dark) #section-civics #test-setup-title, html:not(.dark) #section-civics #study-plan-title { color:#49342e; }
+    html:not(.dark) #section-civics .practice-metrics #active-bank-description { color:#78685d; }
+    html:not(.dark) #section-civics #test-setup { background:linear-gradient(145deg,#fffefa,#f8f0e4); border-color:#e8dbc7; }
+    html:not(.dark) #section-civics [aria-labelledby="study-plan-title"] > div:first-child { background:linear-gradient(145deg,#fff0d7 0%,#fff7e9 50%,#f4e6d8 100%); border-color:#e8cda7; box-shadow:0 24px 50px -38px rgba(138,88,53,.38); }
+    html:not(.dark) #section-civics [aria-label="Learning progress and official sources"] { background:linear-gradient(160deg,#fffefa,#f3eddf); border-color:#e8ddc7; }
+    html:not(.dark) #section-civics #study-plan-focus { background:#fffaf0; border-color:#e8cfac; color:#775342; }
+    html:not(.dark) #section-civics #plan-mastery-track, html:not(.dark) #section-civics #daily-progress-track, html:not(.dark) #section-civics [id$="-track"] { background-color:#eee3d1; }
+    #section-civics #plan-mastery-bar { background-image:linear-gradient(90deg,#d47855,#d6a64f 56%,#718e70)!important; }
+    #section-civics #daily-progress-bar { background-image:linear-gradient(90deg,#c65f48,#d59a4b)!important; }
+    #section-civics #topic-gov-bar { background-color:#c76b4d!important; }
+    #section-civics #topic-history-bar { background-color:#d5a34e!important; }
+    #section-civics #topic-integrated-bar { background-color:#6f8e70!important; }
+    #section-civics .bg-blue-600 { background-color:#b14f39!important; border-color:#b14f39!important; }
+    #section-civics button.bg-blue-600:hover { background-color:#963e30!important; }
+    #section-civics .bg-blue-50 { background-color:#fbebdc!important; }
+    #section-civics .bg-blue-100 { background-color:#f6deca!important; }
+    #section-civics .text-blue-600, #section-civics .text-blue-700 { color:#a94e38!important; }
+    #section-civics .text-blue-800 { color:#7b4435!important; }
+    #section-civics .border-blue-200 { border-color:#e8c9aa!important; }
+    #section-civics .border-blue-300 { border-color:#dab18b!important; }
+    html:not(.dark) #section-civics .bg-slate-50 { background-color:#f8f2e8!important; }
+    html:not(.dark) #section-civics .bg-slate-100 { background-color:#f1e9dc!important; }
+    html:not(.dark) #section-civics .border-slate-200 { border-color:#e7dccb!important; }
+    html:not(.dark) #section-civics .text-slate-500 { color:#796d62!important; }
+    html:not(.dark) #section-civics .text-slate-400 { color:#9a8877!important; }
+    html:not(.dark) #section-civics .bg-white { background-color:#fffefa!important; }
+    #section-civics #fc-vector-container { border-color:#e9cfa9!important; background:radial-gradient(circle at 50% 30%,#fff9ec,#f5dfc1 90%)!important; color:#a94e38!important; box-shadow:0 18px 45px -30px rgba(147,84,50,.45)!important; }
+    #section-civics #fc-icon { color:#a94e38!important; }
+    #section-civics #fc-question { color:#49322e!important; font:400 clamp(1.9rem,3vw,2.8rem)/1.18 'DM Serif Display',Georgia,serif; }
+    #section-civics #fc-source-label { color:#9a7653!important; }
+    html:not(.dark) #section-civics .card-face-front { background:radial-gradient(ellipse at 50% 42%,rgba(247,225,190,.46),transparent 42%),linear-gradient(155deg,#fffefa 5%,#fff8ec 100%)!important; border-color:#e8ddc8!important; }
+    html:not(.dark) #section-civics .card-face-back { background:radial-gradient(ellipse at 50% 30%,rgba(218,231,208,.42),transparent 48%),linear-gradient(155deg,#fffefa,#f1f5eb)!important; border-color:#d9e1d0!important; }
+    #section-civics .cat-pill[aria-pressed="true"] { background-color:#554139!important; border-color:#554139!important; }
+    #section-civics #language-support-note { background:#eef2e8!important; border-color:#d1dbc7!important; color:#526b50!important; }
+    html.dark #section-civics [aria-labelledby="study-plan-title"] > div:first-child { background:linear-gradient(145deg,#3b2f28,#2b2923 55%,#252923); border-color:rgba(231,189,131,.24); }
+    html.dark #section-civics [aria-label="Learning progress and official sources"] { background:linear-gradient(160deg,#20221d,#1a1e1b); border-color:rgba(241,222,189,.12); }
+    html.dark #section-civics #study-plan-focus { background:#332b23; border-color:rgba(223,180,127,.24); color:#eed4b8; }
+    html.dark #section-civics #plan-mastery-track, html.dark #section-civics #daily-progress-track, html.dark #section-civics [id$="-track"] { background-color:#39342b; }
+    html.dark #section-civics #fc-question { color:#fff1da!important; }
+    html.dark #section-civics .card-face-front { background:radial-gradient(ellipse at 50% 42%,rgba(176,111,67,.16),transparent 45%),linear-gradient(155deg,#24231e,#2b2923)!important; border-color:rgba(240,212,174,.15)!important; }
+    html.dark #section-civics #language-support-note { background:#273126!important; border-color:rgba(180,203,166,.2)!important; color:#d9e5d1!important; }
     @media (max-width: 900px) { .editorial-hero { grid-template-columns:1fr 0.9fr; min-height:440px; } .hero-copy { padding:2rem; } .hero-title { font-size:clamp(2.7rem,6vw,4rem); } }
     @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; } .hero-copy { padding:2rem 1.5rem; } .hero-visual { min-height:260px; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-grid { grid-template-columns:1fr; } .journey-card { min-height:110px; } }
     @media (prefers-reduced-motion: reduce) { .journey-card,.culture-card { transition:none; } .journey-card:hover,.culture-card:hover { transform:none; } }
