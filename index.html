@@ -364,6 +364,14 @@
             <div id="plan-mastery-track" role="progressbar" aria-label="Civics questions mastered" aria-valuemin="0" aria-valuemax="128" aria-valuenow="0" class="h-2 rounded-full bg-slate-100 dark:bg-white/[0.08] mt-2 overflow-hidden"><div id="plan-mastery-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500"></div></div>
             <p id="plan-mastery-caption" class="text-[10px] leading-relaxed text-slate-500 dark:text-slate-400 mt-2">0% mastered • A question counts after three correct recalls on its spaced-review schedule.</p>
           </div>
+          <div class="space-y-3" aria-label="Mastery by topic">
+            <div class="flex items-center justify-between gap-3"><h4 class="text-xs font-semibold text-slate-700 dark:text-slate-200">Topic strength</h4><span class="text-[9px] font-mono uppercase text-slate-400">Current study set</span></div>
+            <div class="space-y-3">
+              <div><div class="flex justify-between gap-3 text-[10px]"><span class="text-slate-600 dark:text-slate-300">American government</span><span id="topic-gov-count" class="font-mono text-slate-500 dark:text-slate-400">0 / 0 mastered</span></div><div id="topic-gov-track" role="progressbar" aria-label="American government mastery" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" class="h-1.5 rounded-full bg-slate-100 dark:bg-white/[0.08] mt-1 overflow-hidden"><div id="topic-gov-bar" class="h-full w-0 rounded-full bg-blue-500 transition-all"></div></div><p id="topic-gov-review" class="text-[9px] text-slate-400 mt-1">0 missed</p></div>
+              <div><div class="flex justify-between gap-3 text-[10px]"><span class="text-slate-600 dark:text-slate-300">American history</span><span id="topic-history-count" class="font-mono text-slate-500 dark:text-slate-400">0 / 0 mastered</span></div><div id="topic-history-track" role="progressbar" aria-label="American history mastery" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" class="h-1.5 rounded-full bg-slate-100 dark:bg-white/[0.08] mt-1 overflow-hidden"><div id="topic-history-bar" class="h-full w-0 rounded-full bg-indigo-500 transition-all"></div></div><p id="topic-history-review" class="text-[9px] text-slate-400 mt-1">0 missed</p></div>
+              <div><div class="flex justify-between gap-3 text-[10px]"><span class="text-slate-600 dark:text-slate-300">Integrated civics</span><span id="topic-integrated-count" class="font-mono text-slate-500 dark:text-slate-400">0 / 0 mastered</span></div><div id="topic-integrated-track" role="progressbar" aria-label="Integrated civics mastery" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" class="h-1.5 rounded-full bg-slate-100 dark:bg-white/[0.08] mt-1 overflow-hidden"><div id="topic-integrated-bar" class="h-full w-0 rounded-full bg-emerald-500 transition-all"></div></div><p id="topic-integrated-review" class="text-[9px] text-slate-400 mt-1">0 missed</p></div>
+            </div>
+          </div>
           <div class="rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] p-4">
             <div class="text-[10px] font-mono uppercase tracking-widest text-slate-400">Latest mock test</div>
             <p id="study-last-mock" aria-live="polite" class="text-sm font-semibold text-slate-800 dark:text-slate-100 mt-1">No mock test yet. Try one after your check-in.</p>
@@ -373,6 +381,7 @@
           <div class="flex flex-wrap gap-x-4 gap-y-2 text-[11px]">
             <a id="official-guide-link" href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Official USCIS 2025 question guide <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
             <a href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_V1.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Official USCIS 2008 question guide <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+            <a id="official-spanish-guide-link" href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_Es.pdf" target="_blank" rel="noopener noreferrer" class="hidden text-blue-700 dark:text-blue-300 hover:underline">USCIS 2008 Spanish guide (PDF) <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
             <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Check current-answer updates <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
           </div>
           <p id="bank-source-note" class="text-[10px] leading-relaxed text-slate-400">Question-bank reference: USCIS study materials. These are static copies, not a live feed. Current officials and personal answers need to be checked against USCIS updates.</p>
@@ -401,7 +410,7 @@
           </button>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This practice app's prompts are in English. Dynamic and personal answers are self-checked.</p>
+      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This app practices in English; a separate USCIS Spanish guide is linked when the 2008 test is selected. Dynamic and personal answers are self-checked.</p>
       <div class="flex flex-wrap items-center gap-2 text-xs">
         <span class="text-slate-400">Progress and recent results are saved in this browser only; export a backup to move them to another device.</span>
         <button onclick="exportProgress()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Export progress</button>
@@ -415,6 +424,13 @@
         <button type="button" data-category="gov" aria-pressed="false" onclick="filterCategory('gov')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American Government</button>
         <button type="button" data-category="history" aria-pressed="false" onclick="filterCategory('history')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">American History</button>
         <button type="button" data-category="integrated" aria-pressed="false" onclick="filterCategory('integrated')" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition">Integrated Civics</button>
+        <button type="button" data-category="bookmarked" aria-pressed="false" onclick="filterBookmarkedQuestions()" class="cat-pill px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/[0.05] hover:text-slate-900 dark:hover:text-white transition"><i class="fa-solid fa-bookmark mr-1 text-amber-500"></i>Saved (<span id="bookmarked-count">0</span>)</button>
+      </div>
+
+      <div class="space-y-2">
+        <label for="question-search-input" class="text-[10px] font-mono uppercase tracking-widest text-slate-400">Find a civics question</label>
+        <input id="question-search-input" type="search" autocomplete="off" oninput="searchCivicsQuestions(this.value)" placeholder="Search questions or accepted answers…" class="w-full rounded-xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400">
+        <div id="question-search-results" class="hidden max-h-72 overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#0e1117] p-2 space-y-1" aria-label="Question search results" aria-live="polite"></div>
       </div>
 
       <!-- FLASHCARD WITH INLINE VECTOR GRAPHICS -->
@@ -428,9 +444,10 @@
                 <span id="fc-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 font-semibold">
                   Sample Question 1
                 </span>
-                <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-2 text-xs font-mono">
-                  <span>Pronounce</span> <i class="fa-solid fa-volume-high"></i>
-                </button>
+                <div class="flex gap-2">
+                  <button type="button" id="fc-bookmark-btn-front" aria-pressed="false" onclick="event.stopPropagation(); toggleBookmarkForCurrentCard();" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-300 text-xs"><i class="fa-regular fa-bookmark mr-1"></i>Save</button>
+                  <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-2 text-xs font-mono"><span>Pronounce</span> <i class="fa-solid fa-volume-high"></i></button>
+                </div>
               </div>
 
               <!-- Question Section with Vector Graphic -->
@@ -442,8 +459,8 @@
                 <h2 id="fc-question" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug max-w-xl mx-auto">
                   What is the supreme law of the land?
                 </h2>
-                <p id="fc-translation" class="text-xs text-slate-400 dark:text-slate-500 font-normal italic">
-                  2025 USCIS Naturalization Civics Test question
+                <p id="fc-source-label" class="text-xs text-slate-400 dark:text-slate-500 font-normal italic">
+                  Official USCIS 2025 civics question
                 </p>
               </div>
 
@@ -459,7 +476,7 @@
                 <span class="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 font-semibold">
                   Practice Answer
                 </span>
-                <span class="text-[10px] text-slate-400 font-mono">Candidate Self-Scoring</span>
+                <button type="button" id="fc-bookmark-btn-back" aria-pressed="false" onclick="event.stopPropagation(); toggleBookmarkForCurrentCard();" class="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-600 dark:text-slate-300 text-xs"><i class="fa-regular fa-bookmark mr-1"></i>Save question</button>
               </div>
 
               <!-- Answer Content -->
@@ -504,11 +521,9 @@
       <!-- Multiple Choice View -->
       <div id="view-mcq" class="space-y-4 hidden">
         <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-6">
-          <div class="flex justify-between items-center text-xs">
+          <div class="flex justify-between items-center gap-3 text-xs">
             <span id="mcq-badge" class="font-mono text-[10px] text-blue-600 dark:text-blue-400 uppercase font-semibold">Question 1 of 128</span>
-            <button onclick="playMcqAudio()" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-mono text-xs">
-              Audio <i class="fa-solid fa-volume-high ml-1"></i>
-            </button>
+            <div class="flex items-center gap-2"><button id="mcq-bookmark-btn" type="button" aria-pressed="false" onclick="toggleBookmarkForMcq()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-slate-300 text-[10px]"><i class="fa-regular fa-bookmark mr-1"></i>Save</button><button type="button" onclick="playMcqAudio()" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition font-mono text-xs">Audio <i class="fa-solid fa-volume-high ml-1"></i></button></div>
           </div>
           
           <div class="flex flex-col sm:flex-row items-center gap-5 pb-2">
@@ -846,7 +861,7 @@
       <div class="text-center space-y-2">
         <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20 font-medium">Prototype · Free preview</span>
         <h3 id="checkout-title" class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">What CivicPass includes today</h3>
-        <p id="product-preview-copy" class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">Both USCIS civics banks, filing-date setup, spaced review, oral mock tests, English exercises, and culture stories.</p>
+        <p id="product-preview-copy" class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">Both USCIS civics banks, filing-date setup, searchable questions, saved review lists, topic progress, spaced review, oral mock tests, interview rehearsal, English exercises, and culture stories.</p>
       </div>
       <div class="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-4 space-y-2 text-xs text-slate-600 dark:text-slate-300">
         <p><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>There is no account, subscription, or payment processing in this prototype.</p>
@@ -1303,6 +1318,8 @@
           : 'https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf';
         officialGuide.innerText = `Official USCIS ${selectedTestVersion} question guide`;
       }
+      const spanishGuide = document.getElementById('official-spanish-guide-link');
+      if (spanishGuide) spanishGuide.classList.toggle('hidden', selectedTestVersion !== '2008');
       const estimate = document.getElementById('study-plan-estimate');
       if (interviewDate) {
         const today = new Date(); today.setHours(12, 0, 0, 0);
@@ -1332,6 +1349,7 @@
       if (changed === 'version' && seniorExemptionActive && !seniorEligible) seniorExemptionActive = false;
       if (changed === 'date' || changed === 'version' || changed === 'senior') {
         stopOralAnswerRecording();
+        resetQuestionSearch(false);
         CIVICS_POOL = selectedTestVersion === '2008' ? CIVICS_POOL_2008 : CIVICS_POOL_2025;
         if (!seniorEligible) seniorExemptionActive = false;
         activeQuiz = null;
@@ -1423,18 +1441,19 @@
 
     let seniorExemptionActive = seniorEligible && savedStudySetup.seniorActive !== false;
     let currentQuestions = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : [...CIVICS_POOL];
+    let searchReturnDeck = null;
     let cardIndex = 0;
     let cardFlipped = false;
     let activeStudyMode = 'flashcard';
 
-    let userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
+    let userProgress = { mastered: [], missed: [], bookmarks: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
     try {
       const savedProgress = JSON.parse(localStorage.getItem('civicpass_v13_progress'));
       if (savedProgress && Array.isArray(savedProgress.mastered) && Array.isArray(savedProgress.missed)) {
         userProgress = savedProgress;
       }
     } catch (error) {
-      userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
+      userProgress = { mastered: [], missed: [], bookmarks: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10, dailyLog: {} };
     }
     userProgress.review = sanitizeReviewEntries(userProgress.review);
     if (!userProgress.dailyLog || typeof userProgress.dailyLog !== 'object' || Array.isArray(userProgress.dailyLog)) userProgress.dailyLog = {};
@@ -1446,6 +1465,7 @@
     if (![5, 10, 15, 20].includes(Number(userProgress.dailyGoal))) userProgress.dailyGoal = 10;
     userProgress.mastered = [...new Set(userProgress.mastered.map(Number).filter(id => ALL_CIVICS_IDS.has(id)))];
     userProgress.missed = [...new Set(userProgress.missed.map(Number).filter(id => ALL_CIVICS_IDS.has(id)))];
+    userProgress.bookmarks = [...new Set((Array.isArray(userProgress.bookmarks) ? userProgress.bookmarks : []).map(Number).filter(id => ALL_CIVICS_IDS.has(id)))];
     userProgress.quizHistory = userProgress.quizHistory.slice(-20);
     userProgress.mastered.forEach(id => {
       if (!userProgress.review[id]) userProgress.review[id] = { streak: 3, dueAt: Date.now(), attempts: 3 };
@@ -1511,6 +1531,7 @@
     }
 
     function importProgress(event) {
+      resetQuestionSearch();
       const file = event.target.files && event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
@@ -1523,6 +1544,7 @@
           userProgress = {
             mastered: [...new Set(imported.mastered.map(Number).filter(id => validIds.has(id)))],
             missed: [...new Set(imported.missed.map(Number).filter(id => validIds.has(id)))],
+            bookmarks: [...new Set((Array.isArray(imported.bookmarks) ? imported.bookmarks : []).map(Number).filter(id => validIds.has(id)))],
             review: sanitizeReviewEntries(imported.review),
             dailyLog: imported.dailyLog && typeof imported.dailyLog === 'object' && !Array.isArray(imported.dailyLog)
               ? Object.fromEntries(Object.entries(imported.dailyLog).filter(([day, total]) => /^\d{4}-\d{2}-\d{2}$/.test(day) && Number.isFinite(Number(total)) && Number(total) >= 0 && Number(total) <= 100000))
@@ -1563,23 +1585,51 @@
     }
 
     function updateStatDisplays() {
-      document.getElementById('stat-mastered').innerText = userProgress.mastered.length;
-      document.getElementById('stat-missed').innerText = userProgress.missed.length;
-      const overallDueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
       const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
       const studyIds = new Set(studyPool.map(question => question.id));
+      document.getElementById('bookmarked-count').innerText = userProgress.bookmarks.filter(id => studyIds.has(id)).length;
       const studyMissedCount = userProgress.missed.filter(id => studyIds.has(id)).length;
       const studyDueCount = Object.entries(userProgress.review).filter(([id, item]) => studyIds.has(Number(id)) && item && item.dueAt <= Date.now()).length;
+      const studyMasteredCount = userProgress.mastered.filter(id => studyIds.has(id)).length;
+      document.getElementById('stat-mastered').innerText = studyMasteredCount;
+      document.getElementById('stat-missed').innerText = studyMissedCount;
       document.getElementById('missed-count').innerText = studyMissedCount;
-      document.getElementById('stat-due').innerText = overallDueCount;
+      document.getElementById('stat-due').innerText = studyDueCount;
       document.getElementById('due-count').innerText = studyDueCount;
       updateStudyPlanSummary();
+    }
+
+    function updateTopicStrengthDisplay(studyPool) {
+      const topicDefinitions = [
+        { id: 'gov', category: 'gov' },
+        { id: 'history', category: 'history' },
+        { id: 'integrated', category: 'integrated' }
+      ];
+      topicDefinitions.forEach(topic => {
+        const questions = studyPool.filter(question => question.cat === topic.category);
+        const ids = new Set(questions.map(question => question.id));
+        const mastered = userProgress.mastered.filter(id => ids.has(id)).length;
+        const missed = userProgress.missed.filter(id => ids.has(id)).length;
+        const due = Object.entries(userProgress.review).filter(([id, item]) => ids.has(Number(id)) && item && item.dueAt <= Date.now()).length;
+        const percent = questions.length ? Math.round(mastered / questions.length * 100) : 0;
+        const count = document.getElementById(`topic-${topic.id}-count`);
+        const track = document.getElementById(`topic-${topic.id}-track`);
+        const bar = document.getElementById(`topic-${topic.id}-bar`);
+        const review = document.getElementById(`topic-${topic.id}-review`);
+        count.innerText = `${mastered} / ${questions.length} mastered`;
+        track.setAttribute('aria-valuemax', String(questions.length));
+        track.setAttribute('aria-valuenow', String(mastered));
+        track.setAttribute('aria-valuetext', `${mastered} of ${questions.length} mastered`);
+        bar.style.width = `${percent}%`;
+        review.innerText = `${missed} missed · ${due} due`;
+      });
     }
 
     function updateStudyPlanSummary() {
       const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
       const studyIds = new Set(studyPool.map(question => question.id));
       const count = studyPool.length;
+      updateTopicStrengthDisplay(studyPool);
       const mastered = userProgress.mastered.filter(id => studyIds.has(id)).length;
       const goal = Number(userProgress.dailyGoal) || 10;
       const remaining = Math.max(0, count - mastered);
@@ -1676,6 +1726,7 @@
 
     function startStudyDiagnostic() {
       stopOralAnswerRecording();
+      resetQuestionSearch();
       const studyPool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
       const eligible = studyPool.filter(question => !question.dynamic && !question.selfCheck);
       activeQuiz = { mode: 'diagnostic', questions: shuffleArray(eligible).slice(0, 10), index: 0, correct: 0, answered: false, results: [] };
@@ -1687,6 +1738,7 @@
 
     function startStudyPlanSession() {
       stopOralAnswerRecording();
+      resetQuestionSearch();
       activeQuiz = null;
       const goal = Number(userProgress.dailyGoal) || 10;
       const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : [...CIVICS_POOL];
@@ -1710,7 +1762,9 @@
       const q = currentQuestions[cardIndex];
       document.getElementById('fc-badge').innerText = `USCIS ${q.version} #${q.sourceId}${q.senior ? ' • 65/20' : ''}`;
       document.getElementById('fc-question').innerText = q.q;
-      document.getElementById('fc-translation').innerText = q.tr;
+      document.getElementById('fc-source-label').innerText = `Official USCIS ${q.version} civics bank · question ${q.sourceId}`;
+      updateBookmarkButton('fc-bookmark-btn-front', q);
+      updateBookmarkButton('fc-bookmark-btn-back', q);
       document.getElementById('fc-answer').innerText = q.dynamic
         ? 'This answer changes by person or location. Check the current USCIS Test Updates page or your state and district sources.'
         : q.answers.join(' • ');
@@ -1731,6 +1785,51 @@
       document.getElementById('flashcard-front').inert = false;
       document.getElementById('flashcard-back').inert = true;
       document.getElementById('flashcard-hit-area').setAttribute('aria-label', 'Flashcard question. Press Space or Enter to reveal the answer.');
+    }
+
+    function updateBookmarkButton(buttonId, question) {
+      const button = document.getElementById(buttonId);
+      if (!button || !question) return;
+      const saved = userProgress.bookmarks.includes(question.id);
+      button.setAttribute('aria-pressed', String(saved));
+      button.title = saved ? 'Remove this question from Saved questions' : 'Save this question for later';
+      button.innerHTML = saved
+        ? '<i class="fa-solid fa-bookmark mr-1" aria-hidden="true"></i>Saved'
+        : '<i class="fa-regular fa-bookmark mr-1" aria-hidden="true"></i>Save';
+      button.classList.toggle('text-amber-700', saved);
+      button.classList.toggle('dark:text-amber-300', saved);
+      button.classList.toggle('border-amber-300', saved);
+      button.classList.toggle('dark:border-amber-400/30', saved);
+    }
+
+    function toggleBookmark(questionId) {
+      const id = Number(questionId);
+      if (!ALL_CIVICS_IDS.has(id)) return;
+      const saved = userProgress.bookmarks.includes(id);
+      userProgress.bookmarks = saved
+        ? userProgress.bookmarks.filter(bookmarkedId => bookmarkedId !== id)
+        : [...userProgress.bookmarks, id];
+      saveProgress();
+      const cardQuestion = currentQuestions[cardIndex];
+      if (cardQuestion) {
+        updateBookmarkButton('fc-bookmark-btn-front', cardQuestion);
+        updateBookmarkButton('fc-bookmark-btn-back', cardQuestion);
+      }
+      const mcqPool = currentMcqPracticePool();
+      const mcqQuestion = activeQuiz ? activeQuiz.questions[activeQuiz.index] : mcqPool[mcqIndex];
+      if (mcqQuestion) updateBookmarkButton('mcq-bookmark-btn', mcqQuestion);
+      showToast(saved ? 'Removed from Saved questions.' : 'Added to Saved questions.');
+    }
+
+    function toggleBookmarkForCurrentCard() {
+      const question = currentQuestions[cardIndex];
+      if (question) toggleBookmark(question.id);
+    }
+
+    function toggleBookmarkForMcq() {
+      const pool = currentMcqPracticePool();
+      const question = activeQuiz ? activeQuiz.questions[activeQuiz.index] : pool[mcqIndex];
+      if (question) toggleBookmark(question.id);
     }
 
     function toggleCardFlip() {
@@ -1881,6 +1980,7 @@
         return;
       }
       seniorExemptionActive = !seniorExemptionActive;
+      resetQuestionSearch(false);
       mcqIndex = 0;
       currentQuestions = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : [...CIVICS_POOL];
       showToast(seniorExemptionActive
@@ -1907,6 +2007,7 @@
     }
 
     function filterMissedOnly() {
+      resetQuestionSearch();
       const pool = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
       const missedQuestions = pool.filter(q => userProgress.missed.includes(q.id));
       if (missedQuestions.length === 0) {
@@ -1921,6 +2022,7 @@
     }
 
     function filterDueQuestions() {
+      resetQuestionSearch();
       const pool = seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
       const dueIds = Object.entries(userProgress.review)
         .filter(([, item]) => item && item.dueAt <= Date.now())
@@ -1938,6 +2040,7 @@
     }
 
     function filterCategory(cat) {
+      resetQuestionSearch();
       const filteredQuestions = cat === 'all'
         ? seniorExemptionActive ? CIVICS_POOL.filter(q => q.senior) : [...CIVICS_POOL]
         : CIVICS_POOL.filter(q => q.cat === cat && (!seniorExemptionActive || q.senior));
@@ -1950,6 +2053,121 @@
       cardIndex = 0;
       setStudyMode('flashcard');
       renderFlashcard();
+    }
+
+    function filterBookmarkedQuestions() {
+      resetQuestionSearch();
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const questions = pool.filter(question => userProgress.bookmarks.includes(question.id));
+      if (!questions.length) {
+        showToast('No saved questions in this study set yet. Tap Save on any flashcard or practice question.');
+        return;
+      }
+      currentQuestions = questions;
+      cardIndex = 0;
+      setActiveCategory('bookmarked');
+      setStudyMode('flashcard');
+      renderFlashcard();
+      showToast(`Your saved review list is ready: ${questions.length} question${questions.length === 1 ? '' : 's'}.`);
+    }
+
+    function resetQuestionSearch(restorePrevious = true) {
+      const input = document.getElementById('question-search-input');
+      const results = document.getElementById('question-search-results');
+      const previous = restorePrevious ? searchReturnDeck : null;
+      if (input) input.value = '';
+      if (results) {
+        results.replaceChildren();
+        results.classList.add('hidden');
+      }
+      searchReturnDeck = null;
+      if (previous) {
+        currentQuestions = previous.questions;
+        cardIndex = Math.min(previous.cardIndex, Math.max(currentQuestions.length - 1, 0));
+        setActiveCategory(previous.category);
+        if (previous.mode === 'mcq') setStudyMode('mcq');
+        else { setStudyMode('flashcard'); renderFlashcard(); }
+      }
+    }
+
+    function searchCivicsQuestions(rawQuery) {
+      const resultsBox = document.getElementById('question-search-results');
+      const query = normalizeCivicsAnswer(rawQuery);
+      if (!String(rawQuery || '').trim()) {
+        resultsBox.replaceChildren();
+        resultsBox.classList.add('hidden');
+        if (searchReturnDeck) {
+          const previous = searchReturnDeck;
+          searchReturnDeck = null;
+          currentQuestions = previous.questions;
+          cardIndex = Math.min(previous.cardIndex, Math.max(currentQuestions.length - 1, 0));
+          setActiveCategory(previous.category);
+          if (previous.mode === 'mcq') setStudyMode('mcq');
+          else { setStudyMode('flashcard'); renderFlashcard(); }
+        }
+        return;
+      }
+      resultsBox.classList.remove('hidden');
+      if (query.length < 2) {
+        resultsBox.innerText = 'Type at least two letters to search.';
+        return;
+      }
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const terms = query.split(' ').filter(Boolean);
+      const matches = pool.filter(question => {
+        const searchable = normalizeCivicsAnswer(`${question.q} ${question.answers.join(' ')} ${question.dynamic ? 'current answer' : ''}`);
+        return terms.every(term => searchable.includes(term));
+      });
+      resultsBox.replaceChildren();
+      if (!matches.length) {
+        resultsBox.innerText = 'No matches in the selected test set. Try another phrase.';
+        return;
+      }
+      matches.slice(0, 10).forEach(question => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'w-full text-left rounded-xl px-3 py-2.5 hover:bg-blue-50 dark:hover:bg-white/[0.05] transition';
+        const title = document.createElement('span');
+        title.className = 'block text-xs font-medium text-slate-800 dark:text-slate-100';
+        title.textContent = question.q;
+        const detail = document.createElement('span');
+        detail.className = 'block mt-1 text-[10px] text-slate-400';
+        detail.textContent = `USCIS ${question.version} #${question.sourceId} · ${question.dynamic ? 'current answer: verify with USCIS' : question.answers[0] || 'answer varies'}`;
+        button.append(title, detail);
+        button.addEventListener('click', () => openSearchedQuestion(question.id));
+        resultsBox.appendChild(button);
+      });
+      if (matches.length > 10) {
+        const more = document.createElement('p');
+        more.className = 'px-3 py-2 text-[10px] text-slate-400';
+        more.textContent = `Showing 10 of ${matches.length} matches. Add another word to narrow the search.`;
+        resultsBox.appendChild(more);
+      }
+    }
+
+    function openSearchedQuestion(questionId) {
+      if (activeQuiz) {
+        showToast('Finish or leave the current quiz before opening a search result.');
+        return;
+      }
+      const question = CIVICS_POOL.find(item => item.id === Number(questionId));
+      if (!question) return;
+      if (!searchReturnDeck) {
+        const selectedCategory = document.querySelector('.cat-pill[aria-pressed="true"]');
+        searchReturnDeck = {
+          questions: [...currentQuestions],
+          cardIndex,
+          mode: activeStudyMode,
+          category: selectedCategory ? selectedCategory.dataset.category : 'all'
+        };
+      }
+      currentQuestions = [question];
+      cardIndex = 0;
+      setActiveCategory('all');
+      setStudyMode('flashcard');
+      renderFlashcard();
+      document.getElementById('view-flashcard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast('Opened one question. Clear the search to return to your previous deck.');
     }
 
     function playCurrentCardAudio() {
@@ -2007,6 +2225,8 @@
       const quizQuestions = activeQuiz ? activeQuiz.questions : practicePool;
       const quizIndex = activeQuiz ? activeQuiz.index : mcqIndex;
       const oralMode = !!(activeQuiz && activeQuiz.oral);
+      document.getElementById('mcq-bookmark-btn').disabled = false;
+      updateBookmarkButton('mcq-bookmark-btn', q);
       document.getElementById('mcq-badge').innerText = activeQuiz
         ? `${activeQuiz.mode === 'diagnostic' ? 'Starting check' : activeQuiz.mode === 'senior' ? '65/20' : `${activeQuiz.version} Oral Mock`} • Question ${quizIndex + 1} of ${quizQuestions.length}`
         : `USCIS ${q.version} #${q.sourceId} • Question ${quizIndex + 1} of ${quizQuestions.length}`;
@@ -2319,6 +2539,7 @@
         return;
       }
       stopOralAnswerRecording();
+      resetQuestionSearch();
       const source = mode === 'senior' ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
       const is2008 = selectedTestVersion === '2008';
       const length = mode === 'senior' || is2008 ? 10 : 20;
@@ -2351,6 +2572,7 @@
       }
       activeQuiz = null;
       saveProgress();
+      document.getElementById('mcq-bookmark-btn').disabled = true;
       const label = isDiagnostic ? 'Check-in' : quiz.mode === 'senior' ? `65/20 ${quiz.version}` : `${quiz.version} oral mock`;
       document.getElementById('mcq-badge').innerText = `${label} complete`;
       document.getElementById('mcq-question').innerText = isDiagnostic
@@ -2388,6 +2610,7 @@
     }
 
     function startQuestionReview(questionIds) {
+      resetQuestionSearch();
       const idSet = new Set(questionIds.map(Number));
       currentQuestions = CIVICS_POOL.filter(question => idSet.has(question.id));
       if (!currentQuestions.length) {
@@ -2868,6 +3091,7 @@
     function practiceCultureQuestion() {
       const question = CIVICS_POOL.find(q => q.id === activeCultureQuestionId);
       if (!question) return;
+      resetQuestionSearch();
       closeCultureStory();
       switchMainTab('civics');
       currentQuestions = [...CIVICS_POOL];
@@ -3123,7 +3347,7 @@
 
     function openInfoPanel(kind) {
       const content = kind === 'privacy'
-        ? { title: 'Privacy notes', copy: 'This prototype has no CivicPass account or app database. Your selected test version, filing and interview dates, theme, mastery, missed questions, and practice history stay in this browser; they do not sync across devices. Progress backups include your study setup dates. Export only to a place you trust before clearing browser site data. Microphone practice uses browser-provided speech recognition when available; audio handling depends on your browser and device provider. Spoken answer transcripts are not saved by CivicPass. Avoid entering sensitive immigration or case details. The page also loads styling and icon files from public CDNs.' }
+        ? { title: 'Privacy notes', copy: 'This prototype has no CivicPass account or app database. Your selected test version, filing and interview dates, theme, mastery, missed questions, saved questions, and practice history stay in this browser; they do not sync across devices. Progress backups include your study setup dates. Export only to a place you trust before clearing browser site data. Microphone practice uses browser-provided speech recognition when available; audio handling depends on your browser and device provider. Spoken answer transcripts are not saved by CivicPass. Avoid entering sensitive immigration or case details. The page also loads styling and icon files from public CDNs.' }
         : { title: 'Use and accuracy', copy: `CivicPass is independent study practice, not USCIS, legal advice, an eligibility check, or a prediction of interview results. The active bank is a study copy of the ${selectedTestVersion} civics questions. Some answers change over time or depend on your state or personal situation; use the official USCIS Test Updates page and linked study guide before your interview. Oral mock scores use approximate text matching, and current, personal, and multi-part answers require self-checking. All scores are practice feedback only.` };
       document.getElementById('info-modal-title').innerText = content.title;
       document.getElementById('info-modal-copy').innerText = content.copy;
