@@ -457,7 +457,7 @@
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-700 dark:text-blue-300">Topic lesson</div>
-                <h4 id="lesson-reader-title" class="text-lg font-bold text-slate-900 dark:text-white mt-1"></h4>
+                <h4 id="lesson-reader-title" tabindex="-1" class="text-lg font-bold text-slate-900 dark:text-white mt-1"></h4>
               </div>
               <button type="button" onclick="closeLessonReader()" class="rounded-lg border border-slate-200 dark:border-white/[0.08] px-3 py-1.5 text-xs text-slate-600 dark:text-slate-300">Close</button>
             </div>
@@ -1951,7 +1951,7 @@
         const card = document.createElement('button');
         card.type = 'button';
         card.className = 'text-left rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#11151d] p-4 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-400/30 hover:shadow-md transition';
-        card.setAttribute('aria-label', `Practice ${lesson.title}, ${count} questions`);
+        card.setAttribute('aria-label', `Open lesson: ${lesson.title}, ${count} related questions`);
         card.onclick = () => openLessonReader(lesson.id, card);
         const icon = document.createElement('span');
         icon.className = 'inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300';
@@ -2006,6 +2006,7 @@
       });
       reader.classList.remove('hidden');
       if (shouldScroll) reader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.getElementById('lesson-reader-title').focus({ preventScroll: true });
     }
 
     function closeLessonReader() {
@@ -2047,6 +2048,7 @@
       setStudyMode('flashcard');
       renderFlashcard();
       document.getElementById('view-flashcard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('flashcard-hit-area').focus({ preventScroll: true });
       showToast(`${lesson.title}: ${questions.length} related questions are ready.`);
     }
 
@@ -3701,6 +3703,11 @@
         e.preventDefault();
         return;
       }
+      if (e.key === 'Escape' && !document.getElementById('lesson-reader').classList.contains('hidden')) {
+        e.preventDefault();
+        closeLessonReader();
+        return;
+      }
       if (e.key === 'Tab' && getTopAppModal()) {
         trapAppModalFocus(e);
         return;
@@ -3764,3 +3771,4 @@
   </script>
 </body>
 </html>
+
