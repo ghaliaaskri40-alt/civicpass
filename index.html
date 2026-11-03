@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CivicPass — Citizenship Practice Studio</title>
-  <meta name="description" content="Build a steady citizenship study habit with a personalized civics plan, spaced review, practice tests, and English exercises.">
+  <title>CivicPass — Your U.S. Citizenship Study Plan</title>
+  <meta name="description" content="Prepare for your U.S. citizenship interview with the right civics test bank, an adaptive daily study plan, oral practice, and English exercises.">
   <meta name="theme-color" content="#f8fafc">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,8 +14,8 @@
   <link rel="icon" type="image/svg+xml" href="./images/civicpass-icon.svg">
   <link rel="apple-touch-icon" href="./images/civicpass-icon-192.png">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="CivicPass — Citizenship Practice Studio">
-  <meta property="og:description" content="A welcoming, independent study studio for citizenship civics and English practice.">
+  <meta property="og:title" content="CivicPass — Your U.S. Citizenship Study Plan">
+  <meta property="og:description" content="Choose the right civics bank, find your starting point, and practice with a plan that adapts to you.">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -224,7 +224,7 @@
         </button>
 
         <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-circle-info text-[10px]"></i> Product Preview
+          <i class="fa-solid fa-sparkles text-[10px]"></i> How CivicPass works
         </button>
       </div>
     </div>
@@ -240,27 +240,53 @@
   <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 space-y-10">
 
     <!-- AMERICAN HERO BANNER -->
-    <section class="relative min-h-[430px] sm:min-h-[500px] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-2xl bg-slate-900 text-white px-7 py-8 sm:px-12 sm:py-10 flex items-end">
-      <img src="images/liberty-community.jpg" alt="A multigenerational group enjoying the waterfront near Ellis Island and the Statue of Liberty" class="absolute inset-0 h-full w-full object-cover object-center" fetchpriority="high">
+    <section class="relative min-h-[570px] sm:min-h-[540px] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/[0.1] shadow-2xl bg-slate-950 text-white px-5 py-6 sm:px-10 sm:py-10 lg:px-12 flex items-center">
+      <img src="images/liberty-community.jpg" alt="A multigenerational group at the Ellis Island waterfront near the Statue of Liberty" class="absolute inset-0 h-full w-full object-cover object-center" fetchpriority="high">
       <div class="hero-shade absolute inset-0"></div>
-      <div class="absolute top-6 right-6 hidden sm:block rounded-full border border-white/20 bg-black/25 backdrop-blur-md px-4 py-2 text-[10px] font-mono uppercase tracking-[.2em] text-white/90">Many stories. One shared home.</div>
-      <div class="relative z-10 flex flex-col gap-5 max-w-2xl">
-        <div class="inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest font-semibold text-blue-100">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span> Citizenship, culture & community
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/10"></div>
+      <div class="relative z-10 grid w-full items-end gap-8 lg:grid-cols-[minmax(0,1fr)_350px]">
+        <div class="flex flex-col gap-5 max-w-2xl py-3 sm:py-5">
+          <div class="inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest font-semibold text-blue-100">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span> A clearer path to your U.S. citizenship interview
+          </div>
+          <div class="space-y-3">
+            <h1 class="text-4xl sm:text-5xl lg:text-[3.65rem] font-extrabold tracking-tight text-white drop-shadow-md leading-[1.02]">Prepare with a plan.<br><span class="text-blue-100">Meet the moment ready.</span></h1>
+            <p class="text-sm sm:text-base text-slate-100/90 max-w-xl leading-relaxed">Find the civics test that fits your filing date, build a steady study habit, and rehearse the interview—one clear step at a time.</p>
+          </div>
+          <div class="flex flex-wrap gap-3 pt-1">
+            <button onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('filing-date-input').focus({preventScroll:true});" class="px-5 py-3 rounded-xl bg-white text-slate-950 font-bold text-sm hover:bg-blue-50 transition shadow-lg">Build my study plan <i class="fa-solid fa-arrow-right ml-2"></i></button>
+            <button onclick="switchMainTab('civics'); startStudyDiagnostic();" class="px-5 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur text-white font-semibold text-sm hover:bg-white/20 transition"><i class="fa-solid fa-sparkles mr-1.5"></i>Try a quick check-in</button>
+          </div>
+          <div class="flex flex-wrap gap-x-5 gap-y-2 pt-1 text-[10px] sm:text-[11px] text-white/80">
+            <span><i class="fa-solid fa-book-open text-blue-200 mr-1.5"></i>2008 and 2025 civics banks</span>
+            <span><i class="fa-solid fa-lock text-blue-200 mr-1.5"></i>No account needed to practice</span>
+            <span><i class="fa-solid fa-microphone-lines text-blue-200 mr-1.5"></i>Interview and English practice</span>
+          </div>
         </div>
-        <div class="space-y-3">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-md leading-[1.02]">Learn the story behind the questions.</h1>
-          <p class="text-sm sm:text-base text-slate-100/90 max-w-xl leading-relaxed">Explore the people, music, places and ideas that shape the United States—then prepare for the civics test version that applies to your filing date.</p>
-        </div>
-        <div class="flex flex-wrap gap-3 pt-1">
-          <button onclick="switchMainTab('civics'); document.getElementById('section-civics').scrollIntoView({behavior:'smooth'});" class="px-5 py-3 rounded-xl bg-white text-slate-950 font-bold text-sm hover:bg-blue-50 transition shadow-lg">Start studying <i class="fa-solid fa-arrow-right ml-2"></i></button>
-          <button onclick="switchMainTab('english'); document.getElementById('section-english').scrollIntoView({behavior:'smooth'});" class="px-5 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur text-white font-semibold text-sm hover:bg-white/20 transition">Explore English practice</button>
-        </div>
+
+        <aside class="rounded-[1.6rem] border border-white/20 bg-slate-950/65 backdrop-blur-xl p-5 sm:p-6 shadow-2xl" aria-label="Three steps in your citizenship practice path">
+          <div class="flex items-center justify-between gap-3">
+            <div><p class="text-[9px] font-mono uppercase tracking-[.2em] text-blue-200">Your next steps</p><h2 class="text-lg font-bold text-white mt-1">A plan made simple</h2></div>
+            <span class="h-10 w-10 rounded-2xl border border-white/15 bg-white/10 flex items-center justify-center text-amber-300"><i class="fa-solid fa-route"></i></span>
+          </div>
+          <div class="mt-5 space-y-2.5">
+            <button type="button" onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'});" class="group w-full flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.12] px-3 py-3 text-left transition">
+              <span class="h-8 w-8 shrink-0 rounded-full bg-blue-500/20 text-blue-100 flex items-center justify-center text-xs font-bold">01</span><span class="min-w-0 flex-1"><span class="block text-xs font-semibold text-white">Choose your test</span><span class="block mt-0.5 text-[10px] text-slate-300">Start with your filing date</span></span><i class="fa-solid fa-arrow-right text-[10px] text-white/50 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <button type="button" onclick="switchMainTab('civics'); startStudyDiagnostic();" class="group w-full flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.12] px-3 py-3 text-left transition">
+              <span class="h-8 w-8 shrink-0 rounded-full bg-indigo-500/20 text-indigo-100 flex items-center justify-center text-xs font-bold">02</span><span class="min-w-0 flex-1"><span class="block text-xs font-semibold text-white">Find your starting point</span><span class="block mt-0.5 text-[10px] text-slate-300">A short, no-pressure check-in</span></span><i class="fa-solid fa-arrow-right text-[10px] text-white/50 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <button type="button" onclick="switchMainTab('civics'); startStudyPlanSession();" class="group w-full flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.12] px-3 py-3 text-left transition">
+              <span class="h-8 w-8 shrink-0 rounded-full bg-emerald-500/20 text-emerald-100 flex items-center justify-center text-xs font-bold">03</span><span class="min-w-0 flex-1"><span class="block text-xs font-semibold text-white">Practice with a plan</span><span class="block mt-0.5 text-[10px] text-slate-300">Weak and due questions come first</span></span><i class="fa-solid fa-arrow-right text-[10px] text-white/50 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+          <div class="mt-4 border-t border-white/10 pt-4 flex items-center justify-between gap-3 text-[9px] text-slate-300"><span>Independent study practice</span><a href="https://www.uscis.gov/citizenship" target="_blank" rel="noopener noreferrer" class="hover:text-white underline underline-offset-2">Always verify with USCIS</a></div>
+        </aside>
       </div>
     </section>
 
     <section class="space-y-5" aria-labelledby="culture-heading">
-      <div class="flex items-end justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">Explore America</div><h2 id="culture-heading" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">A country told through its people</h2></div><span class="hidden sm:inline text-xs text-slate-400">Tap a story to explore</span></div>
+      <div class="flex items-end justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">Explore America</div><h2 id="culture-heading" class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">The stories behind the civics questions</h2><p class="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-2xl">Meet the places, music and community life that make the facts easier to remember.</p></div><span class="hidden sm:inline text-xs text-slate-400">Choose a story to explore</span></div>
       <div class="grid md:grid-cols-3 gap-4 sm:gap-5">
         <button onclick="openCultureStory('liberty')" class="culture-card panel-glass text-left group relative min-h-[310px] sm:min-h-[360px] overflow-hidden rounded-3xl border border-slate-200 dark:border-white/[0.08]">
           <img src="images/liberty-community.jpg" alt="Visitors from many backgrounds at the Ellis Island waterfront" class="absolute inset-0 w-full h-full object-cover object-center" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/15 to-transparent"></div>
@@ -315,7 +341,7 @@
       </div>
 
       <!-- Test version and appointment setup -->
-      <section class="panel-glass rounded-3xl p-5 sm:p-7 space-y-4" aria-labelledby="test-setup-title">
+      <section id="test-setup" class="panel-glass rounded-3xl p-5 sm:p-7 space-y-4 scroll-mt-24" aria-labelledby="test-setup-title">
         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div>
             <div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-700 dark:text-blue-300">Personalize your practice</div>
