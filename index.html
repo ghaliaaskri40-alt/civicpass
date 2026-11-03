@@ -202,7 +202,7 @@
         </button>
 
         <button onclick="openCheckoutModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold tracking-tight transition active:scale-[0.98] shadow-sm flex items-center gap-1.5">
-          <i class="fa-solid fa-crown text-[10px]"></i> Premium Preview
+          <i class="fa-solid fa-circle-info text-[10px]"></i> Product Preview
         </button>
       </div>
     </div>
@@ -256,7 +256,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- Sample civics study set -->
+    <!-- Civics study bank and adaptive practice -->
     <!-- ========================================== -->
     <div id="section-civics" class="space-y-6">
       
@@ -268,7 +268,7 @@
           </div>
           <div>
             <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Practice Session</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">A small practice set to help you review at your own pace.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Practice the 2025 civics bank with flashcards, short quizzes, and scheduled review.</p>
           </div>
         </div>
 
@@ -292,6 +292,45 @@
         </div>
       </div>
 
+      <!-- Personalized study path -->
+      <section class="grid lg:grid-cols-[1.15fr_.85fr] gap-4" aria-labelledby="study-plan-title">
+        <div class="rounded-3xl border border-blue-200 dark:border-blue-400/15 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-blue-500/[0.08] dark:via-[#10131a] dark:to-indigo-500/[0.08] p-5 sm:p-7 shadow-sm">
+          <div class="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[.2em] text-blue-700 dark:text-blue-300"><i class="fa-solid fa-route"></i> Your study path</div>
+          <h3 id="study-plan-title" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-2">Start with a quick check-in</h3>
+          <p id="study-plan-guidance" aria-live="polite" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300 mt-2 max-w-2xl">A 10-question check-in gives you a starting point. Your daily session then puts missed and due questions first.</p>
+          <div class="flex flex-wrap gap-2.5 mt-5">
+            <button onclick="startStudyDiagnostic()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow-sm"><i class="fa-solid fa-stethoscope mr-1.5"></i>Take 10-question check-in</button>
+            <button onclick="startStudyPlanSession()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.1] text-slate-800 dark:text-white text-xs font-semibold hover:bg-slate-50 dark:hover:bg-white/[0.1] transition">Start today’s session <i class="fa-solid fa-arrow-right ml-1.5"></i></button>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
+            <label for="study-daily-goal" class="text-xs font-semibold text-slate-700 dark:text-slate-200">Daily pace</label>
+            <select id="study-daily-goal" onchange="setDailyGoal(this.value)" class="rounded-lg border border-slate-200 dark:border-white/[0.1] bg-white dark:bg-[#090b10] px-2.5 py-1.5 text-xs text-slate-800 dark:text-white">
+              <option value="5">5 questions</option><option value="10" selected>10 questions</option><option value="15">15 questions</option><option value="20">20 questions</option>
+            </select>
+            <span id="study-plan-estimate" class="text-[11px] text-slate-500 dark:text-slate-400">Choose a pace to estimate your review plan.</span>
+          </div>
+        </div>
+
+        <aside class="rounded-3xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.025] p-5 sm:p-7 space-y-5" aria-label="Learning progress and official sources">
+          <div>
+            <div class="flex items-center justify-between gap-3 text-xs"><span class="font-semibold text-slate-700 dark:text-slate-200">Spaced-review mastery</span><span id="plan-mastery-count" class="font-mono font-bold text-slate-900 dark:text-white">0 / 128</span></div>
+            <div id="plan-mastery-track" role="progressbar" aria-label="Civics questions mastered" aria-valuemin="0" aria-valuemax="128" aria-valuenow="0" class="h-2 rounded-full bg-slate-100 dark:bg-white/[0.08] mt-2 overflow-hidden"><div id="plan-mastery-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500"></div></div>
+            <p id="plan-mastery-caption" class="text-[10px] leading-relaxed text-slate-500 dark:text-slate-400 mt-2">0% mastered • A question counts after three correct recalls on its spaced-review schedule.</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] p-4">
+            <div class="text-[10px] font-mono uppercase tracking-widest text-slate-400">Latest mock test</div>
+            <p id="study-last-mock" aria-live="polite" class="text-sm font-semibold text-slate-800 dark:text-slate-100 mt-1">No mock test yet. Try one after your check-in.</p>
+            <p id="study-review-count" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">0 questions due for review today.</p>
+            <div id="study-mock-history" class="mt-3 pt-3 border-t border-slate-200 dark:border-white/[0.08] space-y-1" aria-label="Recent mock test history"></div>
+          </div>
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-[11px]">
+            <a href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Official USCIS 2025 question guide <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+            <a href="https://www.uscis.gov/citizenship/testupdates" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Check current-answer updates <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+          </div>
+          <p class="text-[10px] leading-relaxed text-slate-400">Question-bank reference edition: USCIS M-1778 (09/25). This is a static copy, not a live feed. Current officials and personal answers need to be checked against USCIS updates.</p>
+        </aside>
+      </section>
+
       <!-- Controls & Filter Toolbar -->
       <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-y border-slate-200 dark:border-white/[0.06] py-3">
         <div class="flex flex-wrap items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06]">
@@ -314,9 +353,9 @@
           </button>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This practice app's prompts are in English.</p>
+      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This practice app's prompts are in English. Dynamic and personal answers are self-checked.</p>
       <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span class="text-slate-400">Progress is saved in this browser.</span>
+        <span class="text-slate-400">Progress and recent results are saved in this browser only; export a backup to move them to another device.</span>
         <button onclick="exportProgress()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Export progress</button>
         <button onclick="document.getElementById('progress-import-file').click()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Import progress</button>
         <input id="progress-import-file" type="file" accept="application/json,.json" class="hidden" onchange="importProgress(event)">
@@ -394,7 +433,7 @@
                   <i class="fa-solid fa-xmark"></i> Missed it
                 </button>
                 <button onclick="recordCardScore(true)" class="flex-1 py-3 text-xs font-semibold rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20 transition flex items-center justify-center gap-2 shadow-sm">
-                  <i class="fa-solid fa-check"></i> Mastered
+                  <i class="fa-solid fa-check"></i> I recalled it
                 </button>
               </div>
             </div>
@@ -531,6 +570,7 @@
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400 font-normal">Simulated practice conversation</p>
               <p id="officer-status" class="mt-1 text-[10px] text-slate-400" aria-live="polite">Ready to practice</p>
+              <p class="mt-1 max-w-xl text-[10px] leading-relaxed text-slate-400">Practice simulation only: five scripted prompts with approximate keyword feedback. It cannot judge every valid answer or predict an interview result.</p>
             </div>
           </div>
           
@@ -606,7 +646,7 @@
             Retake Interview
           </button>
           <button onclick="openCheckoutModal()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs py-2.5 rounded-xl font-semibold transition shadow-sm">
-            Explore Premium Preview
+            See what’s included
           </button>
         </div>
       </div>
@@ -618,9 +658,9 @@
     <div id="section-reps" class="space-y-6 hidden">
       <div class="panel-glass rounded-3xl p-8 sm:p-10 space-y-5">
         <div>
-          <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Sample State Lookup</h2>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">ZIP Code Lookup · Sample Data</h2>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-normal leading-relaxed">
-            See sample state information for a few ZIP codes. Public officials can change; confirm current answers with official sources before studying.
+            Demo data for four ZIP codes only—not a live elected-officials directory. Public officials can change; confirm current answers with official sources before studying.
           </p>
         </div>
 
@@ -690,6 +730,15 @@
     </div>
   </div>
 
+  <div id="info-modal" class="fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" onclick="if(event.target===this) closeInfoPanel()">
+    <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-[#0e1117] border border-slate-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-8 space-y-4">
+      <div class="flex items-start justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">CivicPass prototype notes</div><h2 id="info-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mt-1">Use and accuracy</h2></div><button type="button" onclick="closeInfoPanel()" aria-label="Close information" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-white">✕</button></div>
+      <p id="info-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
+      <p class="text-[10px] text-slate-400">These prototype notes are informational and are not a complete legal policy.</p>
+      <button type="button" onclick="closeInfoPanel()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Close</button>
+    </div>
+  </div>
+
   <!-- Printable personal practice notes -->
   <div id="print-dossier-area" class="hidden p-8 font-sans max-w-3xl mx-auto space-y-6 text-black bg-white">
     <div class="border-b-2 border-black pb-4 flex justify-between items-start">
@@ -731,35 +780,21 @@
     </div>
   </div>
 
-  <!-- Checkout / Stripe Modal -->
+  <!-- Current product preview; no checkout is configured -->
   <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
     <div class="panel-glass max-w-md w-full rounded-2xl p-6 sm:p-8 space-y-6 relative border-slate-200 dark:border-white/[0.1]">
       <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-mono">✕</button>
       
       <div class="text-center space-y-2">
-        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium">Premium Preview</span>
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">CivicPass Premium Preview</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">A refined independent study experience with flashcards, quizzes, and speech tools.</p>
+        <span class="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20 font-medium">Prototype · Free preview</span>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">What CivicPass includes today</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">A 128-question study bank, an adaptive review plan, practice quizzes, and browser-based voice exercises.</p>
       </div>
-
-      <div class="p-4 rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] flex items-center justify-between">
-        <div>
-          <div class="text-sm font-semibold text-slate-900 dark:text-white">Premium Look Preview</div>
-          <div class="text-[11px] text-slate-500 dark:text-slate-400">Premium styling preview • payments are not enabled</div>
-        </div>
-        <div class="text-right">
-          <div class="text-sm font-bold text-slate-900 dark:text-white">Design preview</div>
-          <div class="text-[10px] text-slate-400 font-mono">No payment enabled</div>
-        </div>
+      <div class="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-4 space-y-2 text-xs text-slate-600 dark:text-slate-300">
+        <p><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>There is no account, subscription, or payment processing in this prototype.</p>
+        <p><i class="fa-solid fa-mobile-screen text-blue-500 mr-2"></i>Progress stays in this browser; export a backup to move it to another device.</p>
       </div>
-
-      <button onclick="proceedToStripeCheckout()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition active:scale-[0.98] shadow-sm">
-        View Preview Details
-      </button>
-
-      <p class="text-[10px] text-center text-slate-400 font-mono">
-        This preview does not process payments or guarantee an interview outcome.
-      </p>
+      <button onclick="closeCheckoutModal()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition">Got it</button>
     </div>
   </div>
 
@@ -772,9 +807,9 @@
         <span class="text-xs">Independent citizenship practice</span>
       </div>
       <div class="flex gap-4 font-mono text-[11px]">
-        <a href="#" onclick="showToast('Educational preparation terms apply.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Terms</a>
-        <a href="#" onclick="showToast('Voice input may be handled by your browser speech service; check your browser privacy settings.')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Privacy</a>
-        <a href="#" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Payments</a>
+        <button type="button" onclick="openInfoPanel('use')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Use & accuracy</button>
+        <button type="button" onclick="openInfoPanel('privacy')" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Privacy notes</button>
+        <button type="button" onclick="openCheckoutModal()" class="hover:text-slate-900 dark:hover:text-slate-300 transition">Payment status</button>
       </div>
     </div>
     <div class="max-w-4xl mx-auto border-t border-slate-200 dark:border-white/[0.04] pt-4 text-[10px] font-mono leading-relaxed">
@@ -1010,27 +1045,64 @@
     let activeStudyMode = 'flashcard';
     let seniorExemptionActive = false;
 
-    let userProgress = { mastered: [], missed: [], review: {} };
+    let userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10 };
     try {
       const savedProgress = JSON.parse(localStorage.getItem('civicpass_v13_progress'));
       if (savedProgress && Array.isArray(savedProgress.mastered) && Array.isArray(savedProgress.missed)) {
         userProgress = savedProgress;
       }
     } catch (error) {
-      userProgress = { mastered: [], missed: [] };
+      userProgress = { mastered: [], missed: [], review: {}, quizHistory: [], lastDiagnostic: null, dailyGoal: 10 };
     }
-    if (!userProgress.review || typeof userProgress.review !== 'object') userProgress.review = {};
+    if (!userProgress.review || typeof userProgress.review !== 'object' || Array.isArray(userProgress.review)) userProgress.review = {};
+    if (!Array.isArray(userProgress.quizHistory)) userProgress.quizHistory = [];
+    userProgress.quizHistory = userProgress.quizHistory.filter(item => item && typeof item === 'object' && Number.isFinite(Number(item.correct)) && Number.isFinite(Number(item.total)) && Number.isFinite(Number(item.completedAt))).slice(-20);
+    if (!userProgress.lastDiagnostic || typeof userProgress.lastDiagnostic !== 'object' || Array.isArray(userProgress.lastDiagnostic)) userProgress.lastDiagnostic = null;
+    else userProgress.lastDiagnostic.weakIds = Array.isArray(userProgress.lastDiagnostic.weakIds) ? [...new Set(userProgress.lastDiagnostic.weakIds.map(Number).filter(id => id >= 1 && id <= CIVICS_POOL.length))] : [];
+    if (![5, 10, 15, 20].includes(Number(userProgress.dailyGoal))) userProgress.dailyGoal = 10;
+    userProgress.mastered = [...new Set(userProgress.mastered.map(Number).filter(id => id >= 1 && id <= CIVICS_POOL.length))];
+    userProgress.missed = [...new Set(userProgress.missed.map(Number).filter(id => id >= 1 && id <= CIVICS_POOL.length))];
+    userProgress.quizHistory = userProgress.quizHistory.slice(-20);
+    userProgress.mastered.forEach(id => {
+      if (!userProgress.review[id]) userProgress.review[id] = { streak: 3, dueAt: Date.now(), attempts: 3 };
+    });
+    Object.values(userProgress.review).forEach(item => {
+      if (!item || item.lastReviewedAt) return;
+      const intervalsDays = [1, 3, 7, 14, 30];
+      const streak = Math.max(0, Number(item.streak) || 0);
+      const interval = intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)];
+      const dueAt = Number(item.dueAt) || Date.now();
+      item.lastReviewedAt = dueAt <= Date.now() ? dueAt : dueAt - interval * 86400000;
+    });
 
     function updateReviewSchedule(questionId, correct) {
-      const previous = userProgress.review[questionId] || { streak: 0, dueAt: 0 };
-      const streak = correct ? previous.streak + 1 : 0;
+      const previous = userProgress.review[questionId] || { streak: 0, dueAt: 0, attempts: 0 };
+      const now = Date.now();
+      const previousStreak = Math.max(0, Number(previous.streak) || 0);
+      const scheduledReviewIsDue = !previous.lastReviewedAt || Number(previous.dueAt) <= now;
+      const streak = correct ? previousStreak + (scheduledReviewIsDue ? 1 : 0) : 0;
       const intervalsDays = [1, 3, 7, 14, 30];
-      const dueAt = correct ? Date.now() + intervalsDays[Math.min(streak - 1, intervalsDays.length - 1)] * 86400000 : Date.now();
-      userProgress.review[questionId] = { streak, dueAt };
+      const dueAt = correct
+        ? scheduledReviewIsDue ? now + intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)] * 86400000 : Number(previous.dueAt)
+        : now;
+      userProgress.review[questionId] = { streak, dueAt, attempts: (Number(previous.attempts) || 0) + 1, lastReviewedAt: now, lastCorrect: correct };
+      if (correct) {
+        userProgress.missed = userProgress.missed.filter(id => id !== questionId);
+        if (streak >= 3) {
+          if (!userProgress.mastered.includes(questionId)) userProgress.mastered.push(questionId);
+        } else {
+          userProgress.mastered = userProgress.mastered.filter(id => id !== questionId);
+        }
+      } else {
+        if (!userProgress.missed.includes(questionId)) userProgress.missed.push(questionId);
+        userProgress.mastered = userProgress.mastered.filter(id => id !== questionId);
+      }
+      return userProgress.review[questionId];
     }
 
     function saveProgress() {
       try {
+        userProgress.updatedAt = Date.now();
         localStorage.setItem('civicpass_v13_progress', JSON.stringify(userProgress));
       } catch (error) {
         showToast('Progress could not be saved in this browser session.');
@@ -1063,8 +1135,21 @@
           userProgress = {
             mastered: [...new Set(imported.mastered.map(Number).filter(id => validIds.has(id)))],
             missed: [...new Set(imported.missed.map(Number).filter(id => validIds.has(id)))],
-            review: imported.review && typeof imported.review === 'object' ? imported.review : {}
+            review: imported.review && typeof imported.review === 'object' && !Array.isArray(imported.review) ? imported.review : {},
+            quizHistory: Array.isArray(imported.quizHistory) ? imported.quizHistory.filter(item => item && typeof item === 'object' && Number.isFinite(Number(item.correct)) && Number.isFinite(Number(item.total)) && Number.isFinite(Number(item.completedAt))).slice(-20) : [],
+            lastDiagnostic: imported.lastDiagnostic && typeof imported.lastDiagnostic === 'object' && !Array.isArray(imported.lastDiagnostic)
+              ? { correct: Number(imported.lastDiagnostic.correct) || 0, total: Number(imported.lastDiagnostic.total) || 10, completedAt: Number(imported.lastDiagnostic.completedAt) || Date.now(), weakIds: Array.isArray(imported.lastDiagnostic.weakIds) ? [...new Set(imported.lastDiagnostic.weakIds.map(Number).filter(id => validIds.has(id)))] : [] }
+              : null,
+            dailyGoal: [5, 10, 15, 20].includes(Number(imported.dailyGoal)) ? Number(imported.dailyGoal) : 10
           };
+          Object.values(userProgress.review).forEach(item => {
+            if (!item || item.lastReviewedAt) return;
+            const intervalsDays = [1, 3, 7, 14, 30];
+            const streak = Math.max(0, Number(item.streak) || 0);
+            const interval = intervalsDays[Math.min(Math.max(streak - 1, 0), intervalsDays.length - 1)];
+            const dueAt = Number(item.dueAt) || Date.now();
+            item.lastReviewedAt = dueAt <= Date.now() ? dueAt : dueAt - interval * 86400000;
+          });
           saveProgress();
           showToast('Progress imported into this browser.');
         } catch (error) {
@@ -1082,6 +1167,105 @@
       const dueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
       document.getElementById('stat-due').innerText = dueCount;
       document.getElementById('due-count').innerText = dueCount;
+      updateStudyPlanSummary();
+    }
+
+    function updateStudyPlanSummary() {
+      const count = CIVICS_POOL.length;
+      const mastered = userProgress.mastered.length;
+      const goal = Number(userProgress.dailyGoal) || 10;
+      const remaining = Math.max(0, count - mastered);
+      const estimate = Math.ceil(remaining / goal);
+      const progress = Math.round((mastered / count) * 100);
+      const bar = document.getElementById('plan-mastery-bar');
+      const track = document.getElementById('plan-mastery-track');
+      if (!bar || !track) return;
+      document.getElementById('study-daily-goal').value = String(goal);
+      document.getElementById('plan-mastery-count').innerText = `${mastered} / ${count}`;
+      document.getElementById('plan-mastery-caption').innerText = `${progress}% mastered • A question counts after three correct recalls on its spaced-review schedule.`;
+      bar.style.width = `${progress}%`;
+      track.setAttribute('aria-valuenow', String(mastered));
+      document.getElementById('study-plan-estimate').innerText = remaining ? `About ${estimate} sessions to encounter unmastered questions; spaced reviews add calendar time.` : 'All questions are marked mastered. Take a mock test to check retention.';
+
+      const diagnostic = userProgress.lastDiagnostic;
+      const guidance = document.getElementById('study-plan-guidance');
+      const title = document.getElementById('study-plan-title');
+      if (diagnostic && guidance && title) {
+        const weakCount = Array.isArray(diagnostic.weakIds) ? diagnostic.weakIds.length : 0;
+        title.innerText = 'Your starting point is saved';
+        guidance.innerText = `Your latest check-in was ${diagnostic.correct} of ${diagnostic.total}. Today's session will put ${weakCount ? `${weakCount} question${weakCount === 1 ? '' : 's'} to revisit` : 'new and due questions'} first, then continue through the bank.`;
+      }
+
+      const dueCount = Object.values(userProgress.review).filter(item => item && item.dueAt <= Date.now()).length;
+      document.getElementById('study-review-count').innerText = `${dueCount} question${dueCount === 1 ? '' : 's'} due for review today • ${userProgress.missed.length} marked for extra practice.`;
+      const latestMock = [...(userProgress.quizHistory || [])].reverse().find(item => item.mode !== 'diagnostic');
+      const latestMockEl = document.getElementById('study-last-mock');
+      if (latestMockEl) {
+        if (!latestMock) latestMockEl.innerText = 'No mock test yet. Try one after your check-in.';
+        else {
+          const label = latestMock.mode === 'senior' ? '65/20 practice' : '2025 mock';
+          const resultDate = new Date(latestMock.completedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+          latestMockEl.innerText = `${label}: ${latestMock.correct}/${latestMock.total} on ${resultDate}${latestMock.passed ? ' • study target reached' : ''}`;
+        }
+      }
+      const historyList = document.getElementById('study-mock-history');
+      if (historyList) {
+        historyList.replaceChildren();
+        const recentResults = (userProgress.quizHistory || []).filter(item => item.mode !== 'diagnostic').slice(-4).reverse();
+        if (!recentResults.length) {
+          const empty = document.createElement('p');
+          empty.className = 'text-[10px] text-slate-400';
+          empty.innerText = 'Your completed mock tests will appear here.';
+          historyList.appendChild(empty);
+        } else {
+          recentResults.forEach(item => {
+            const row = document.createElement('p');
+            row.className = 'flex justify-between gap-3 text-[10px] text-slate-500 dark:text-slate-400';
+            const label = document.createElement('span');
+            label.innerText = `${item.mode === 'senior' ? '65/20' : '2025 mock'} • ${new Date(item.completedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+            const result = document.createElement('strong');
+            result.className = item.passed ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-700 dark:text-slate-200';
+            result.innerText = `${item.correct}/${item.total}`;
+            row.append(label, result);
+            historyList.appendChild(row);
+          });
+        }
+      }
+    }
+
+    function setDailyGoal(value) {
+      const goal = Number(value);
+      if (![5, 10, 15, 20].includes(goal)) return;
+      userProgress.dailyGoal = goal;
+      saveProgress();
+    }
+
+    function startStudyDiagnostic() {
+      const eligible = CIVICS_POOL.filter(question => !question.dynamic && !question.selfCheck);
+      activeQuiz = { mode: 'diagnostic', questions: shuffleArray(eligible).slice(0, 10), index: 0, correct: 0, answered: false, results: [] };
+      setStudyMode('mcq');
+      document.getElementById('mcq-badge').innerText = 'Starting check • Question 1 of 10';
+      document.getElementById('view-mcq').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast('Quick check-in started. It is a baseline, not a pass/fail test.');
+    }
+
+    function startStudyPlanSession() {
+      activeQuiz = null;
+      const goal = Number(userProgress.dailyGoal) || 10;
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : [...CIVICS_POOL];
+      const dueIds = Object.entries(userProgress.review).filter(([, item]) => item && item.dueAt <= Date.now()).map(([id]) => Number(id));
+      const diagnosticIds = userProgress.lastDiagnostic && Array.isArray(userProgress.lastDiagnostic.weakIds) ? userProgress.lastDiagnostic.weakIds : [];
+      const priorityIds = [...new Set([...userProgress.missed, ...dueIds, ...diagnosticIds])];
+      const priorityQuestions = priorityIds.map(id => pool.find(question => question.id === id)).filter(Boolean);
+      const newQuestions = shuffleArray(pool.filter(question => !userProgress.mastered.includes(question.id) && !priorityIds.includes(question.id)));
+      const maintenanceQuestions = shuffleArray(pool.filter(question => userProgress.mastered.includes(question.id) && !priorityIds.includes(question.id)));
+      currentQuestions = [...priorityQuestions, ...newQuestions, ...maintenanceQuestions].slice(0, goal);
+      if (!currentQuestions.length) currentQuestions = shuffleArray(pool).slice(0, Math.min(goal, pool.length));
+      cardIndex = 0;
+      setStudyMode('flashcard');
+      renderFlashcard();
+      document.getElementById('view-flashcard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast(`Today's session is ready: ${currentQuestions.length} questions, with review priorities first.`);
     }
 
     function renderFlashcard() {
@@ -1131,13 +1315,6 @@
     function recordCardScore(knewIt) {
       const qId = currentQuestions[cardIndex].id;
       playChime(knewIt);
-      if (knewIt) {
-        if (!userProgress.mastered.includes(qId)) userProgress.mastered.push(qId);
-        userProgress.missed = userProgress.missed.filter(id => id !== qId);
-      } else {
-        if (!userProgress.missed.includes(qId)) userProgress.missed.push(qId);
-        userProgress.mastered = userProgress.mastered.filter(id => id !== qId);
-      }
       updateReviewSchedule(qId, knewIt);
       saveProgress();
 
@@ -1189,6 +1366,7 @@
         showToast("All 128 questions restored.");
       }
       cardIndex = 0;
+      setStudyMode('flashcard');
       renderFlashcard();
     }
 
@@ -1199,6 +1377,7 @@
       }
       currentQuestions = CIVICS_POOL.filter(q => userProgress.missed.includes(q.id));
       cardIndex = 0;
+      setStudyMode('flashcard');
       renderFlashcard();
       showToast(`Showing ${currentQuestions.length} missed questions.`);
     }
@@ -1209,13 +1388,11 @@
         .map(([id]) => Number(id));
       currentQuestions = CIVICS_POOL.filter(q => dueIds.includes(q.id));
       if (!currentQuestions.length) {
-        showToast('Nothing is due yet. Missed answers are added to review immediately.');
-        currentQuestions = [...CIVICS_POOL];
-        cardIndex = 0;
-        renderFlashcard();
+        showToast('Nothing is due today. Your current study set is unchanged.');
         return;
       }
       cardIndex = 0;
+      setStudyMode('flashcard');
       renderFlashcard();
       showToast(`${currentQuestions.length} questions ready for spaced review.`);
     }
@@ -1227,6 +1404,7 @@
         currentQuestions = CIVICS_POOL.filter(q => q.cat === cat && (!seniorExemptionActive || q.senior));
       }
       cardIndex = 0;
+      setStudyMode('flashcard');
       renderFlashcard();
     }
 
@@ -1269,12 +1447,12 @@
       const quizQuestions = activeQuiz ? activeQuiz.questions : CIVICS_POOL;
       const quizIndex = activeQuiz ? activeQuiz.index : mcqIndex;
       document.getElementById('mcq-badge').innerText = activeQuiz
-        ? `${activeQuiz.mode === 'senior' ? '65/20' : '2025 Mock'} • Question ${quizIndex + 1} of ${quizQuestions.length}`
+        ? `${activeQuiz.mode === 'diagnostic' ? 'Starting check' : activeQuiz.mode === 'senior' ? '65/20' : '2025 Mock'} • Question ${quizIndex + 1} of ${quizQuestions.length}`
         : `2025 USCIS #${q.id} • Question ${quizIndex + 1} of ${quizQuestions.length}`;
       document.getElementById('mcq-question').innerText = q.q;
       document.getElementById('mcq-progress').innerText = activeQuiz
-        ? `Correct so far: ${activeQuiz.correct}`
-        : 'Study mode • No score recorded';
+        ? activeQuiz.mode === 'diagnostic' ? `Starting baseline • ${activeQuiz.correct} correct so far` : `Correct so far: ${activeQuiz.correct}`
+        : 'Practice mode • answers enter spaced review';
       
       const mcqIcon = document.getElementById('mcq-icon');
       mcqIcon.className = `fa-solid ${q.icon || 'fa-landmark'}`;
@@ -1288,7 +1466,9 @@
       nextBtn.onclick = nextMcq;
       nextBtn.disabled = true;
       nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
-      nextBtn.innerText = activeQuiz && activeQuiz.index === activeQuiz.questions.length - 1 ? 'Finish Test' : 'Next Question →';
+      nextBtn.innerText = activeQuiz && activeQuiz.index === activeQuiz.questions.length - 1
+        ? activeQuiz.mode === 'diagnostic' ? 'Finish Check-in' : 'Finish Test'
+        : 'Next Question →';
 
       const options = (q.dynamic || q.selfCheck)
         ? ['I got this one right', 'I need to review this one']
@@ -1326,17 +1506,18 @@
       const isCorrect = (question.dynamic || question.selfCheck)
         ? selectedText === 'I got this one right'
         : question.answers.some(answer => checkAnswerEquivalence(selectedText, answer));
-      if (activeQuiz && isCorrect) activeQuiz.correct++;
-      if (activeQuiz) activeQuiz.answered = true;
-      if (isCorrect) {
-        if (!userProgress.mastered.includes(question.id)) userProgress.mastered.push(question.id);
-        userProgress.missed = userProgress.missed.filter(id => id !== question.id);
+      if (activeQuiz) {
+        activeQuiz.results.push({ questionId: question.id, correct: isCorrect, selfChecked: !!(question.dynamic || question.selfCheck) });
+        if (isCorrect) activeQuiz.correct++;
+        activeQuiz.answered = true;
+        if (activeQuiz.mode !== 'diagnostic') {
+          updateReviewSchedule(question.id, isCorrect);
+          saveProgress();
+        }
       } else {
-        if (!userProgress.missed.includes(question.id)) userProgress.missed.push(question.id);
-        userProgress.mastered = userProgress.mastered.filter(id => id !== question.id);
+        updateReviewSchedule(question.id, isCorrect);
+        saveProgress();
       }
-      updateReviewSchedule(question.id, isCorrect);
-      saveProgress();
       playChime(isCorrect);
 
       const feedback = document.getElementById('mcq-feedback');
@@ -1396,7 +1577,7 @@
       const source = mode === 'senior' ? CIVICS_POOL.filter(q => q.senior) : CIVICS_POOL;
       const length = mode === 'senior' ? 10 : 20;
       const questions = shuffleArray(source).slice(0, length);
-      activeQuiz = { mode, questions, index: 0, correct: 0, answered: false };
+      activeQuiz = { mode, questions, index: 0, correct: 0, answered: false, results: [] };
       setStudyMode('mcq');
       const activeModeButton = document.getElementById(mode === 'senior' ? 'btn-mode-senior-exam' : 'btn-mode-exam');
       activeModeButton.className = "px-3.5 py-1.5 font-medium rounded-lg bg-white dark:bg-white/[0.1] text-slate-900 dark:text-white shadow-sm transition";
@@ -1408,22 +1589,59 @@
 
     function finishPracticeQuiz() {
       const quiz = activeQuiz;
-      const target = quiz.mode === 'senior' ? 6 : 12;
-      const success = quiz.correct >= target;
+      if (!quiz) return;
+      const isDiagnostic = quiz.mode === 'diagnostic';
+      const target = isDiagnostic ? null : quiz.mode === 'senior' ? 6 : 12;
+      const success = !isDiagnostic && quiz.correct >= target;
+      const completedAt = Date.now();
+      const missedIds = (quiz.results || []).filter(result => !result.correct).map(result => result.questionId);
+      if (isDiagnostic) {
+        userProgress.lastDiagnostic = { correct: quiz.correct, total: quiz.questions.length, completedAt, weakIds: missedIds };
+      } else {
+        userProgress.quizHistory.push({ mode: quiz.mode, correct: quiz.correct, total: quiz.questions.length, target, passed: success, completedAt, missedIds });
+        userProgress.quizHistory = userProgress.quizHistory.slice(-20);
+      }
       activeQuiz = null;
-      document.getElementById('mcq-badge').innerText = `${quiz.mode === 'senior' ? '65/20' : '2025 Mock'} complete`;
-      document.getElementById('mcq-question').innerText = `${quiz.correct} of ${quiz.questions.length} correct`;
-      document.getElementById('mcq-icon').className = `fa-solid ${success ? 'fa-circle-check' : 'fa-rotate-right'}`;
+      saveProgress();
+      const label = isDiagnostic ? 'Check-in' : quiz.mode === 'senior' ? '65/20 practice' : '2025 mock';
+      document.getElementById('mcq-badge').innerText = `${label} complete`;
+      document.getElementById('mcq-question').innerText = isDiagnostic ? 'Your starting point is ready' : `${quiz.correct} of ${quiz.questions.length} correct`;
+      document.getElementById('mcq-icon').className = `fa-solid ${isDiagnostic ? 'fa-route' : success ? 'fa-circle-check' : 'fa-rotate-right'}`;
       document.getElementById('mcq-options').innerHTML = '';
       const feedback = document.getElementById('mcq-feedback');
-      feedback.className = `text-xs p-4 rounded-xl ${success ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`;
-      feedback.innerText = `${success ? 'Practice target reached.' : 'Keep studying and try again.'} This is a study result, not an official score.`;
+      const feedbackTone = isDiagnostic
+        ? quiz.correct >= 8 ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200' : quiz.correct >= 5 ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-200' : 'bg-rose-50 dark:bg-rose-500/10 text-rose-800 dark:text-rose-200'
+        : success ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200' : 'bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-200';
+      feedback.className = `text-xs p-4 rounded-xl leading-relaxed ${feedbackTone}`;
+      if (isDiagnostic) {
+        const recommendation = quiz.correct >= 8 ? 'You have a strong starting base. Use the daily session to strengthen anything you missed.' : quiz.correct >= 5 ? 'Build consistency with short daily sessions. Your missed questions are first in line.' : 'Start with the foundations and take your time. Today’s plan begins with the questions you missed.';
+        feedback.innerText = `Baseline: ${quiz.correct}/${quiz.questions.length}. ${recommendation} This is a practice check-in, not an official score.`;
+      } else {
+        const selfCheckedCount = (quiz.results || []).filter(result => result.selfChecked).length;
+        const selfCheckedNote = selfCheckedCount ? ` ${selfCheckedCount} item${selfCheckedCount === 1 ? ' was' : 's were'} self-checked because the answer can vary.` : '';
+        const focus = missedIds.length ? ` Focus next: ${missedIds.map(id => `#${id}`).join(', ')}.` : ' No missed items in this practice set.';
+        feedback.innerText = `${success ? 'Study target reached.' : `Target: ${target} correct. Keep practicing.`} ${selfCheckedNote}${focus} This is a study result, not an official score.`;
+      }
       const nextBtn = document.getElementById('mcq-next-btn');
-      nextBtn.innerText = 'Start another test';
-      nextBtn.onclick = () => startOralExam(quiz.mode);
+      nextBtn.innerText = missedIds.length ? 'Review questions to revisit' : 'Start today’s study session';
+      nextBtn.onclick = () => missedIds.length ? startQuestionReview(missedIds) : startStudyPlanSession();
       nextBtn.disabled = false;
       nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-      showToast(`${quiz.correct}/${quiz.questions.length} correct. Study target: ${target}.`);
+      showToast(isDiagnostic ? `Check-in saved: ${quiz.correct}/${quiz.questions.length}. Your plan is ready.` : `${quiz.correct}/${quiz.questions.length} correct. Study target: ${target}.`);
+    }
+
+    function startQuestionReview(questionIds) {
+      const idSet = new Set(questionIds.map(Number));
+      currentQuestions = CIVICS_POOL.filter(question => idSet.has(question.id));
+      if (!currentQuestions.length) {
+        startStudyPlanSession();
+        return;
+      }
+      cardIndex = 0;
+      setStudyMode('flashcard');
+      renderFlashcard();
+      document.getElementById('view-flashcard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast(`${currentQuestions.length} questions from your result are ready to review.`);
     }
 
     // MULTI-OFFICER PERSONALITY ENGINE
@@ -1529,8 +1747,17 @@
       utter.onend = () => {
         isSpeaking = false;
         stopWaveform();
+        if (onComplete) {
+          onComplete();
+          return;
+        }
         document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Listening to You`;
+      };
+      utter.onerror = () => {
+        isSpeaking = false;
+        stopWaveform();
         if (onComplete) onComplete();
+        else document.getElementById('officer-status').innerText = 'Voice playback did not finish. Use the visible prompt and text response.';
       };
       
       window.speechSynthesis.speak(utter);
@@ -1615,6 +1842,10 @@
       processApplicantAnswer(val);
     }
 
+    function normalizeInterviewAnswer(value) {
+      return ` ${String(value || '').toLowerCase().replace(/n't\b/g, ' not').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()} `;
+    }
+
     function processApplicantAnswer(rawText) {
       const text = rawText.toLowerCase().trim();
       if (!text || currentStepIdx >= INTERVIEW_STEPS.length) return;
@@ -1626,21 +1857,24 @@
       let passedStep = false;
 
       if (step.type === "affirmation") {
-        const normalizedAnswer = ` ${text.replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()} `;
-        const isNegated = /\b(no|nope|nah|never|refuse)\b/.test(text);
+        const normalizedAnswer = normalizeInterviewAnswer(text);
+        const isNegated = /\b(no|nope|nah|never|refuse|not|cannot|unwilling)\b/.test(normalizedAnswer);
         const hasAffirmative = step.validKey.some(k => normalizedAnswer.includes(` ${k} `));
         passedStep = hasAffirmative && !isNegated;
       } else if (step.type === "civics") {
-        const hasBanned = step.bannedKeywords.some(bk => text.includes(bk));
-        const hasAllRequired = step.requiredKeywords.every(rk => text.includes(rk));
-        passedStep = hasAllRequired && !hasBanned;
+        const normalizedAnswer = normalizeInterviewAnswer(text);
+        const hasBanned = step.bannedKeywords.some(bk => normalizedAnswer.includes(` ${bk} `));
+        const hasAllRequired = step.requiredKeywords.every(rk => normalizedAnswer.includes(` ${rk} `));
+        const contradictsAnswer = /\b(not|no|never|cannot|refuse)\b/.test(normalizedAnswer);
+        passedStep = hasAllRequired && !hasBanned && !contradictsAnswer;
       }
 
       if (!passedStep) {
         const hint = step.type === 'civics' ? `Try an answer that includes: ${step.requiredKeywords.join(' and ')}.` : 'Please answer yes to continue this practice step.';
-        document.getElementById('officer-status').innerText = 'Not quite. Try this question again.';
+        const status = document.getElementById('officer-status');
+        status.innerText = `Not accepted. The same prompt is still waiting. ${hint}`;
         showToast(hint);
-        speakOfficer(hint);
+        speakOfficer(hint, () => { status.innerText = `Not accepted. The same prompt is still waiting. ${hint}`; });
         return;
       }
 
@@ -1846,10 +2080,13 @@
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.onresult = event => {
-        const said = normalizeEnglishText(event.results[0][0].transcript);
+        const transcript = event.results[0][0].transcript;
+        const said = normalizeEnglishText(transcript);
         const expected = normalizeEnglishText(ENGLISH_SENTENCES[englishSentenceIndex]);
-        const matches = said === expected;
-        document.getElementById('english-feedback').innerText = `${matches ? 'Nice reading.' : 'Keep practicing.'} Speech recognition heard: “${event.results[0][0].transcript}”. This is an approximate browser check.`;
+        const expectedWords = expected.split(' ');
+        const saidWords = said.split(' ');
+        const matchingWords = expectedWords.reduce((count, word, index) => count + (saidWords[index] === word ? 1 : 0), 0);
+        document.getElementById('english-feedback').innerText = `${matchingWords === expectedWords.length ? 'The browser recognized every word.' : `The browser recognized ${matchingWords} of ${expectedWords.length} words in the right position.`} Heard: “${transcript}”. This browser estimate is not a pronunciation grade.`;
       };
       recognition.onerror = () => showToast('Could not recognize that reading. Check microphone access and try again.');
       try { recognition.start(); } catch (error) { showToast('Microphone is busy. Try again in a moment.'); }
@@ -1864,9 +2101,18 @@
       const answer = normalizeEnglishText(document.getElementById('english-writing-input').value);
       if (!answer) return;
       const expected = normalizeEnglishText(ENGLISH_SENTENCES[englishSentenceIndex]);
-      document.getElementById('english-feedback').innerText = answer === expected
-        ? 'That matches the practice sentence.'
-        : `Compare your spelling with: “${ENGLISH_SENTENCES[englishSentenceIndex]}”`;
+      const expectedWords = expected.split(' ');
+      const answerWords = answer.split(' ');
+      const matchingWords = expectedWords.reduce((count, word, index) => count + (answerWords[index] === word ? 1 : 0), 0);
+      if (answer === expected) {
+        document.getElementById('english-feedback').innerText = `That matches all ${expectedWords.length} words. Nice work.`;
+        return;
+      }
+      const firstMismatch = expectedWords.findIndex((word, index) => answerWords[index] !== word);
+      const mismatchIndex = firstMismatch >= 0 ? firstMismatch : expectedWords.length;
+      const expectedWord = expectedWords[mismatchIndex] || 'no extra word';
+      const typedWord = answerWords[mismatchIndex] || 'missing';
+      document.getElementById('english-feedback').innerText = `You matched ${matchingWords} of ${expectedWords.length} words in the right position. Check word ${mismatchIndex + 1}: expected “${expectedWord}”, entered “${typedWord}”. Full sentence: “${ENGLISH_SENTENCES[englishSentenceIndex]}”`;
     }
 
     function nextEnglishPrompt() {
@@ -1960,9 +2206,23 @@
       document.getElementById('checkout-modal').classList.add('hidden');
     }
 
-    function proceedToStripeCheckout() {
-      showToast("Premium design preview. Checkout is not configured.");
-      closeCheckoutModal();
+    function openInfoPanel(kind) {
+      const content = kind === 'privacy'
+        ? { title: 'Privacy notes', copy: 'This prototype has no CivicPass account or app database. Theme, mastery, missed questions, and practice history are stored in this browser only; they do not sync across devices. Export a progress backup before clearing browser site data. Microphone practice uses browser-provided speech recognition when available; audio handling depends on your browser and device provider. Avoid entering sensitive immigration or case details. The page also loads styling and icon files from public CDNs.' }
+        : { title: 'Use and accuracy', copy: 'CivicPass is independent study practice, not USCIS, legal advice, an eligibility check, or a prediction of interview results. The civics bank references USCIS Form M-1778 (2025). Some answers change over time or depend on your state or personal situation; check the official USCIS Test Updates page and study guide before your interview. Mock scores are practice feedback only.' };
+      document.getElementById('info-modal-title').innerText = content.title;
+      document.getElementById('info-modal-copy').innerText = content.copy;
+      const modal = document.getElementById('info-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeInfoPanel() {
+      const modal = document.getElementById('info-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.classList.remove('overflow-hidden');
     }
 
     function showToast(msg) {
@@ -1976,6 +2236,8 @@
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeCultureStory();
+      if (e.key === 'Escape') closeInfoPanel();
+      if (e.key === 'Escape') closeCheckoutModal();
       if (e.code === 'Space' && activeStudyMode === 'flashcard' && !document.getElementById('section-civics').classList.contains('hidden')) {
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
         if (activeTag !== 'input' && activeTag !== 'textarea') {
@@ -1994,3 +2256,4 @@
   </script>
 </body>
 </html>
+
