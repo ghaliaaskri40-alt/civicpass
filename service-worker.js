@@ -1,4 +1,4 @@
-const CACHE_NAME = 'civicpass-shell-v1';
+const CACHE_NAME = 'civicpass-shell-v2';
 const CORE_ASSETS = [
   './index.html',
   './manifest.webmanifest',
@@ -16,11 +16,34 @@ const CDN_HOSTS = new Set([
   'fonts.googleapis.com',
   'fonts.gstatic.com'
 ]);
+const EXTERNAL_ASSETS = [
+  { url: 'https://cdn.tailwindcss.com', mode: 'no-cors' },
+  { url: 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js', mode: 'cors' },
+  { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', mode: 'cors' },
+  { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2', mode: 'cors' },
+  { url: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2', mode: 'cors' },
+  { url: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap', mode: 'cors' }
+];
+
+async function cacheExternalAsset(cache, asset) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 7000);
+  try {
+    const request = new Request(asset.url, { mode: asset.mode });
+    const response = await fetch(request, { signal: controller.signal });
+    if (response && (response.ok || response.type === 'opaque')) await cache.put(request, response.clone());
+  } catch (error) {
+    // The app shell still installs if a CDN is temporarily unavailable.
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     await cache.addAll(CORE_ASSETS);
+    await Promise.allSettled(EXTERNAL_ASSETS.map(asset => cacheExternalAsset(cache, asset)));
     await self.skipWaiting();
   })());
 });
