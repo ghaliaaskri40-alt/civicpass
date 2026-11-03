@@ -453,6 +453,25 @@
         </div>
         <div id="lesson-library" class="hidden mt-4 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
           <div id="lesson-library-grid" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3" aria-live="polite"></div>
+          <article id="lesson-reader" class="hidden mt-4 rounded-2xl border border-blue-200 dark:border-blue-400/20 bg-white dark:bg-[#10141d] p-5 sm:p-7" aria-live="polite">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-700 dark:text-blue-300">Topic lesson</div>
+                <h4 id="lesson-reader-title" class="text-lg font-bold text-slate-900 dark:text-white mt-1"></h4>
+              </div>
+              <button type="button" onclick="closeLessonReader()" class="rounded-lg border border-slate-200 dark:border-white/[0.08] px-3 py-1.5 text-xs text-slate-600 dark:text-slate-300">Close</button>
+            </div>
+            <p id="lesson-reader-intro" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300 mt-3"></p>
+            <div id="lesson-reader-sections" class="grid md:grid-cols-3 gap-3 mt-4"></div>
+            <div class="mt-4 rounded-xl bg-blue-50 dark:bg-blue-500/[0.08] p-4">
+              <p class="text-[10px] font-mono uppercase tracking-widest text-blue-700 dark:text-blue-300">Recall strategy</p>
+              <p id="lesson-reader-cue" class="text-xs leading-relaxed text-slate-700 dark:text-slate-200 mt-1"></p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 mt-4">
+              <button type="button" onclick="practiceSelectedLesson()" class="rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white transition"><i class="fa-solid fa-layer-group mr-1.5"></i><span id="lesson-reader-practice-label">Practice this topic</span></button>
+              <a id="lesson-reader-spanish-link" href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_Es.pdf" target="_blank" rel="noopener noreferrer" class="hidden text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline">Open official USCIS Spanish guide <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+            </div>
+          </article>
           <p class="text-[10px] leading-relaxed text-slate-400 mt-3">Lessons are independent study explanations built around the USCIS question banks. Use the linked USCIS guide for the official accepted answers and confirm answers that can change.</p>
         </div>
       </section>
@@ -470,6 +489,7 @@
                 </span>
                 <div class="flex gap-2">
                   <button type="button" id="fc-bookmark-btn-front" aria-pressed="false" onclick="event.stopPropagation(); toggleBookmarkForCurrentCard();" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-slate-300 text-xs"><i class="fa-regular fa-bookmark mr-1"></i>Save</button>
+                  <a id="fc-spanish-guide-btn" href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_Es.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="hidden px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-400/20 text-emerald-700 dark:text-emerald-200 text-[10px] font-semibold"><i class="fa-solid fa-language mr-1"></i>Español</a>
                   <button type="button" onclick="event.stopPropagation(); playCurrentCardAudio();" class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] transition flex items-center gap-2 text-xs font-mono"><span>Pronounce</span> <i class="fa-solid fa-volume-high"></i></button>
                 </div>
               </div>
@@ -1282,14 +1302,94 @@
     const ALL_CIVICS_IDS = new Set(ALL_CIVICS_POOL.map(question => question.id));
 
     const CIVICS_LESSONS = [
-      { id: 'foundations', icon: 'fa-scroll', title: 'The Constitution & founding ideas', match: /constitution|amendment|bill of rights|declaration of independence|self-government|federalist|colonist|british|independence from|constitutional convention|original colonies|george washington|thomas jefferson|benjamin franklin|james madison|alexander hamilton|john jay|founding father|founder/, summary: 'The founding documents explain where government gets its authority, how it is structured, and which freedoms it must protect. The Constitution can be amended; the first ten amendments are the Bill of Rights.', cue: 'Connect the document to its job: Declaration → independence; Constitution → government framework; Bill of Rights → protected freedoms.' },
-      { id: 'government', icon: 'fa-landmark', title: 'Branches, powers & federalism', match: /branch|checks and balances|separation of powers|congress|senate|house of representatives|representative|federal government|state government|supreme court|cabinet|veto|signs.*bill|federal law|governor|powers belong|commander in chief|speaker of the house|how many justices|who makes.*law|who creates.*law|who is in charge of the executive/, summary: 'Federal power is divided among legislative, executive, and judicial branches. Checks and balances limit concentrated power, while the Constitution assigns some responsibilities to the federal government and leaves others to states.', cue: 'Legislative makes laws · Executive carries them out · Judicial interprets them. Federal and state governments share power.' },
-      { id: 'rights', icon: 'fa-scale-balanced', title: 'Rights & responsibilities', match: /right|freedom|vote|voting|citizen|responsibilit|jury|oath|allegiance|religion|speech|petition|discrimination|civil rights|women|equal/, summary: 'Civics questions distinguish rights people hold, rights reserved for citizens, and responsibilities tied to citizenship. The amendments expanded constitutional protections and voting access over time.', cue: 'Ask who the question is about: everyone in the United States, citizens only, or a responsibility of citizens.' },
-      { id: 'democracy', icon: 'fa-check-to-slot', title: 'Elections & civic participation', match: /president|election|political party|senator|representative|current|term of|month.*vote|campaign|participat|democracy|political office|major parties|party of/, summary: 'Elections select public officials at different levels. Citizens can take part by voting, contacting elected officials, joining civic groups, or supporting a campaign or public issue.', cue: 'Separate the office from the term: federal offices serve different lengths and represent different groups.' },
-      { id: 'early-history', icon: 'fa-feather-pointed', title: 'Colonies, independence & the new nation', match: /came to america|before.*european|brought.*slav|thirteen|13 states|adopted.*declaration|wrote.*declaration|why.*colon|territory.*france|louisiana|poor richard|first postmaster|first president|father of our country/, summary: 'The colonial period, Revolution, and founding of the United States explain how the country separated from Britain and established a constitutional system. The early republic then grew through settlement and territorial change.', cue: 'Put events in order: colonial settlement → independence → Constitution → early republic.' },
-      { id: 'conflict-change', icon: 'fa-dove', title: 'Conflict, expansion & national change', match: /war|civil war|slav|emancipation|lincoln|susan b\. anthony|women.s rights|abolish/, summary: 'Questions about conflict connect major wars to the political changes that followed. The Civil War tested whether the Union would endure and ended slavery; later movements continued expanding equal rights.', cue: 'For a war question, identify its era and the issue or event it is asking about.' },
-      { id: 'modern-history', icon: 'fa-globe', title: 'The 20th century & recent history', match: /world war|cold war|korean|vietnam|pearl harbor|great depression|september 11|9\/11|terroris|communism|eisenhower|roosevelt|innovation|invent|civil rights movement|martin luther|persian gulf/, summary: 'Modern-history questions cover global conflicts, economic crisis, civil rights, and events that shaped U.S. policy. Linking a person or event to its era makes the facts easier to retrieve.', cue: 'Build a timeline: World Wars → Great Depression / World War II → Cold War → civil rights era → events after 2001.' },
-      { id: 'places-symbols', icon: 'fa-flag-usa', title: 'Geography, symbols & traditions', match: /river|ocean|territor|border|statue of liberty|flag|stripes|stars|anthem|motto|holiday|capital|tribe|american indian|indigenous|independence day/, summary: 'Integrated civics combines maps, national symbols, Indigenous peoples, and shared traditions. These questions connect places and symbols to the country’s geography and history.', cue: 'Picture the map or symbol: coasts and borders for geography; stars, stripes, and songs for national symbols.' }
+      {
+        id: 'foundations', icon: 'fa-scroll', title: 'The Constitution & founding ideas',
+        match: /constitution|amendment|bill of rights|declaration of independence|self-government|federalist|colonist|british|independence from|constitutional convention|original colonies|george washington|thomas jefferson|benjamin franklin|james madison|alexander hamilton|john jay|founding father|founder/,
+        summary: 'The founding documents explain where government gets its authority, how it is structured, and which freedoms it must protect.',
+        cue: 'Declaration → independence; Constitution → government framework; Bill of Rights → protected freedoms.',
+        sections: [
+          { heading: 'The Declaration and the Constitution', text: 'The Declaration of Independence announced the colonies’ separation from Great Britain in 1776. The Constitution, written later, established the national government and describes how its powers are divided.' },
+          { heading: 'Popular sovereignty and amendments', text: '“We the People” expresses the idea that legitimate government authority comes from the people. An amendment is a change or addition to the Constitution; the first ten amendments are the Bill of Rights.' },
+          { heading: 'Why the framework matters', text: 'The Constitution is the supreme law of the land. It creates a government with limited, divided powers and protects basic rights. Later amendments let the country change that framework through a formal process.' }
+        ]
+      },
+      {
+        id: 'government', icon: 'fa-landmark', title: 'Branches, powers & federalism',
+        match: /branch|checks and balances|separation of powers|congress|senate|house of representatives|representative|federal government|state government|supreme court|cabinet|veto|signs.*bill|federal law|governor|powers belong|commander in chief|speaker of the house|how many justices|who makes.*law|who creates.*law|who is in charge of the executive/,
+        summary: 'Federal power is divided among legislative, executive, and judicial branches; state and federal governments also share authority.',
+        cue: 'Legislative makes laws · Executive carries them out · Judicial interprets them.',
+        sections: [
+          { heading: 'Three branches', text: 'Congress is the legislative branch and makes federal laws. The President leads the executive branch, which carries out laws. Federal courts form the judicial branch and interpret laws, including whether a law conflicts with the Constitution.' },
+          { heading: 'Checks and balances', text: 'Each branch has ways to restrain the others. For example, the President can veto a bill, Congress can override a veto, and courts can decide constitutional cases. This division helps prevent power from gathering in one place.' },
+          { heading: 'Federal and state responsibilities', text: 'The Constitution gives certain powers to the national government, such as declaring war and making treaties. States handle many local services, including public schools, police and fire protection, driver licensing, and land use.' }
+        ]
+      },
+      {
+        id: 'rights', icon: 'fa-scale-balanced', title: 'Rights & responsibilities',
+        match: /right|freedom|vote|voting|citizen|responsibilit|jury|oath|allegiance|religion|speech|petition|discrimination|civil rights|women|equal/,
+        summary: 'Civics questions distinguish rights people hold, rights reserved for citizens, and responsibilities tied to citizenship.',
+        cue: 'Ask who the question is about: everyone in the United States, citizens only, or a responsibility of citizens.',
+        sections: [
+          { heading: 'Freedoms and equal protection', text: 'The First Amendment protects freedom of religion, speech, the press, peaceful assembly, and petitioning the government. The Bill of Rights protects people from government overreach; some rights apply to everyone in the United States.' },
+          { heading: 'Voting and citizenship', text: 'Constitutional amendments expanded voting access over time, including protections related to race, sex, age 18 and older, and poll taxes. Some political rights, such as voting in a federal election, are reserved for U.S. citizens.' },
+          { heading: 'Taking part and serving', text: 'Citizens can vote, contact elected officials, join civic groups, or help with campaigns. Civics questions also ask about responsibilities such as serving on a jury and, for men in the specified age range, registering for Selective Service.' }
+        ]
+      },
+      {
+        id: 'democracy', icon: 'fa-check-to-slot', title: 'Elections & civic participation',
+        match: /president|election|political party|senator|representative|current|term of|month.*vote|campaign|participat|democracy|political office|major parties|party of/,
+        summary: 'Elections select public officials at different levels. Citizens can shape public life between elections too.',
+        cue: 'Separate the office from the term: federal offices serve different lengths and represent different groups.',
+        sections: [
+          { heading: 'Representation', text: 'Each state has two U.S. senators. Representation in the House is distributed by population, so larger states have more voting members. A senator represents the people of the whole state.' },
+          { heading: 'Elections and terms', text: 'Federal offices have different election cycles and responsibilities. The President serves a four-year term; senators serve six years; House members serve two. Presidential elections are held in November.' },
+          { heading: 'Participation beyond voting', text: 'Citizens may join a political party, work on a campaign, contact a senator or representative, share views with an elected official, or support or oppose a public policy. Current officeholders and party details can change, so check USCIS updates.' }
+        ]
+      },
+      {
+        id: 'early-history', icon: 'fa-feather-pointed', title: 'Colonies, independence & the new nation',
+        match: /came to america|before.*european|brought.*slav|thirteen|13 states|adopted.*declaration|wrote.*declaration|why.*colon|territory.*france|louisiana|poor richard|first postmaster|first president|father of our country/,
+        summary: 'The colonial period, Revolution, and founding of the United States explain how the country separated from Britain and formed a constitutional system.',
+        cue: 'Colonies → independence → Constitution → early republic.',
+        sections: [
+          { heading: 'Before independence', text: 'Indigenous peoples lived across these lands before European arrival. People from Africa were brought to the colonies and enslaved. Colonists came for different reasons, including religious freedom and economic opportunity.' },
+          { heading: 'The Revolution and founding', text: 'Disputes over British rule, taxation, representation, and self-government contributed to the Revolution. The Declaration was adopted on July 4, 1776. After independence, delegates wrote the Constitution at the 1787 Constitutional Convention.' },
+          { heading: 'A new republic', text: 'The original thirteen states formed the first union. The early leaders built institutions under the Constitution, while the country later expanded through events such as the Louisiana Purchase.' }
+        ]
+      },
+      {
+        id: 'conflict-change', icon: 'fa-dove', title: 'Conflict, expansion & national change',
+        match: /war|civil war|slav|emancipation|lincoln|susan b\. anthony|women.s rights|abolish/,
+        summary: 'Major conflicts tested the nation and brought lasting political change, including the end of slavery and later expansion of equal rights.',
+        cue: 'For a war question, identify its era and the issue or event it is asking about.',
+        sections: [
+          { heading: 'Wars and national growth', text: 'The United States fought several conflicts during the 1800s, including the War of 1812, the Mexican-American War, the Civil War, and the Spanish-American War. The question wording helps distinguish the conflict or period being asked about.' },
+          { heading: 'The Civil War', text: 'Slavery was central to the conflict, alongside economic differences and disputes over state and federal power. The war tested whether the Union would endure and ended slavery in the United States.' },
+          { heading: 'Emancipation and reform', text: 'The Emancipation Proclamation declared freedom for enslaved people in areas rebelling against the Union; the Thirteenth Amendment later abolished slavery throughout the country. Reform movements, including the movement for women’s rights, continued to press for equality.' }
+        ]
+      },
+      {
+        id: 'modern-history', icon: 'fa-globe', title: 'The 20th century & recent history',
+        match: /world war|cold war|korean|vietnam|pearl harbor|great depression|september 11|9\/11|terroris|communism|eisenhower|roosevelt|innovation|invent|civil rights movement|martin luther|persian gulf/,
+        summary: 'Modern-history questions cover global conflicts, economic crisis, civil rights, and events that shaped U.S. policy.',
+        cue: 'World Wars → Great Depression / World War II → Cold War → civil rights era → events after 2001.',
+        sections: [
+          { heading: 'World wars and the Great Depression', text: 'The United States fought in both World War I and World War II. Franklin D. Roosevelt was President during the Great Depression and World War II; the attack on Pearl Harbor brought the United States into World War II.' },
+          { heading: 'The Cold War and later conflicts', text: 'The Cold War was a prolonged rivalry between the United States and the Soviet Union, with communism and nuclear conflict among the central concerns. The United States also fought in Korea, Vietnam, and the Persian Gulf.' },
+          { heading: 'Civil rights and recent events', text: 'The civil rights movement fought racial discrimination; Martin Luther King Jr. was a prominent leader. The September 11, 2001 attacks led to new U.S. military conflicts. Keep people, events, and eras in chronological order to strengthen recall.' }
+        ]
+      },
+      {
+        id: 'places-symbols', icon: 'fa-flag-usa', title: 'Geography, symbols & traditions',
+        match: /river|ocean|territor|border|statue of liberty|flag|stripes|stars|anthem|motto|holiday|capital|tribe|american indian|indigenous|independence day/,
+        summary: 'Integrated civics connects maps and places with national symbols, Indigenous peoples, and shared traditions.',
+        cue: 'Picture the map or symbol: coasts and borders for geography; stars, stripes, and songs for national symbols.',
+        sections: [
+          { heading: 'Map the country', text: 'The Atlantic Ocean borders the East Coast and the Pacific Ocean borders the West Coast. The Mississippi and Missouri are the two longest rivers. Four states share a border with Mexico; several northern states border Canada.' },
+          { heading: 'Symbols carry history', text: 'The thirteen stripes represent the original colonies; the fifty stars represent the states. The national anthem is “The Star-Spangled Banner.” The Statue of Liberty stands in New York Harbor.' },
+          { heading: 'People and traditions', text: 'The United States includes Indigenous nations and territories with distinct histories. National holidays and civic traditions commemorate independence, service, and shared public life. Learn the examples USCIS lists for your test version.' }
+        ]
+      }
     ];
     const CIVICS_QUESTION_EXPLANATIONS = [
       [/supreme law of the land/i, 'The Constitution has the highest legal authority in the United States; government actions must follow it.'],
@@ -1399,7 +1499,11 @@
       const spanishGuide = document.getElementById('official-spanish-guide-link');
       if (spanishGuide) spanishGuide.classList.toggle('hidden', selectedTestVersion !== '2008');
       const lessonPanel = document.getElementById('lesson-library');
-      if (lessonPanel && !lessonPanel.classList.contains('hidden')) renderLessonLibrary();
+      if (lessonPanel && !lessonPanel.classList.contains('hidden')) {
+        renderLessonLibrary();
+        const reader = document.getElementById('lesson-reader');
+        if (reader && !reader.classList.contains('hidden') && reader.dataset.lessonId) openLessonReader(reader.dataset.lessonId, null, false);
+      }
       const estimate = document.getElementById('study-plan-estimate');
       if (interviewDate) {
         const today = new Date(); today.setHours(12, 0, 0, 0);
@@ -1848,9 +1952,7 @@
         card.type = 'button';
         card.className = 'text-left rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#11151d] p-4 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-400/30 hover:shadow-md transition';
         card.setAttribute('aria-label', `Practice ${lesson.title}, ${count} questions`);
-        card.disabled = count === 0;
-        card.classList.toggle('opacity-50', count === 0);
-        card.onclick = () => startLessonPractice(lesson.id);
+        card.onclick = () => openLessonReader(lesson.id, card);
         const icon = document.createElement('span');
         icon.className = 'inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300';
         const iconGlyph = document.createElement('i');
@@ -1865,10 +1967,56 @@
         summary.textContent = lesson.summary;
         const footer = document.createElement('span');
         footer.className = 'block mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.06] text-[10px] font-mono text-blue-700 dark:text-blue-300';
-        footer.textContent = count ? `${count} questions · Practice this topic →` : 'No questions in this set';
+        footer.textContent = count ? `${count} questions · Read lesson →` : 'Read lesson · no questions in this set';
         card.append(icon, heading, summary, footer);
         grid.appendChild(card);
       });
+    }
+
+    let lessonReaderReturnFocus = null;
+    function openLessonReader(lessonId, trigger = null, shouldScroll = true) {
+      const lesson = CIVICS_LESSONS.find(item => item.id === lessonId);
+      const reader = document.getElementById('lesson-reader');
+      if (!lesson || !reader) return;
+      if (trigger) lessonReaderReturnFocus = trigger;
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const count = pool.filter(question => getCivicsLessonForQuestion(question).id === lesson.id).length;
+      reader.dataset.lessonId = lesson.id;
+      document.getElementById('lesson-reader-title').textContent = lesson.title;
+      document.getElementById('lesson-reader-intro').textContent = lesson.summary;
+      document.getElementById('lesson-reader-cue').textContent = lesson.cue;
+      document.getElementById('lesson-reader-practice-label').textContent = count ? `Practice ${count} related question${count === 1 ? '' : 's'}` : 'No questions in this set';
+      const practiceButton = document.querySelector('#lesson-reader button[onclick="practiceSelectedLesson()"]');
+      practiceButton.disabled = count === 0;
+      practiceButton.classList.toggle('opacity-50', count === 0);
+      document.getElementById('lesson-reader-spanish-link').classList.toggle('hidden', selectedTestVersion !== '2008');
+      const sections = document.getElementById('lesson-reader-sections');
+      sections.replaceChildren();
+      lesson.sections.forEach(section => {
+        const article = document.createElement('section');
+        article.className = 'rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.025] p-4';
+        const heading = document.createElement('h5');
+        heading.className = 'text-xs font-bold text-slate-900 dark:text-white';
+        heading.textContent = section.heading;
+        const paragraph = document.createElement('p');
+        paragraph.className = 'mt-2 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300';
+        paragraph.textContent = section.text;
+        article.append(heading, paragraph);
+        sections.appendChild(article);
+      });
+      reader.classList.remove('hidden');
+      if (shouldScroll) reader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closeLessonReader() {
+      document.getElementById('lesson-reader').classList.add('hidden');
+      if (lessonReaderReturnFocus && lessonReaderReturnFocus.isConnected) lessonReaderReturnFocus.focus({ preventScroll: true });
+      lessonReaderReturnFocus = null;
+    }
+
+    function practiceSelectedLesson() {
+      const lessonId = document.getElementById('lesson-reader').dataset.lessonId;
+      if (lessonId) startLessonPractice(lessonId);
     }
 
     function toggleLessonLibrary() {
@@ -1931,6 +2079,7 @@
       document.getElementById('fc-lesson-title').innerText = lesson.title;
       document.getElementById('fc-lesson-summary').innerText = getQuestionLearningExplanation(q);
       document.getElementById('fc-lesson-cue').innerText = `Recall cue: ${lesson.cue}`;
+      document.getElementById('fc-spanish-guide-btn').classList.toggle('hidden', q.version !== '2008');
       document.getElementById('fc-learning-note').hidden = true;
       document.getElementById('fc-learn-toggle').setAttribute('aria-expanded', 'false');
       document.getElementById('fc-learn-toggle').innerHTML = '<i class="fa-solid fa-lightbulb mr-1.5" aria-hidden="true"></i>Why this answer matters';
