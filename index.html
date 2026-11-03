@@ -365,6 +365,7 @@
             </select>
             <span id="study-plan-estimate" class="text-[11px] text-slate-500 dark:text-slate-400">Choose a pace to estimate your review plan.</span>
           </div>
+          <p id="study-plan-focus" aria-live="polite" class="mt-3 rounded-xl border border-blue-200/70 dark:border-blue-400/15 bg-white/70 dark:bg-white/[0.03] px-3 py-2 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300">Focus areas will appear after practice. Due and missed questions are prioritized automatically.</p>
           <div class="mt-4 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
             <div class="flex items-center justify-between gap-3 text-[11px]">
               <span class="font-semibold text-slate-700 dark:text-slate-200">Today’s practice</span>
@@ -427,7 +428,8 @@
           </button>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. Practice in English here; when you select the 2008 bank, open the official USCIS Spanish guide alongside the lessons. Dynamic and personal answers are self-checked.</p>
+      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. The practice questions and browser voice are in English. Dynamic and personal answers are self-checked.</p>
+      <p id="language-support-note" class="rounded-xl border border-emerald-200/80 dark:border-emerald-400/15 bg-emerald-50/70 dark:bg-emerald-500/[0.06] px-3.5 py-2.5 text-[11px] leading-relaxed text-emerald-900 dark:text-emerald-100" aria-live="polite">Language support: open the official USCIS Spanish guide when studying the 2008 bank. CivicPass does not provide a complete translated interface or audio.</p>
       <div class="flex flex-wrap items-center gap-2 text-xs">
         <span class="text-slate-400">Progress and recent results are saved in this browser only; export a backup to move them to another device.</span>
         <button type="button" onclick="triggerProgressReportPrint()" class="px-3 py-1.5 rounded-lg border border-blue-200 dark:border-blue-400/20 text-blue-700 dark:text-blue-300">Print progress report</button>
@@ -504,6 +506,14 @@
                 </div>
               </div>
 
+              <div class="relative z-10 flex justify-center items-center gap-2 text-[10px] text-slate-500 dark:text-slate-400">
+                <label for="speech-rate-select">Spoken question speed</label>
+                <select id="speech-rate-select" aria-label="Spoken question speed" onchange="setSpeechRate(this.value)" class="rounded-lg border border-slate-200 dark:border-white/[0.1] bg-white dark:bg-[#090b10] px-2 py-1 text-[10px] text-slate-700 dark:text-slate-200">
+                  <option value="0.75">Slow</option><option value="0.9" selected>Steady</option><option value="1">Natural</option>
+                </select>
+                <span>Browser voice · English</span>
+              </div>
+
               <!-- Question Section with Vector Graphic -->
               <div class="my-auto text-center space-y-4 py-4 relative z-10">
                 <div id="fc-vector-container" class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200/60 dark:border-blue-500/20 flex items-center justify-center text-3xl sm:text-4xl text-blue-600 dark:text-blue-400 shadow-inner">
@@ -516,6 +526,12 @@
                 <p id="fc-source-label" class="text-xs text-slate-400 dark:text-slate-500 font-normal italic">
                   Official USCIS 2025 civics question
                 </p>
+                <div class="flex flex-wrap justify-center items-center gap-2 text-[10px]">
+                  <a id="fc-official-source" href="https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-700 dark:text-blue-300 hover:underline">Open official USCIS source</a>
+                  <span aria-hidden="true" class="text-slate-300">·</span>
+                  <span id="fc-source-freshness" class="text-slate-400">Static study copy · verify current answers with USCIS</span>
+                  <button type="button" onclick="downloadQuestionReport()" class="text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 underline underline-offset-2">Report a content concern</button>
+                </div>
               </div>
 
               <div class="text-center text-[11px] text-slate-400 dark:text-slate-500 font-mono flex items-center justify-center gap-2 relative z-10">
@@ -871,6 +887,10 @@
     <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-[#0e1117] border border-slate-200 dark:border-white/[0.1] shadow-2xl p-6 sm:p-8 space-y-4">
       <div class="flex items-start justify-between gap-4"><div><div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-600 dark:text-blue-400">CivicPass prototype notes</div><h2 id="info-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mt-1">Use and accuracy</h2></div><button type="button" onclick="closeInfoPanel()" aria-label="Close information" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-white/[0.08] text-slate-700 dark:text-white">✕</button></div>
       <p id="info-modal-copy" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
+      <div id="privacy-controls" class="hidden rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.03] p-4 space-y-3">
+        <div><p class="text-xs font-semibold text-slate-800 dark:text-white">Manage this browser’s study data</p><p id="privacy-storage-summary" class="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Study data is stored locally on this device.</p></div>
+        <div class="flex flex-wrap gap-2"><button type="button" onclick="exportProgress()" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-white/[0.1] text-xs font-semibold">Download progress backup</button><button type="button" onclick="clearLocalStudyData()" class="px-3 py-2 rounded-lg border border-rose-200 dark:border-rose-400/20 text-rose-700 dark:text-rose-300 text-xs font-semibold">Delete local study data</button></div>
+      </div>
       <p class="text-[10px] text-slate-400">These prototype notes are informational and are not a complete legal policy.</p>
       <button type="button" onclick="closeInfoPanel()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Close</button>
     </div>
@@ -952,8 +972,9 @@
         <p id="product-preview-copy" class="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed">Both USCIS civics banks, filing-date setup, searchable questions, saved review lists, topic progress, spaced review, oral mock tests, interview rehearsal, English exercises, and culture stories.</p>
       </div>
       <div class="rounded-xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] p-4 space-y-2 text-xs text-slate-600 dark:text-slate-300">
-        <p><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>There is no account, subscription, or payment processing in this prototype.</p>
-        <p><i class="fa-solid fa-mobile-screen text-blue-500 mr-2"></i>Progress stays in this browser; export a backup to move it to another device.</p>
+        <p><i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>There is no account, cloud sync, subscription, or payment processing in this website yet. No purchase can be made here.</p>
+        <p><i class="fa-solid fa-mobile-screen text-blue-500 mr-2"></i>Progress stays in this browser; export a backup to move it to another device. Do not enter sensitive immigration details.</p>
+        <p><i class="fa-solid fa-lock text-blue-500 mr-2"></i>Real paid access requires a secure server, verified purchases, account deletion, and published support and refund terms. This preview does not collect payment information.</p>
       </div>
       <button type="button" onclick="closeCheckoutModal()" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-tight transition">Got it</button>
     </div>
@@ -980,6 +1001,16 @@
 
   <!-- Core Script Engine -->
   <script>
+    let practiceSpeechRate = ['0.75', '0.9', '1'].includes(readLocalPreference('civicpass_speech_rate')) ? Number(readLocalPreference('civicpass_speech_rate')) : 0.9;
+
+    function setSpeechRate(value) {
+      const rate = Number(value);
+      if (![0.75, 0.9, 1].includes(rate)) return;
+      practiceSpeechRate = rate;
+      writeLocalPreference('civicpass_speech_rate', String(rate));
+      showToast(`Spoken question speed set to ${rate === 0.75 ? 'slow' : rate === 0.9 ? 'steady' : 'natural'}.`);
+    }
+
     function readLocalPreference(key) {
       try { return localStorage.getItem(key); } catch (error) { return null; }
     }
@@ -1534,6 +1565,12 @@
       }
       const spanishGuide = document.getElementById('official-spanish-guide-link');
       if (spanishGuide) spanishGuide.classList.toggle('hidden', selectedTestVersion !== '2008');
+      const languageNote = document.getElementById('language-support-note');
+      if (languageNote) {
+        languageNote.innerText = selectedTestVersion === '2008'
+          ? 'Spanish support: the official USCIS 2008 Spanish civics guide is available in the source links and on each flashcard. CivicPass explanations, interface, and spoken questions remain in English.'
+          : 'Language support: the official USCIS 2025 study guide linked here is in English. USCIS says eligible 65/20 applicants may take the civics test in a language of their choice; confirm eligibility and requirements with USCIS. CivicPass does not provide a reviewed Spanish translation or non-English audio for the 2025 bank.';
+      }
       const lessonPanel = document.getElementById('lesson-library');
       if (lessonPanel && !lessonPanel.classList.contains('hidden')) {
         renderLessonLibrary();
@@ -1914,6 +1951,24 @@
       const diagnostic = userProgress.lastDiagnostic;
       const guidance = document.getElementById('study-plan-guidance');
       const title = document.getElementById('study-plan-title');
+      const focus = document.getElementById('study-plan-focus');
+      const topicStats = ['gov', 'history', 'integrated'].map(category => {
+        const topicQuestions = studyPool.filter(question => question.cat === category);
+        const topicIds = new Set(topicQuestions.map(question => question.id));
+        const missed = userProgress.missed.filter(id => topicIds.has(id)).length;
+        const due = Object.entries(userProgress.review).filter(([id, item]) => topicIds.has(Number(id)) && item && item.dueAt <= Date.now()).length;
+        const diagnosticMisses = diagnostic && Array.isArray(diagnostic.weakIds) ? diagnostic.weakIds.filter(id => topicIds.has(Number(id))).length : 0;
+        const name = category === 'gov' ? 'American government' : category === 'history' ? 'American history' : 'Integrated civics';
+        return { name, count: topicQuestions.length, missed, due, diagnosticMisses, score: topicQuestions.length ? (missed * 3 + due * 2 + diagnosticMisses) / topicQuestions.length : 0 };
+      }).sort((a, b) => b.score - a.score);
+      const priorityTopic = topicStats.find(topic => topic.missed || topic.due || topic.diagnosticMisses);
+      if (focus) {
+        focus.innerText = priorityTopic
+          ? `Recommended focus: ${priorityTopic.name} (${priorityTopic.missed} missed, ${priorityTopic.due} due${priorityTopic.diagnosticMisses ? `, ${priorityTopic.diagnosticMisses} from your last check-in` : ''}). Today's session starts with your highest-priority reviews, then adds unmastered questions from this topic.`
+          : diagnostic
+            ? 'No current missed or due questions. Your daily session will focus on unmastered questions and keep mastered ones in rotation.'
+            : 'Take the 10-question check-in to identify a starting focus. Due and missed questions will move to the front of your daily session.';
+      }
       if (diagnostic && guidance && title) {
         const weakCount = Array.isArray(diagnostic.weakIds) ? diagnostic.weakIds.filter(id => studyIds.has(Number(id))).length : 0;
         title.innerText = 'Your starting point is saved';
@@ -1988,8 +2043,18 @@
       const dueIds = Object.entries(userProgress.review).filter(([, item]) => item && item.dueAt <= Date.now()).map(([id]) => Number(id));
       const diagnosticIds = userProgress.lastDiagnostic && Array.isArray(userProgress.lastDiagnostic.weakIds) ? userProgress.lastDiagnostic.weakIds : [];
       const priorityIds = [...new Set([...userProgress.missed, ...dueIds, ...diagnosticIds])];
-      const priorityQuestions = priorityIds.map(id => pool.find(question => question.id === id)).filter(Boolean);
-      const newQuestions = shuffleArray(pool.filter(question => !userProgress.mastered.includes(question.id) && !priorityIds.includes(question.id)));
+      const categoryWeakness = new Map(['gov', 'history', 'integrated'].map(category => {
+        const topicQuestions = pool.filter(question => question.cat === category);
+        const topicIds = new Set(topicQuestions.map(question => question.id));
+        const missed = userProgress.missed.filter(id => topicIds.has(id)).length;
+        const due = dueIds.filter(id => topicIds.has(id)).length;
+        const diagnosticMisses = diagnosticIds.filter(id => topicIds.has(id)).length;
+        return [category, topicQuestions.length ? (missed * 3 + due * 2 + diagnosticMisses) / topicQuestions.length : 0];
+      }));
+      const priorityQuestions = priorityIds.map(id => pool.find(question => question.id === id)).filter(Boolean)
+        .sort((a, b) => ((userProgress.missed.includes(b.id) ? 4 : 0) + (dueIds.includes(b.id) ? 3 : 0) + (diagnosticIds.includes(b.id) ? 1 : 0) + (categoryWeakness.get(b.cat) || 0)) - ((userProgress.missed.includes(a.id) ? 4 : 0) + (dueIds.includes(a.id) ? 3 : 0) + (diagnosticIds.includes(a.id) ? 1 : 0) + (categoryWeakness.get(a.cat) || 0)));
+      const newQuestions = shuffleArray(pool.filter(question => !userProgress.mastered.includes(question.id) && !priorityIds.includes(question.id)))
+        .sort((a, b) => (categoryWeakness.get(b.cat) || 0) - (categoryWeakness.get(a.cat) || 0));
       const maintenanceQuestions = shuffleArray(pool.filter(question => userProgress.mastered.includes(question.id) && !priorityIds.includes(question.id)));
       currentQuestions = [...priorityQuestions, ...newQuestions, ...maintenanceQuestions].slice(0, goal);
       if (!currentQuestions.length) currentQuestions = shuffleArray(pool).slice(0, Math.min(goal, pool.length));
@@ -2129,6 +2194,17 @@
       document.getElementById('fc-badge').innerText = `USCIS ${q.version} #${q.sourceId}${q.senior ? ' • 65/20' : ''}`;
       document.getElementById('fc-question').innerText = q.q;
       document.getElementById('fc-source-label').innerText = `Official USCIS ${q.version} civics bank · question ${q.sourceId}`;
+      const sourceLink = document.getElementById('fc-official-source');
+      const sourceUrl = q.version === '2008'
+        ? 'https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_V1.pdf'
+        : 'https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf';
+      sourceLink.href = sourceUrl;
+      sourceLink.innerText = `Open official USCIS ${q.version} guide · question ${q.sourceId}`;
+      document.getElementById('fc-source-freshness').innerText = q.dynamic
+        ? 'Current answer · verify on USCIS Test Updates before interview'
+        : `Static study copy · no live feed or editorial review date · question ${q.sourceId}`;
+      const rateSelect = document.getElementById('speech-rate-select');
+      if (rateSelect) rateSelect.value = String(practiceSpeechRate);
       updateBookmarkButton('fc-bookmark-btn-front', q);
       updateBookmarkButton('fc-bookmark-btn-back', q);
       document.getElementById('fc-answer').innerText = q.dynamic
@@ -2555,7 +2631,7 @@
       window.speechSynthesis.cancel();
       const q = currentQuestions[cardIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
-      utter.rate = currentPersona.rate;
+      utter.rate = practiceSpeechRate;
       utter.lang = 'en-US';
       window.speechSynthesis.speak(utter);
     }
@@ -2919,7 +2995,7 @@
       window.speechSynthesis.cancel();
       const q = activeQuiz ? activeQuiz.questions[activeQuiz.index] : CIVICS_POOL[mcqIndex];
       const utter = new SpeechSynthesisUtterance(q.q);
-      utter.rate = currentPersona.rate;
+      utter.rate = Math.max(0.65, Math.min(1.2, currentPersona.rate * practiceSpeechRate));
       utter.lang = 'en-US';
       window.speechSynthesis.speak(utter);
     }
@@ -3129,7 +3205,7 @@
       document.getElementById('officer-status').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Adjudicator Speaking...`;
       
       const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = currentPersona.rate;
+      utter.rate = Math.max(0.65, Math.min(1.2, currentPersona.rate * practiceSpeechRate));
       utter.pitch = currentPersona.pitch;
       utter.lang = 'en-US';
       
@@ -3296,7 +3372,15 @@
       }
 
       if (!passedStep) {
-        const hint = step.type === 'civics' ? `Try an answer that includes: ${step.requiredKeywords.join(' and ')}.` : 'Please answer the prompt to continue this practice step.';
+        const normalizedAnswer = normalizeInterviewAnswer(text);
+        const hint = step.type === 'civics'
+          ? (() => {
+              const missing = step.requiredKeywords.filter(keyword => !normalizedAnswer.includes(` ${keyword} `));
+              return `Practice check: ${missing.length ? `your response did not include ${missing.join(' and ')}.` : 'a conflicting term was detected.'} This simple keyword check can miss valid wording; use the linked USCIS guide to verify your answer.`;
+            })()
+          : step.type === 'affirmation'
+            ? 'Please answer yes or no clearly. This practice step checks wording only and does not judge your eligibility or situation.'
+            : 'Please answer the prompt to continue this practice step.';
         const status = document.getElementById('officer-status');
         status.innerText = `Not accepted. The same prompt is still waiting. ${hint} Speak again or type a response.`;
         return;
@@ -3811,7 +3895,66 @@
         : { title: 'Use and accuracy', copy: `CivicPass is independent study practice, not USCIS, legal advice, an eligibility check, or a prediction of interview results. The active bank is a study copy of the ${selectedTestVersion} civics questions. Some answers change over time or depend on your state or personal situation; use the official USCIS Test Updates page and linked study guide before your interview. Oral mock scores use approximate text matching, and current, personal, and multi-part answers require self-checking. All scores are practice feedback only.` };
       document.getElementById('info-modal-title').innerText = content.title;
       document.getElementById('info-modal-copy').innerText = content.copy;
+      const privacyControls = document.getElementById('privacy-controls');
+      privacyControls.classList.toggle('hidden', kind !== 'privacy');
+      if (kind === 'privacy') {
+        const bytes = civicPassStorageBytes();
+        document.getElementById('privacy-storage-summary').innerText = bytes === null
+          ? 'This browser does not allow CivicPass to inspect local storage.'
+          : `CivicPass uses about ${bytes < 1024 ? `${bytes} bytes` : `${(bytes / 1024).toFixed(1)} KB`} in this browser. Study progress is not uploaded to a CivicPass server.`;
+      }
       showAppModal('info-modal');
+    }
+
+    function civicPassStorageBytes() {
+      try {
+        let bytes = 0;
+        for (let index = 0; index < localStorage.length; index++) {
+          const key = localStorage.key(index);
+          if (key && key.startsWith('civicpass_')) bytes += (key.length + localStorage.getItem(key).length) * 2;
+        }
+        return bytes;
+      } catch (error) { return null; }
+    }
+
+    function clearLocalStudyData() {
+      const confirmed = window.confirm('Delete CivicPass progress, study setup, and preferences saved in this browser? This cannot be undone. Download a backup first if you may want to restore them.');
+      if (!confirmed) return;
+      try {
+        const keys = [];
+        for (let index = 0; index < localStorage.length; index++) {
+          const key = localStorage.key(index);
+          if (key && key.startsWith('civicpass_')) keys.push(key);
+        }
+        keys.forEach(key => localStorage.removeItem(key));
+        window.location.reload();
+      } catch (error) {
+        showToast('The browser blocked data removal. Clear this site’s storage in browser settings.');
+      }
+    }
+
+    function downloadQuestionReport() {
+      const question = currentQuestions[cardIndex];
+      if (!question) { showToast('Open a question before creating a content report.'); return; }
+      const report = [
+        'CivicPass content concern report',
+        `Created: ${new Date().toISOString()}`,
+        `Study bank: USCIS ${question.version}`,
+        `Question number: ${question.sourceId}`,
+        `Question: ${question.q}`,
+        `Displayed accepted answers: ${question.dynamic ? 'Current or personal answer; check official sources.' : question.answers.join(' | ')}`,
+        `Official reference: ${question.version === '2008' ? 'https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_V1.pdf' : 'https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf'}`,
+        '',
+        'Describe the concern here. Do not include your name, address, A-number, case number, or other sensitive information.',
+        ''
+      ].join('\n');
+      const url = URL.createObjectURL(new Blob([report], { type: 'text/plain;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `civicpass-content-concern-${question.version}-${question.sourceId}.txt`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('A report template was downloaded. This static site has no report inbox; the file stays on your device.');
     }
 
     function closeInfoPanel() {
@@ -3903,4 +4046,3 @@
   </script>
 </body>
 </html>
-
