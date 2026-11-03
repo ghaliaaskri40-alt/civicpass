@@ -6,6 +6,13 @@
   <title>CivicPass — Citizenship Practice Studio</title>
   <meta name="description" content="Build a steady citizenship study habit with a personalized civics plan, spaced review, practice tests, and English exercises.">
   <meta name="theme-color" content="#f8fafc">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="CivicPass">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./images/civicpass-icon.svg">
+  <link rel="apple-touch-icon" href="./images/civicpass-icon-192.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="CivicPass — Citizenship Practice Studio">
   <meta property="og:description" content="A welcoming, independent study studio for citizenship civics and English practice.">
@@ -100,7 +107,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      min-height: 480px;
+      min-height: 570px;
       transform-style: preserve-3d;
       -webkit-transform-style: preserve-3d;
       transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -202,6 +209,7 @@
 
       <!-- Actions -->
       <div class="flex items-center gap-2 sm:gap-3">
+        <button type="button" id="install-app-btn" onclick="installCivicPass()" class="hidden px-3 py-2 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-400/20 text-blue-700 dark:text-blue-200 text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/20 transition" aria-label="Install CivicPass on this device"><i class="fa-solid fa-download mr-1.5"></i><span class="hidden sm:inline">Install</span></button>
         <button type="button" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Switch to dark theme" aria-pressed="false" class="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/[0.1] transition flex items-center justify-center">
           <span id="themeIcon" class="text-xs">☀️</span>
         </button>
@@ -410,7 +418,7 @@
           </button>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. This app practices in English; a separate USCIS Spanish guide is linked when the 2008 test is selected. Dynamic and personal answers are self-checked.</p>
+      <p class="text-[11px] text-slate-400">The 65/20 consideration is for applicants age 65 or older with at least 20 years as a lawful permanent resident. Practice in English here; when you select the 2008 bank, open the official USCIS Spanish guide alongside the lessons. Dynamic and personal answers are self-checked.</p>
       <div class="flex flex-wrap items-center gap-2 text-xs">
         <span class="text-slate-400">Progress and recent results are saved in this browser only; export a backup to move them to another device.</span>
         <button onclick="exportProgress()" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/[0.08]">Export progress</button>
@@ -432,6 +440,22 @@
         <input id="question-search-input" type="search" autocomplete="off" oninput="searchCivicsQuestions(this.value)" placeholder="Search questions or accepted answers…" class="w-full rounded-xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400">
         <div id="question-search-results" class="hidden max-h-72 overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#0e1117] p-2 space-y-1" aria-label="Question search results" aria-live="polite"></div>
       </div>
+
+      <!-- Guided lesson library -->
+      <section class="rounded-2xl border border-blue-200/80 dark:border-blue-400/15 bg-gradient-to-r from-blue-50/80 via-white to-indigo-50/70 dark:from-blue-500/[0.06] dark:via-[#0e1117] dark:to-indigo-500/[0.06] p-4 sm:p-5" aria-labelledby="lesson-library-title">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-[10px] font-mono uppercase tracking-[.2em] text-blue-700 dark:text-blue-300">Guided learning</div>
+            <h3 id="lesson-library-title" class="font-bold text-slate-900 dark:text-white mt-1">Learn the ideas behind the questions</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Short topic lessons, recall cues, and a focused question set for each topic.</p>
+          </div>
+          <button id="lesson-library-toggle" type="button" aria-expanded="false" aria-controls="lesson-library" onclick="toggleLessonLibrary()" class="rounded-xl border border-blue-200 dark:border-blue-400/20 bg-white dark:bg-white/[0.04] px-3.5 py-2 text-xs font-semibold text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition"><i class="fa-solid fa-book-open mr-1.5"></i>Browse lessons</button>
+        </div>
+        <div id="lesson-library" class="hidden mt-4 pt-4 border-t border-blue-200/70 dark:border-white/[0.08]">
+          <div id="lesson-library-grid" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3" aria-live="polite"></div>
+          <p class="text-[10px] leading-relaxed text-slate-400 mt-3">Lessons are independent study explanations built around the USCIS question banks. Use the linked USCIS guide for the official accepted answers and confirm answers that can change.</p>
+        </div>
+      </section>
 
       <!-- FLASHCARD WITH INLINE VECTOR GRAPHICS -->
       <div id="view-flashcard" class="space-y-6 pt-2">
@@ -490,6 +514,14 @@
                 <p id="fc-answer-note" class="text-xs text-slate-400 dark:text-slate-500 font-normal">
                   Recite this answer clearly from memory during the interview.
                 </p>
+                <div class="pt-1">
+                  <button type="button" id="fc-learn-toggle" aria-expanded="false" aria-controls="fc-learning-note" onclick="event.stopPropagation(); toggleCurrentLearningNote()" class="rounded-lg border border-blue-200 dark:border-blue-400/20 bg-blue-50/70 dark:bg-blue-500/[0.08] px-3 py-1.5 text-[11px] font-semibold text-blue-700 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-500/[0.14] transition"><i class="fa-solid fa-lightbulb mr-1.5"></i>Why this answer matters</button>
+                  <div id="fc-learning-note" hidden class="mt-3 max-h-40 overflow-y-auto rounded-xl border border-blue-200/70 dark:border-blue-400/15 bg-blue-50/70 dark:bg-blue-500/[0.06] p-3 text-left text-[11px] leading-relaxed text-slate-700 dark:text-slate-200">
+                    <p id="fc-lesson-title" class="font-bold text-blue-800 dark:text-blue-200"></p>
+                    <p id="fc-lesson-summary" class="mt-1.5"></p>
+                    <p id="fc-lesson-cue" class="mt-2 font-semibold text-slate-600 dark:text-slate-300"></p>
+                  </div>
+                </div>
               </div>
 
               <!-- Action Scoring Buttons -->
@@ -1248,6 +1280,52 @@
     }));
     const ALL_CIVICS_POOL = [...CIVICS_POOL_2025, ...CIVICS_POOL_2008];
     const ALL_CIVICS_IDS = new Set(ALL_CIVICS_POOL.map(question => question.id));
+
+    const CIVICS_LESSONS = [
+      { id: 'foundations', icon: 'fa-scroll', title: 'The Constitution & founding ideas', match: /constitution|amendment|bill of rights|declaration of independence|self-government|federalist|colonist|british|independence from|constitutional convention|original colonies|george washington|thomas jefferson|benjamin franklin|james madison|alexander hamilton|john jay|founding father|founder/, summary: 'The founding documents explain where government gets its authority, how it is structured, and which freedoms it must protect. The Constitution can be amended; the first ten amendments are the Bill of Rights.', cue: 'Connect the document to its job: Declaration → independence; Constitution → government framework; Bill of Rights → protected freedoms.' },
+      { id: 'government', icon: 'fa-landmark', title: 'Branches, powers & federalism', match: /branch|checks and balances|separation of powers|congress|senate|house of representatives|representative|federal government|state government|supreme court|cabinet|veto|signs.*bill|federal law|governor|powers belong|commander in chief|speaker of the house|how many justices|who makes.*law|who creates.*law|who is in charge of the executive/, summary: 'Federal power is divided among legislative, executive, and judicial branches. Checks and balances limit concentrated power, while the Constitution assigns some responsibilities to the federal government and leaves others to states.', cue: 'Legislative makes laws · Executive carries them out · Judicial interprets them. Federal and state governments share power.' },
+      { id: 'rights', icon: 'fa-scale-balanced', title: 'Rights & responsibilities', match: /right|freedom|vote|voting|citizen|responsibilit|jury|oath|allegiance|religion|speech|petition|discrimination|civil rights|women|equal/, summary: 'Civics questions distinguish rights people hold, rights reserved for citizens, and responsibilities tied to citizenship. The amendments expanded constitutional protections and voting access over time.', cue: 'Ask who the question is about: everyone in the United States, citizens only, or a responsibility of citizens.' },
+      { id: 'democracy', icon: 'fa-check-to-slot', title: 'Elections & civic participation', match: /president|election|political party|senator|representative|current|term of|month.*vote|campaign|participat|democracy|political office|major parties|party of/, summary: 'Elections select public officials at different levels. Citizens can take part by voting, contacting elected officials, joining civic groups, or supporting a campaign or public issue.', cue: 'Separate the office from the term: federal offices serve different lengths and represent different groups.' },
+      { id: 'early-history', icon: 'fa-feather-pointed', title: 'Colonies, independence & the new nation', match: /came to america|before.*european|brought.*slav|thirteen|13 states|adopted.*declaration|wrote.*declaration|why.*colon|territory.*france|louisiana|poor richard|first postmaster|first president|father of our country/, summary: 'The colonial period, Revolution, and founding of the United States explain how the country separated from Britain and established a constitutional system. The early republic then grew through settlement and territorial change.', cue: 'Put events in order: colonial settlement → independence → Constitution → early republic.' },
+      { id: 'conflict-change', icon: 'fa-dove', title: 'Conflict, expansion & national change', match: /war|civil war|slav|emancipation|lincoln|susan b\. anthony|women.s rights|abolish/, summary: 'Questions about conflict connect major wars to the political changes that followed. The Civil War tested whether the Union would endure and ended slavery; later movements continued expanding equal rights.', cue: 'For a war question, identify its era and the issue or event it is asking about.' },
+      { id: 'modern-history', icon: 'fa-globe', title: 'The 20th century & recent history', match: /world war|cold war|korean|vietnam|pearl harbor|great depression|september 11|9\/11|terroris|communism|eisenhower|roosevelt|innovation|invent|civil rights movement|martin luther|persian gulf/, summary: 'Modern-history questions cover global conflicts, economic crisis, civil rights, and events that shaped U.S. policy. Linking a person or event to its era makes the facts easier to retrieve.', cue: 'Build a timeline: World Wars → Great Depression / World War II → Cold War → civil rights era → events after 2001.' },
+      { id: 'places-symbols', icon: 'fa-flag-usa', title: 'Geography, symbols & traditions', match: /river|ocean|territor|border|statue of liberty|flag|stripes|stars|anthem|motto|holiday|capital|tribe|american indian|indigenous|independence day/, summary: 'Integrated civics combines maps, national symbols, Indigenous peoples, and shared traditions. These questions connect places and symbols to the country’s geography and history.', cue: 'Picture the map or symbol: coasts and borders for geography; stars, stripes, and songs for national symbols.' }
+    ];
+    const CIVICS_QUESTION_EXPLANATIONS = [
+      [/supreme law of the land/i, 'The Constitution has the highest legal authority in the United States; government actions must follow it.'],
+      [/what does the constitution do/i, 'The Constitution establishes the national government, defines its powers, and protects basic rights.'],
+      [/first three words|self-government/i, '“We the People” expresses popular sovereignty: government authority comes from the people.'],
+      [/first ten amendments|bill of rights/i, 'The first ten amendments are called the Bill of Rights because they set out key individual protections.'],
+      [/first amendment/i, 'The First Amendment protects several freedoms, including speech, religion, press, assembly, and petition.'],
+      [/checks and balances|separation of powers/i, 'The branches share responsibilities and can limit one another, preventing any one branch from holding all power.'],
+      [/who creates.*laws|who makes.*laws|who makes federal laws/i, 'At the federal level, Congress passes legislation; the President may sign or veto a bill, and courts interpret laws in cases.'],
+      [/what is one power.*federal|powers belong to the federal/i, 'The Constitution assigns national responsibilities such as coining money, declaring war, maintaining armed forces, and making treaties.'],
+      [/what is one power.*state|powers belong to the states/i, 'States handle many local services, including public education, policing, firefighting, driver licensing, and land use.'],
+      [/why did the colonists fight|why.*colonists.*british/i, 'The Revolution grew from disputes over taxation, representation, British rule, and the colonists’ lack of self-government.'],
+      [/what did the declaration of independence do/i, 'The Declaration announced that the colonies were separating from Great Britain; it was not the Constitution that set up the later government.'],
+      [/what happened.*constitutional convention/i, 'Delegates drafted the Constitution in 1787 to create a stronger national framework with divided powers.'],
+      [/north and the south|north and south|civil war.*issue|what led to the civil war/i, 'The Civil War arose from deep conflicts including slavery, economic interests, and disputes about state and federal authority.'],
+      [/emancipation proclamation/i, 'The proclamation declared freedom for enslaved people in areas rebelling against the United States; it did not end slavery everywhere by itself.'],
+      [/what does the flag.*13 stripes|13 stripes/i, 'The thirteen stripes represent the original thirteen colonies.'],
+      [/why.*50 stars|50 stars/i, 'The flag’s stars represent the states, with one star for each state.'],
+      [/what is the capital of the united states/i, 'Washington, D.C. is the national capital; it is a federal district, not a state.'],
+      [/who lived.*before.*european/i, 'Indigenous peoples lived across the lands now within the United States long before Europeans arrived.'],
+      [/who was president during the great depression/i, 'Franklin D. Roosevelt was President during the Great Depression and most of World War II.'],
+      [/cold war.*concern|main concern.*cold war/i, 'The Cold War was a long rivalry with the Soviet Union; U.S. policy focused in part on containing communism.']
+    ];
+    function getCivicsLessonForQuestion(question) {
+      const text = `${question.q} ${question.answers.join(' ')}`.toLowerCase();
+      const preferredOrder = ['foundations', 'government', 'modern-history', 'rights', 'early-history', 'democracy', 'conflict-change', 'places-symbols'];
+      const found = preferredOrder.map(id => CIVICS_LESSONS.find(lesson => lesson.id === id)).find(lesson => lesson && lesson.match.test(text));
+      if (found) return found;
+      return CIVICS_LESSONS.find(lesson => lesson.id === (question.cat === 'history' ? 'conflict-change' : question.cat === 'integrated' ? 'places-symbols' : 'government')) || CIVICS_LESSONS[1];
+    }
+    function getQuestionLearningExplanation(question) {
+      const text = `${question.q} ${question.answers.join(' ')}`;
+      const tailored = CIVICS_QUESTION_EXPLANATIONS.find(([pattern]) => pattern.test(text));
+      const lesson = getCivicsLessonForQuestion(question);
+      return tailored ? tailored[1] : `This prompt is part of ${lesson.title.toLowerCase()}. ${lesson.summary}`;
+    }
     const TEST_VERSION_CUTOFF = '2025-10-20';
     function versionForFilingDate(date) { return date && date < TEST_VERSION_CUTOFF ? '2008' : '2025'; }
     function getSavedStudySetup() {
@@ -1320,6 +1398,8 @@
       }
       const spanishGuide = document.getElementById('official-spanish-guide-link');
       if (spanishGuide) spanishGuide.classList.toggle('hidden', selectedTestVersion !== '2008');
+      const lessonPanel = document.getElementById('lesson-library');
+      if (lessonPanel && !lessonPanel.classList.contains('hidden')) renderLessonLibrary();
       const estimate = document.getElementById('study-plan-estimate');
       if (interviewDate) {
         const today = new Date(); today.setHours(12, 0, 0, 0);
@@ -1757,9 +1837,86 @@
       showToast(`Today's session is ready: ${currentQuestions.length} questions, with review priorities first.`);
     }
 
+    function renderLessonLibrary() {
+      const grid = document.getElementById('lesson-library-grid');
+      if (!grid) return;
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      grid.replaceChildren();
+      CIVICS_LESSONS.forEach(lesson => {
+        const count = pool.filter(question => getCivicsLessonForQuestion(question).id === lesson.id).length;
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'text-left rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#11151d] p-4 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-400/30 hover:shadow-md transition';
+        card.setAttribute('aria-label', `Practice ${lesson.title}, ${count} questions`);
+        card.disabled = count === 0;
+        card.classList.toggle('opacity-50', count === 0);
+        card.onclick = () => startLessonPractice(lesson.id);
+        const icon = document.createElement('span');
+        icon.className = 'inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300';
+        const iconGlyph = document.createElement('i');
+        iconGlyph.className = `fa-solid ${lesson.icon}`;
+        iconGlyph.setAttribute('aria-hidden', 'true');
+        icon.appendChild(iconGlyph);
+        const heading = document.createElement('span');
+        heading.className = 'block mt-3 text-sm font-bold text-slate-900 dark:text-white';
+        heading.textContent = lesson.title;
+        const summary = document.createElement('span');
+        summary.className = 'block mt-1.5 min-h-12 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400';
+        summary.textContent = lesson.summary;
+        const footer = document.createElement('span');
+        footer.className = 'block mt-3 pt-3 border-t border-slate-100 dark:border-white/[0.06] text-[10px] font-mono text-blue-700 dark:text-blue-300';
+        footer.textContent = count ? `${count} questions · Practice this topic →` : 'No questions in this set';
+        card.append(icon, heading, summary, footer);
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleLessonLibrary() {
+      const panel = document.getElementById('lesson-library');
+      const button = document.getElementById('lesson-library-toggle');
+      const open = panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !open);
+      button.setAttribute('aria-expanded', String(open));
+      button.innerHTML = open
+        ? '<i class="fa-solid fa-xmark mr-1.5" aria-hidden="true"></i>Hide lessons'
+        : '<i class="fa-solid fa-book-open mr-1.5" aria-hidden="true"></i>Browse lessons';
+      if (open) renderLessonLibrary();
+    }
+
+    function startLessonPractice(lessonId) {
+      const lesson = CIVICS_LESSONS.find(item => item.id === lessonId);
+      if (!lesson) return;
+      resetQuestionSearch(false);
+      const pool = seniorExemptionActive ? CIVICS_POOL.filter(question => question.senior) : CIVICS_POOL;
+      const questions = pool.filter(question => getCivicsLessonForQuestion(question).id === lesson.id);
+      if (!questions.length) {
+        showToast('This topic has no questions in the selected study set.');
+        return;
+      }
+      currentQuestions = shuffleArray(questions);
+      cardIndex = 0;
+      setActiveCategory('all');
+      setStudyMode('flashcard');
+      renderFlashcard();
+      document.getElementById('view-flashcard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast(`${lesson.title}: ${questions.length} related questions are ready.`);
+    }
+
+    function toggleCurrentLearningNote() {
+      const panel = document.getElementById('fc-learning-note');
+      const button = document.getElementById('fc-learn-toggle');
+      const open = panel.hidden;
+      panel.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+      button.innerHTML = open
+        ? '<i class="fa-solid fa-lightbulb mr-1.5" aria-hidden="true"></i>Hide learning note'
+        : '<i class="fa-solid fa-lightbulb mr-1.5" aria-hidden="true"></i>Why this answer matters';
+    }
+
     function renderFlashcard() {
       if (currentQuestions.length === 0) return;
       const q = currentQuestions[cardIndex];
+      const lesson = getCivicsLessonForQuestion(q);
       document.getElementById('fc-badge').innerText = `USCIS ${q.version} #${q.sourceId}${q.senior ? ' • 65/20' : ''}`;
       document.getElementById('fc-question').innerText = q.q;
       document.getElementById('fc-source-label').innerText = `Official USCIS ${q.version} civics bank · question ${q.sourceId}`;
@@ -1771,6 +1928,12 @@
       document.getElementById('fc-answer-note').innerText = q.selfCheck
         ? 'Give the number of examples requested. Any valid examples from this list may count.'
         : q.dynamic ? 'This practice app does not score current or personal answers.' : 'Say one accepted answer clearly, then self-score your recall.';
+      document.getElementById('fc-lesson-title').innerText = lesson.title;
+      document.getElementById('fc-lesson-summary').innerText = getQuestionLearningExplanation(q);
+      document.getElementById('fc-lesson-cue').innerText = `Recall cue: ${lesson.cue}`;
+      document.getElementById('fc-learning-note').hidden = true;
+      document.getElementById('fc-learn-toggle').setAttribute('aria-expanded', 'false');
+      document.getElementById('fc-learn-toggle').innerHTML = '<i class="fa-solid fa-lightbulb mr-1.5" aria-hidden="true"></i>Why this answer matters';
       
       const iconElem = document.getElementById('fc-icon');
       iconElem.className = `fa-solid ${q.icon || 'fa-landmark'}`;
@@ -2478,6 +2641,20 @@
         response.textContent = `Your response: “${selectedText}”`;
         feedback.appendChild(response);
       }
+      const lesson = getCivicsLessonForQuestion(question);
+      const learningNote = document.createElement('div');
+      learningNote.className = 'mt-3 border-t border-current/10 pt-3';
+      const lessonTitle = document.createElement('p');
+      lessonTitle.className = 'font-semibold';
+      lessonTitle.textContent = `Learn · ${lesson.title}`;
+      const lessonExplanation = document.createElement('p');
+      lessonExplanation.className = 'mt-1 leading-relaxed opacity-90';
+      lessonExplanation.textContent = getQuestionLearningExplanation(question);
+      const lessonCue = document.createElement('p');
+      lessonCue.className = 'mt-1.5 leading-relaxed opacity-80';
+      lessonCue.textContent = `Recall cue: ${lesson.cue}`;
+      learningNote.append(lessonTitle, lessonExplanation, lessonCue);
+      feedback.appendChild(learningNote);
 
       if (!isCorrect && !selfChecked) {
         const accepted = allButtons.find(button => question.answers.some(answer => checkAnswerEquivalence(button.dataset.answer, answer)));
@@ -3389,11 +3566,48 @@
       }
     });
 
+    let deferredInstallPrompt = null;
+    function setupInstallableApp() {
+      const installButton = document.getElementById('install-app-btn');
+      const isInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isInstalled) installButton.classList.add('hidden');
+      window.addEventListener('beforeinstallprompt', event => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        if (!isInstalled) installButton.classList.remove('hidden');
+      });
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        installButton.classList.add('hidden');
+        showToast('CivicPass is installed on this device.');
+      });
+      if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+        navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {
+          installButton.title = 'Offline support could not start in this browser.';
+        });
+      }
+      window.addEventListener('offline', () => showToast('You are offline. Saved progress stays on this device.'));
+      window.addEventListener('online', () => showToast('You are back online.'));
+    }
+
+    async function installCivicPass() {
+      if (!deferredInstallPrompt) {
+        showToast('To install, open your browser menu and choose Install app or Add to Home Screen.');
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') document.getElementById('install-app-btn').classList.add('hidden');
+      deferredInstallPrompt = null;
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
       switchMainTab('civics');
       renderStudySetup();
+      setupInstallableApp();
       renderFlashcard();
+      renderLessonLibrary();
       updateStatDisplays();
       setEnglishMode(englishMode);
       stopWaveform();
