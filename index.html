@@ -139,6 +139,15 @@
     .culture-title { font-size:clamp(2rem,3vw,2.65rem); }
     .culture-card { box-shadow:0 16px 42px -32px rgba(18,31,58,.6); }
     .culture-card:hover { transform:translateY(-3px); }
+    #section-civics .practice-metrics { padding:1rem 1.2rem; border:1px solid rgba(23,36,61,.09); border-radius:1.4rem; background:linear-gradient(120deg,#fff,#fbfaf6); box-shadow:0 18px 42px -34px rgba(25,39,69,.35); }
+    #section-civics .practice-metrics h2 { color:var(--ink); font:400 1.9rem/1.05 'DM Serif Display',Georgia,serif; letter-spacing:-.02em; }
+    #section-civics .practice-metrics #active-bank-description { margin-top:.35rem; max-width:38rem; color:#6c7688; line-height:1.65; }
+    #section-civics #test-setup { border-color:rgba(36,57,95,.1); background:linear-gradient(145deg,#fff,#fbfaf7); box-shadow:0 18px 46px -38px rgba(25,39,69,.42); }
+    #section-civics #test-setup-title { color:var(--ink); font:400 1.8rem/1.1 'DM Serif Display',Georgia,serif; }
+    #section-civics #study-plan-title { color:var(--ink); font:400 2rem/1.05 'DM Serif Display',Georgia,serif; }
+    #section-civics .cat-pill { border-radius:999px; padding-left:1rem; padding-right:1rem; }
+    #section-civics #view-flashcard .flip-container { min-height:520px; }
+    #section-civics .panel-glass { box-shadow:0 16px 42px -35px rgba(25,39,69,.36); }
     html.dark .editorial-hero { background:#10151f; border-color:rgba(255,255,255,.1); }
     html.dark .hero-title, html.dark .journey-title, html.dark .culture-title { color:#f5f3ed; }
     html.dark .hero-copy .hero-description, html.dark .journey-subtitle { color:#b3bdce; }
@@ -150,6 +159,10 @@
     html.dark .journey-card h3 { color:#f5f6fa; }
     html.dark .journey-card p { color:#a4afc0; }
     html.dark .journey-number { color:#d7e0fa; background:#26324d; }
+    html.dark #section-civics .practice-metrics { background:linear-gradient(120deg,#121824,#10151f); border-color:rgba(255,255,255,.1); }
+    html.dark #section-civics .practice-metrics h2, html.dark #section-civics #test-setup-title, html.dark #section-civics #study-plan-title { color:#f5f3ed; }
+    html.dark #section-civics .practice-metrics #active-bank-description { color:#aeb9ca; }
+    html.dark #section-civics #test-setup { background:linear-gradient(145deg,#141a25,#10151f); border-color:rgba(255,255,255,.1); }
     @media (max-width: 900px) { .editorial-hero { grid-template-columns:1fr 0.9fr; min-height:440px; } .hero-copy { padding:2rem; } .hero-title { font-size:clamp(2.7rem,6vw,4rem); } }
     @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; } .hero-copy { padding:2rem 1.5rem; } .hero-visual { min-height:260px; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-grid { grid-template-columns:1fr; } .journey-card { min-height:110px; } }
     @media (prefers-reduced-motion: reduce) { .journey-card,.culture-card { transition:none; } .journey-card:hover,.culture-card:hover { transform:none; } }
@@ -347,13 +360,13 @@
     <div id="section-civics" class="space-y-6">
       
       <!-- Metrics Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+      <div class="practice-metrics flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
             <i class="fa-solid fa-award"></i>
           </div>
           <div>
-            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Practice Session</h2>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Your study studio</h2>
             <p id="active-bank-description" class="text-xs text-slate-500 dark:text-slate-400">Choose the test version that applies to your N-400 filing date, then practice with flashcards, oral mocks, and scheduled review.</p>
           </div>
         </div>
