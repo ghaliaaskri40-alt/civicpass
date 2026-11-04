@@ -155,6 +155,7 @@
     #section-civics .cat-pill { border-radius:999px; padding-left:1rem; padding-right:1rem; }
     #section-civics #view-flashcard .flip-container { min-height:520px; }
     #section-civics .panel-glass { box-shadow:0 16px 42px -35px rgba(25,39,69,.36); }
+    #section-civics, #section-interview, #section-reps, #section-english { scroll-margin-top:5.5rem; }
     html.dark .editorial-hero { background:#10151f; border-color:rgba(255,255,255,.1); }
     html.dark .hero-title, html.dark .journey-title, html.dark .culture-title { color:#f5f3ed; }
     html.dark .hero-copy .hero-description, html.dark .journey-subtitle { color:#b3bdce; }
@@ -345,30 +346,30 @@
     <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
       
       <!-- Brand -->
-      <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchMainTab('civics')">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+      <button type="button" onclick="returnToHome()" aria-label="CivicPass home" class="flex items-center gap-2.5 text-left">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
           <i class="fa-solid fa-flag-usa"></i>
-        </div>
+        </span>
         <span class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base">CivicPass</span>
-      </div>
+      </button>
 
       <!-- Navigation Tabs -->
       <nav class="hidden md:flex items-center bg-slate-100 dark:bg-[#141824]/60 p-1 rounded-xl border border-slate-200 dark:border-white/[0.06] text-xs font-medium transition-colors">
-        <button onclick="switchMainTab('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition">
+        <button type="button" onclick="navigateToPractice('civics')" id="nav-civics" class="px-3.5 py-1.5 rounded-lg text-slate-900 dark:text-white bg-white dark:bg-white/[0.08] shadow-sm transition">
           Civics Practice
         </button>
-        <button onclick="switchMainTab('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2">
+        <button type="button" onclick="navigateToPractice('interview')" id="nav-interview" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           Officer Interview
         </button>
-        <button onclick="switchMainTab('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+        <button type="button" onclick="navigateToPractice('reps')" id="nav-reps" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
           State Reps
         </button>
-        <button onclick="switchMainTab('english')" id="nav-english" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+        <button type="button" onclick="navigateToPractice('english')" id="nav-english" class="px-3.5 py-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
           English Lab
         </button>
       </nav>
-      <select id="mobile-section-switcher" class="md:hidden text-xs rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#090b10] px-2 py-2" aria-label="Choose section" onchange="switchMainTab(this.value)">
+      <select id="mobile-section-switcher" class="md:hidden text-xs rounded-lg border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#090b10] px-2 py-2" aria-label="Choose section" onchange="navigateToPractice(this.value)">
         <option value="civics">Civics</option>
         <option value="interview">Interview</option>
         <option value="reps">State reps</option>
@@ -852,7 +853,7 @@
             <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
           </button>
 
-          <button onclick="closeCompletionModal(); switchMainTab('interview');" class="w-full p-4 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-slate-900 dark:text-white font-semibold text-xs tracking-tight transition border border-slate-200 dark:border-white/[0.08] flex items-center justify-between group">
+          <button onclick="closeCompletionModal(); navigateToPractice('interview');" class="w-full p-4 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] text-slate-900 dark:text-white font-semibold text-xs tracking-tight transition border border-slate-200 dark:border-white/[0.08] flex items-center justify-between group">
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-microphone"></i></div>
               <div>
@@ -4047,6 +4048,18 @@
           cancelOfficerSpeech();
         }
       }
+    }
+
+    function navigateToPractice(tab) {
+      if (!['civics', 'interview', 'reps', 'english'].includes(tab)) return;
+      switchMainTab(tab);
+      const section = document.getElementById(`section-${tab}`);
+      if (section) requestAnimationFrame(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+
+    function returnToHome() {
+      switchMainTab('civics');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openCheckoutModal() {
