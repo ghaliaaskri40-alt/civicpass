@@ -1,11 +1,10 @@
-const CACHE_NAME = 'civicpass-shell-v4';
+const CACHE_NAME = 'civicpass-shell-v5';
 const CORE_ASSETS = [
   './index.html',
   './manifest.webmanifest',
   './images/civicpass-icon.svg',
   './images/civicpass-icon-192.png',
   './images/civicpass-icon-512.png',
-  './images/civicpass-citizenship-trail-v2.jpg',
   './images/liberty-community.jpg',
   './images/neighborhood-market.jpg',
   './images/new-orleans-jazz.jpg'
@@ -94,3 +93,4 @@ self.addEventListener('fetch', event => {
     }
   })());
 });
+

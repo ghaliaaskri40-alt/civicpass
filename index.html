@@ -116,33 +116,34 @@
     .hero-secondary:hover { background:#fff4e5; }
     .hero-proof { margin-top:1.6rem; display:flex; flex-wrap:wrap; gap:.7rem 1.1rem; color:#75675c; font-size:10px; }
     .hero-proof i { color:#71815e; margin-right:.4rem; }
-    .hero-visual { position:relative; display:flex; align-items:center; justify-content:center; min-height:440px; overflow:visible; background:transparent; }
+    .hero-visual { position:relative; display:flex; align-items:center; justify-content:center; min-height:460px; overflow:visible; background:transparent; }
     .hero-visual::after { display:none; }
-    .hero-visual img { position:relative; inset:auto; display:block; width:100%; height:auto; max-height:520px; object-fit:contain; object-position:center; }
-    .hero-photo-caption { position:absolute; z-index:1; bottom:2.4rem; left:2.5%; padding:.7rem 1rem; color:#49342e; background:rgba(255,251,243,.92); border:1px solid rgba(177,79,57,.15); border-radius:1rem 1rem 1rem .3rem; box-shadow:0 12px 30px -20px rgba(92,62,40,.5); }
+    .hero-collage { position:relative; width:min(100%,600px); height:460px; isolation:isolate; }
+    .hero-collage::before { content:""; position:absolute; z-index:-1; inset:9% 5% 8% 7%; border-radius:48% 52% 42% 58% / 48% 43% 57% 52%; background:#ead9bf; transform:rotate(-5deg); }
+    .hero-photo { position:absolute; margin:0; padding:8px 8px 30px; background:#fffdf7; border:1px solid rgba(105,73,49,.12); box-shadow:0 18px 38px -24px rgba(72,47,31,.5); }
+    .hero-photo img { display:block; width:100%; height:100%; object-fit:cover; }
+    .hero-photo figcaption { position:absolute; right:9px; bottom:8px; left:9px; color:#78685c; font:500 9px/1.2 'JetBrains Mono',monospace; letter-spacing:.08em; text-align:center; text-transform:uppercase; }
+    .hero-photo-main { top:5%; right:7%; width:66%; height:68%; transform:rotate(4deg); }
+    .hero-photo-left { top:19%; left:1%; width:42%; height:58%; transform:rotate(-7deg); }
+    .hero-photo-bottom { right:1%; bottom:3%; width:54%; height:42%; transform:rotate(-3deg); }
+    .hero-photo-caption { position:absolute; z-index:5; bottom:0; left:0; padding:.6rem .85rem; color:#49342e; background:#fff7e8; border:1px solid rgba(177,79,57,.16); box-shadow:0 12px 30px -20px rgba(92,62,40,.5); transform:rotate(-2deg); }
     .hero-photo-caption span { display:block; font:600 8px/1.4 'JetBrains Mono',monospace; letter-spacing:.17em; text-transform:uppercase; color:#a45b43; }
     .hero-photo-caption strong { display:block; margin-top:.25rem; font:400 1.15rem/1.1 'DM Serif Display',Georgia,serif; }
-    .hero-version-stamp { position:absolute; top:2.2rem; right:2%; z-index:1; padding:.65rem .9rem; border:1px solid #e7d5b9; border-radius:999px; color:#7e4937; background:#fffaf1; box-shadow:0 9px 22px -16px rgba(92,62,40,.5); font:600 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; transform:rotate(3deg); }
+    .hero-version-stamp { position:absolute; top:3%; right:0; z-index:5; padding:.65rem .9rem; border:1px solid #e7d5b9; color:#7e4937; background:#fffaf1; box-shadow:0 9px 22px -16px rgba(92,62,40,.5); font:600 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; transform:rotate(3deg); }
     .journey-section { position:relative; padding:1.15rem 0 1.5rem; }
     .journey-heading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1.7rem; }
     .journey-title,.culture-title { color:var(--ink); font:400 clamp(2rem,3vw,2.75rem)/1.05 'DM Serif Display',Georgia,serif; letter-spacing:-.02em; }
     .journey-subtitle { color:var(--muted-ink); font-size:12px; margin-top:.45rem; }
-    .journey-map { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1.25rem,4vw,4rem); padding:1.15rem 1rem 1.3rem; overflow:hidden; border:1px solid #ead9c4; border-radius:2rem; background:radial-gradient(ellipse at 50% 0%,#fffdf8 0%,#fff8ee 57%,#f7ecdc 100%); }
-    .journey-route { position:absolute; top:1.8rem; left:7%; width:86%; height:140px; overflow:visible; pointer-events:none; }
-    .journey-route path { fill:none; stroke:#bd5945; stroke-width:3; stroke-linecap:round; stroke-dasharray:2 12; opacity:.8; }
-    .journey-stop { position:relative; z-index:1; display:flex; align-items:center; flex-direction:column; padding:0 .25rem .5rem; text-align:center; background:transparent; border:0; cursor:pointer; }
-    .journey-stop:nth-of-type(2) { margin-top:3.3rem; }
-    .journey-stop:nth-of-type(3) { margin-top:.4rem; }
-    .journey-illustration { display:grid; place-items:center; width:82px; height:82px; margin-bottom:1rem; border:5px solid #fffaf1; border-radius:50%; color:#a94e38; background:#f5d9c2; box-shadow:0 7px 0 #ead3b7,0 15px 30px -17px rgba(112,61,40,.5); font-size:25px; transition:transform .22s ease; }
-    .journey-stop:nth-of-type(2) .journey-illustration { color:#6a7650; background:#e3e6c8; }
-    .journey-stop:nth-of-type(3) .journey-illustration { color:#a65b32; background:#f4d99e; }
-    .journey-stop:hover .journey-illustration { transform:translateY(-5px) rotate(-4deg); }
-    .journey-stop-copy { max-width:245px; padding:.2rem .3rem; }
-    .journey-number { display:inline-block; margin-bottom:.55rem; color:#a34d39; font:600 9px/1.4 'JetBrains Mono',monospace; letter-spacing:.17em; text-transform:uppercase; }
-    .journey-stop h3 { color:#49342e; font:400 1.35rem/1.1 'DM Serif Display',Georgia,serif; }
-    .journey-stop p { color:#79695e; font-size:11px; line-height:1.7; margin-top:.55rem; }
-    .journey-arrow { display:inline-block; margin-top:.75rem; color:#ad503b; font-size:12px; transition:transform .2s ease; }
-    .journey-stop:hover .journey-arrow { transform:translateX(4px); }
+    .practice-menu { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid #e4d6c3; border-bottom:1px solid #e4d6c3; }
+    .practice-choice { position:relative; display:flex; flex-direction:column; align-items:flex-start; min-height:190px; padding:1.35rem 1.5rem 1.2rem; color:inherit; text-align:left; background:transparent; border:0; cursor:pointer; transition:background .2s ease; }
+    .practice-choice + .practice-choice { border-left:1px solid #e4d6c3; }
+    .practice-choice:hover { background:linear-gradient(180deg,transparent,#fff5e8); }
+    .practice-choice:focus-visible { outline:3px solid #b14f39; outline-offset:-3px; }
+    .practice-kicker { color:#a6533c; font:600 9px/1.4 'JetBrains Mono',monospace; letter-spacing:.16em; text-transform:uppercase; }
+    .practice-choice h3 { margin-top:.8rem; color:#49342e; font:400 1.45rem/1.1 'DM Serif Display',Georgia,serif; }
+    .practice-choice p { max-width:19rem; margin-top:.55rem; color:#79695e; font-size:11px; line-height:1.7; }
+    .practice-arrow { margin-top:auto; padding-top:.85rem; color:#ad503b; font-size:12px; transition:transform .2s ease; }
+    .practice-choice:hover .practice-arrow { transform:translateX(4px); }
     .culture-title { font-size:clamp(2rem,3vw,2.65rem); }
     .culture-card { box-shadow:0 16px 42px -32px rgba(18,31,58,.6); }
     .culture-card:hover { transform:translateY(-3px); }
@@ -160,7 +161,8 @@
     html.dark .hero-title, html.dark .journey-title, html.dark .culture-title { color:#f5f3ed; }
     html.dark .hero-copy .hero-description, html.dark .journey-subtitle { color:#b3bdce; }
     html.dark .hero-eyebrow { color:#e0aa8b; }
-    html.dark .hero-visual img { border-radius:1.4rem; box-shadow:0 22px 45px -26px rgba(0,0,0,.58); }
+    html.dark .hero-photo { background:#f8f0e2; }
+    html.dark .hero-collage::before { background:#574431; }
     html.dark .hero-version-stamp { border-color:rgba(123,87,58,.45); color:#f0c89c; background:#2b221a; }
     html.dark .hero-photo-caption { color:#fff0dc; background:rgba(43,34,26,.94); border-color:rgba(216,164,104,.3); }
     html.dark .hero-primary { background:#c2674e; border-color:#c2674e; }
@@ -168,12 +170,11 @@
     html.dark .hero-secondary { color:#f8ead9; background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); }
     html.dark .hero-secondary:hover { background:rgba(255,255,255,.12); }
     html.dark .hero-proof { color:#c0c8d6; }
-    html.dark .journey-map { background:radial-gradient(ellipse at 50% 0%,#29241e,#211e1a 72%); border-color:rgba(240,212,174,.18); }
-    html.dark .journey-route path { stroke:#dc8067; }
-    html.dark .journey-illustration { border-color:#29241e; box-shadow:0 7px 0 #40352b,0 15px 30px -17px rgba(0,0,0,.8); }
-    html.dark .journey-stop h3 { color:#f5e9d7; }
-    html.dark .journey-stop p { color:#c0ae98; }
-    html.dark .journey-number, html.dark .journey-arrow { color:#e18a70; }
+    html.dark .practice-menu, html.dark .practice-choice + .practice-choice { border-color:rgba(240,212,174,.2); }
+    html.dark .practice-choice:hover { background:linear-gradient(180deg,transparent,rgba(177,79,57,.12)); }
+    html.dark .practice-choice h3 { color:#f5e9d7; }
+    html.dark .practice-choice p { color:#c0ae98; }
+    html.dark .practice-kicker, html.dark .practice-arrow { color:#e18a70; }
     html.dark #section-civics .practice-metrics { background:linear-gradient(120deg,#121824,#10151f); border-color:rgba(255,255,255,.1); }
     html.dark #section-civics .practice-metrics h2, html.dark #section-civics #test-setup-title, html.dark #section-civics #study-plan-title { color:#f5f3ed; }
     html.dark #section-civics .practice-metrics #active-bank-description { color:#aeb9ca; }
@@ -222,6 +223,7 @@
     html.dark #section-civics #fc-question { color:#fff1da!important; }
     html.dark #section-civics .card-face-front { background:radial-gradient(ellipse at 50% 42%,rgba(176,111,67,.16),transparent 45%),linear-gradient(155deg,#24231e,#2b2923)!important; border-color:rgba(240,212,174,.15)!important; }
     html.dark #section-civics #language-support-note { background:#273126!important; border-color:rgba(180,203,166,.2)!important; color:#d9e5d1!important; }
+
     /* Keep the warm CivicPass identity consistent across every practice mode. */
     html:not(.dark) .panel-glass { background:#fffefa; border-color:#e8ddc8; box-shadow:0 12px 34px -27px rgba(92,62,40,.28); }
     html:not(.dark) .panel-glass:hover { border-color:rgba(177,79,57,.3); }
@@ -257,9 +259,9 @@
     html.dark .text-blue-800 { color:#f0b596!important; }
     html.dark .border-blue-200, html.dark .border-blue-300 { border-color:rgba(224,153,118,.35)!important; }
     html.dark header button.bg-gradient-to-r { background-image:linear-gradient(110deg,#c2674e,#9f4639)!important; }
-    @media (max-width: 900px) { .editorial-hero { grid-template-columns:minmax(0,1fr) minmax(0,.9fr); min-height:430px; gap:1rem; } .hero-copy { padding:1rem 0; } .hero-title { font-size:clamp(2.7rem,5.3vw,4.2rem); } .hero-visual { min-height:360px; } }
-    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.35rem,9.8vw,3rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-visual img { max-height:390px; } .hero-version-stamp { top:1.2rem; right:2%; } .hero-photo-caption { bottom:1.7rem; left:2%; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-map { grid-template-columns:1fr; gap:1rem; padding:1.5rem 1rem; } .journey-map::before { content:""; position:absolute; top:3.1rem; bottom:3.1rem; left:3.15rem; width:3px; background:repeating-linear-gradient(to bottom,#bd5945 0 3px,transparent 3px 13px); opacity:.8; } .journey-route { display:none; } .journey-stop,.journey-stop:nth-of-type(2),.journey-stop:nth-of-type(3) { flex-direction:row; align-items:center; gap:1rem; margin:0; text-align:left; } .journey-illustration { flex:0 0 70px; width:70px; height:70px; margin:0; font-size:21px; } .journey-stop-copy { max-width:none; } .journey-stop h3 { font-size:1.3rem; } }
-    @media (prefers-reduced-motion: reduce) { .journey-stop,.culture-card { transition:none; } .journey-stop:hover,.culture-card:hover { transform:none; } }
+    @media (max-width: 900px) { .editorial-hero { grid-template-columns:minmax(0,1fr) minmax(0,.9fr); min-height:430px; gap:1rem; } .hero-copy { padding:1rem 0; } .hero-title { font-size:clamp(2.7rem,5.3vw,4.2rem); } .hero-visual { min-height:380px; } .hero-collage { height:380px; } }
+    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.35rem,9.8vw,3rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-collage { height:min(88vw,380px); min-height:280px; } .hero-version-stamp { top:3%; right:0; } .hero-photo-caption { bottom:0; left:0; } .journey-heading { align-items:flex-start; flex-direction:column; } .practice-menu { grid-template-columns:1fr; } .practice-choice { min-height:155px; padding:1.15rem .75rem; } .practice-choice + .practice-choice { border-left:0; border-top:1px solid #e4d6c3; } }
+    @media (prefers-reduced-motion: reduce) { .practice-choice,.culture-card { transition:none; } .practice-choice:hover,.culture-card:hover { transform:none; } }
 
     /* 3D Flip Mechanics */
     .perspective-1000 {
@@ -405,29 +407,32 @@
     <!-- EDITORIAL CITIZENSHIP HERO -->
     <section class="editorial-hero">
       <div class="hero-copy">
-        <p class="hero-eyebrow">Your citizenship journey, one step at a time</p>
+        <p class="hero-eyebrow">The civics, the people, the place</p>
         <h1 class="hero-title">Your next chapter<br><em>starts with practice.</em></h1>
         <p class="hero-description">Prepare for the U.S. citizenship interview with a study path that meets you where you are—from choosing the right civics test to speaking with confidence.</p>
         <div class="mt-6 flex flex-wrap gap-3">
           <button onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('filing-date-input').focus({preventScroll:true});" class="hero-primary rounded-xl px-5 py-3 text-sm font-semibold transition">Choose my test version <i class="fa-solid fa-arrow-right ml-2"></i></button>
           <button onclick="switchMainTab('civics'); startStudyDiagnostic();" class="hero-secondary rounded-xl border px-5 py-3 text-sm font-semibold transition"><i class="fa-solid fa-sparkles mr-1.5"></i>Try 10 questions</button>
         </div>
-        <div class="hero-proof"><span><i class="fa-solid fa-book-open"></i>2008 + 2025 USCIS study banks</span><span><i class="fa-solid fa-floppy-disk"></i>Progress stays on this device</span><span><i class="fa-solid fa-microphone-lines"></i>Civics, English &amp; oral practice</span></div>
+        <div class="hero-proof"><span><i class="fa-solid fa-book-open"></i>2008 + 2025 USCIS study banks</span><span><i class="fa-solid fa-floppy-disk"></i>Progress stays on this device</span><span><i class="fa-solid fa-microphone-lines"></i>Civics, English & oral practice</span></div>
       </div>
-      <div class="hero-visual">
-        <img src="images/civicpass-citizenship-trail-v2.jpg" alt="A hand-painted scene of neighbors following a path past the Statue of Liberty toward the U.S. Capitol" fetchpriority="high" width="1420" height="710">
-        <div class="hero-version-stamp">THE CIVICPASS JOURNEY</div>
-        <div class="hero-photo-caption"><span>Every step counts</span><strong>Make the next one yours.</strong></div>
+      <div class="hero-visual" aria-label="American community life in photographs">
+        <div class="hero-collage">
+          <figure class="hero-photo hero-photo-main"><img src="images/neighborhood-market.jpg" alt="Neighbors and vendors sharing food at a neighborhood market" fetchpriority="high" width="1200" height="800"><figcaption>Community, close to home</figcaption></figure>
+          <figure class="hero-photo hero-photo-left"><img src="images/liberty-community.jpg" alt="Visitors from many backgrounds at the Ellis Island waterfront" width="1200" height="800"><figcaption>Many beginnings</figcaption></figure>
+          <figure class="hero-photo hero-photo-bottom"><img src="images/new-orleans-jazz.jpg" alt="A crowd enjoying live jazz in New Orleans" width="1200" height="800"><figcaption>Music that carries memory</figcaption></figure>
+          <div class="hero-version-stamp">CIVICPASS · FIELD NOTES</div>
+          <div class="hero-photo-caption"><span>America, in many voices</span><strong>Culture is part of civics.</strong></div>
+        </div>
       </div>
     </section>
 
     <section class="journey-section" aria-labelledby="journey-heading">
-      <div class="journey-heading"><div><p class="hero-eyebrow">A simple place to begin</p><h2 id="journey-heading" class="journey-title mt-2">Your next step is ready.</h2><p class="journey-subtitle">No pressure. Just a clear path forward.</p></div><span class="hidden md:inline text-[10px] font-mono uppercase tracking-widest text-slate-400">Built around your pace</span></div>
-      <div class="journey-map" aria-label="Three steps in your citizenship study journey">
-        <svg class="journey-route" viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true"><path d="M100 15 C245 12 280 82 500 83 S755 10 900 23" /></svg>
-        <button type="button" onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'});" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-landmark" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 01 · THE RIGHT TEST</span><h3>Start with your filing date</h3><p>Choose the civics question bank and interview format that fit your case.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
-        <button type="button" onclick="switchMainTab('civics'); startStudyDiagnostic();" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 02 · YOUR STARTING POINT</span><h3>See what you already know</h3><p>A quick check-in finds the questions worth practicing next.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
-        <button type="button" onclick="switchMainTab('civics'); startStudyPlanSession();" class="journey-stop"><span class="journey-illustration"><i class="fa-solid fa-flag" aria-hidden="true"></i></span><span class="journey-stop-copy"><span class="journey-number">STOP 03 · YOUR NEXT MILE</span><h3>Practice toward confidence</h3><p>Follow a steady routine with due reviews, oral practice, and English.</p><i class="journey-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></span></button>
+      <div class="journey-heading"><div><p class="hero-eyebrow">Your study, your pace</p><h2 id="journey-heading" class="journey-title mt-2">Choose what you need today.</h2><p class="journey-subtitle">Set up your test, check what you know, or jump into practice.</p></div></div>
+      <div class="practice-menu" aria-label="Choose a way to practice">
+        <button type="button" onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'});" class="practice-choice"><span class="practice-kicker">Set up</span><h3>Choose the right test</h3><p>Match your study bank to your N-400 filing date.</p><i class="practice-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        <button type="button" onclick="switchMainTab('civics'); startStudyDiagnostic();" class="practice-choice"><span class="practice-kicker">Check in</span><h3>Find your starting point</h3><p>Try ten questions and see what’s worth reviewing.</p><i class="practice-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        <button type="button" onclick="switchMainTab('civics'); startStudyPlanSession();" class="practice-choice"><span class="practice-kicker">Practice</span><h3>Build confidence</h3><p>Pick up due reviews and missed questions at your own pace.</p><i class="practice-arrow fa-solid fa-arrow-right" aria-hidden="true"></i></button>
       </div>
     </section>
 
@@ -4230,3 +4235,4 @@
   </script>
 </body>
 </html>
+
