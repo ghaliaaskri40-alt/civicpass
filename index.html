@@ -126,7 +126,7 @@
     .hero-photo-main { top:5%; right:7%; width:66%; height:68%; transform:rotate(4deg); }
     .hero-photo-left { top:19%; left:1%; width:42%; height:58%; transform:rotate(-7deg); }
     .hero-photo-bottom { right:1%; bottom:3%; width:54%; height:42%; transform:rotate(-3deg); }
-    .hero-photo-caption { position:absolute; z-index:5; bottom:0; left:0; padding:.6rem .85rem; color:#49342e; background:#fff7e8; border:1px solid rgba(177,79,57,.16); box-shadow:0 12px 30px -20px rgba(92,62,40,.5); transform:rotate(-2deg); }
+    .hero-photo-caption { position:absolute; z-index:5; bottom:-.65rem; left:4%; padding:.6rem .85rem; color:#49342e; background:#fff7e8; border:1px solid rgba(177,79,57,.16); box-shadow:0 12px 30px -20px rgba(92,62,40,.5); transform:rotate(-2deg); }
     .hero-photo-caption span { display:block; font:600 8px/1.4 'JetBrains Mono',monospace; letter-spacing:.17em; text-transform:uppercase; color:#a45b43; }
     .hero-photo-caption strong { display:block; margin-top:.25rem; font:400 1.15rem/1.1 'DM Serif Display',Georgia,serif; }
     .hero-version-stamp { position:absolute; top:3%; right:0; z-index:5; padding:.65rem .9rem; border:1px solid #e7d5b9; color:#7e4937; background:#fffaf1; box-shadow:0 9px 22px -16px rgba(92,62,40,.5); font:600 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; transform:rotate(3deg); }
@@ -259,8 +259,8 @@
     html.dark .text-blue-800 { color:#f0b596!important; }
     html.dark .border-blue-200, html.dark .border-blue-300 { border-color:rgba(224,153,118,.35)!important; }
     html.dark header button.bg-gradient-to-r { background-image:linear-gradient(110deg,#c2674e,#9f4639)!important; }
-    @media (max-width: 900px) { .editorial-hero { grid-template-columns:minmax(0,1fr) minmax(0,.9fr); min-height:430px; gap:1rem; } .hero-copy { padding:1rem 0; } .hero-title { font-size:clamp(2.7rem,5.3vw,4.2rem); } .hero-visual { min-height:380px; } .hero-collage { height:380px; } }
-    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.35rem,9.8vw,3rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-collage { height:min(88vw,380px); min-height:280px; } .hero-version-stamp { top:3%; right:0; } .hero-photo-caption { bottom:0; left:0; } .journey-heading { align-items:flex-start; flex-direction:column; } .practice-menu { grid-template-columns:1fr; } .practice-choice { min-height:155px; padding:1.15rem .75rem; } .practice-choice + .practice-choice { border-left:0; border-top:1px solid #e4d6c3; } }
+    @media (max-width: 900px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.7rem,5.3vw,4.2rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-collage { width:min(100%,600px); height:min(65vw,420px); min-height:320px; margin:auto; } }
+    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.35rem,9.8vw,3rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-collage { height:min(88vw,380px); min-height:280px; } .hero-version-stamp { top:3%; right:0; } .hero-photo-caption { bottom:-.65rem; left:4%; } .journey-heading { align-items:flex-start; flex-direction:column; } .practice-menu { grid-template-columns:1fr; } .practice-choice { min-height:155px; padding:1.15rem .75rem; } .practice-choice + .practice-choice { border-left:0; border-top:1px solid #e4d6c3; } }
     @media (prefers-reduced-motion: reduce) { .practice-choice,.culture-card { transition:none; } .practice-choice:hover,.culture-card:hover { transform:none; } }
 
     /* 3D Flip Mechanics */
