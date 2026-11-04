@@ -103,26 +103,26 @@
     :root { --canvas: #fbf6ed; --ink: #3c2c29; --muted-ink: #78695f; --civic-blue: #b14f39; --civic-brass: #d7a34e; --civic-sage: #607c65; --civic-rose: #c87563; }
     html:not(.dark) body { background-color: var(--canvas); color:#3d302a; background-image: radial-gradient(ellipse 70% 35% at 50% -10%, rgba(215,163,78,.12), transparent); }
     header .max-w-5xl { max-width: 76rem; }
-    .editorial-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.92fr); min-height:500px; overflow:hidden; background:#fff; border:1px solid rgba(23,36,61,.08); border-radius:2rem; box-shadow:0 28px 70px -46px rgba(26,38,68,.38); }
-    .hero-copy { padding:clamp(2rem,5vw,4.5rem); display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
-    .hero-eyebrow { color:#586784; letter-spacing:.2em; font:600 10px/1.4 'JetBrains Mono',monospace; text-transform:uppercase; }
+    .editorial-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.02fr); align-items:center; gap:clamp(1rem,3.5vw,3rem); min-height:500px; overflow:visible; background:transparent; border:0; border-radius:0; box-shadow:none; }
+    .hero-copy { min-width:0; padding:clamp(2rem,5vw,4.5rem) 0; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
+    .hero-eyebrow { color:#9a6048; letter-spacing:.17em; font:600 10px/1.5 'JetBrains Mono',monospace; text-transform:uppercase; }
     .hero-eyebrow::before { content:""; display:inline-block; width:22px; height:2px; margin:0 10px 3px 0; background:var(--civic-brass); }
-    .hero-title { margin-top:1.2rem; color:var(--ink); font:400 clamp(3rem,5.2vw,5rem)/.98 'DM Serif Display',Georgia,serif; letter-spacing:-.035em; }
+    .hero-title { max-width:100%; margin-top:1.2rem; color:var(--ink); font:400 clamp(3rem,4.9vw,4.8rem)/.98 'DM Serif Display',Georgia,serif; letter-spacing:-.04em; text-wrap:balance; }
     .hero-title em { color:var(--civic-blue); font-weight:400; }
-    .hero-copy .hero-description { margin-top:1.35rem; max-width:35rem; color:var(--muted-ink); font-size:15px; line-height:1.8; }
+    .hero-copy .hero-description { margin-top:1.4rem; max-width:33rem; color:var(--muted-ink); font-size:clamp(14px,1.2vw,16px); line-height:1.8; }
     .hero-primary { background:#b14f39; border:1px solid #b14f39; color:white; box-shadow:0 12px 26px -14px rgba(147,62,46,.55); }
     .hero-primary:hover { background:#963e30; }
     .hero-secondary { color:#64463b; border-color:rgba(119,83,64,.22); background:#fffdfa; }
     .hero-secondary:hover { background:#fff4e5; }
-    .hero-proof { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.65rem 1.1rem; color:#68738a; font-size:10px; }
-    .hero-proof i { color:#9c7742; margin-right:.4rem; }
-    .hero-visual { position:relative; min-height:390px; overflow:hidden; background:#d8dfeb; }
-    .hero-visual::after { content:""; position:absolute; inset:35% 0 0; background:linear-gradient(0deg,rgba(15,25,45,.62),transparent); pointer-events:none; }
-    .hero-visual img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:58% center; }
-    .hero-photo-caption { position:absolute; z-index:1; bottom:1.6rem; left:1.7rem; color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.25); }
-    .hero-photo-caption span { display:block; font:500 9px/1.4 'JetBrains Mono',monospace; letter-spacing:.19em; text-transform:uppercase; color:rgba(255,255,255,.78); }
-    .hero-photo-caption strong { display:block; margin-top:.4rem; font:400 1.55rem/1.1 'DM Serif Display',Georgia,serif; }
-    .hero-version-stamp { position:absolute; top:1.25rem; right:1.25rem; z-index:1; padding:.65rem .9rem; border:1px solid rgba(255,255,255,.55); border-radius:999px; color:white; background:rgba(24,37,64,.34); backdrop-filter:blur(12px); font:500 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; }
+    .hero-proof { margin-top:1.6rem; display:flex; flex-wrap:wrap; gap:.7rem 1.1rem; color:#75675c; font-size:10px; }
+    .hero-proof i { color:#71815e; margin-right:.4rem; }
+    .hero-visual { position:relative; display:flex; align-items:center; justify-content:center; min-height:440px; overflow:visible; background:transparent; }
+    .hero-visual::after { display:none; }
+    .hero-visual img { position:relative; inset:auto; display:block; width:100%; height:auto; max-height:520px; object-fit:contain; object-position:center; filter:drop-shadow(0 22px 25px rgba(98,66,39,.1)); }
+    .hero-photo-caption { position:absolute; z-index:1; bottom:2.4rem; left:2.5%; padding:.7rem 1rem; color:#49342e; background:rgba(255,251,243,.92); border:1px solid rgba(177,79,57,.15); border-radius:1rem 1rem 1rem .3rem; box-shadow:0 12px 30px -20px rgba(92,62,40,.5); }
+    .hero-photo-caption span { display:block; font:600 8px/1.4 'JetBrains Mono',monospace; letter-spacing:.17em; text-transform:uppercase; color:#a45b43; }
+    .hero-photo-caption strong { display:block; margin-top:.25rem; font:400 1.15rem/1.1 'DM Serif Display',Georgia,serif; }
+    .hero-version-stamp { position:absolute; top:2.2rem; right:2%; z-index:1; padding:.65rem .9rem; border:1px solid #e7d5b9; border-radius:999px; color:#7e4937; background:#fffaf1; box-shadow:0 9px 22px -16px rgba(92,62,40,.5); font:600 9px/1 'JetBrains Mono',monospace; letter-spacing:.12em; transform:rotate(3deg); }
     .journey-section { position:relative; padding:1.15rem 0 1.5rem; }
     .journey-heading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1.7rem; }
     .journey-title,.culture-title { color:var(--ink); font:400 clamp(2rem,3vw,2.75rem)/1.05 'DM Serif Display',Georgia,serif; letter-spacing:-.02em; }
@@ -156,10 +156,10 @@
     #section-civics #view-flashcard .flip-container { min-height:520px; }
     #section-civics .panel-glass { box-shadow:0 16px 42px -35px rgba(25,39,69,.36); }
     #section-civics, #section-interview, #section-reps, #section-english { scroll-margin-top:5.5rem; }
-    html.dark .editorial-hero { background:#10151f; border-color:rgba(255,255,255,.1); }
+    html.dark .editorial-hero { background:transparent; border-color:transparent; }
     html.dark .hero-title, html.dark .journey-title, html.dark .culture-title { color:#f5f3ed; }
     html.dark .hero-copy .hero-description, html.dark .journey-subtitle { color:#b3bdce; }
-    html.dark .hero-eyebrow { color:#bdc8dc; }
+    html.dark .hero-eyebrow { color:#e0aa8b; }
     html.dark .hero-primary { background:#c2674e; border-color:#c2674e; }
     html.dark .hero-primary:hover { background:#d17a5e; }
     html.dark .hero-secondary { color:#f8ead9; background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); }
@@ -254,8 +254,8 @@
     html.dark .text-blue-800 { color:#f0b596!important; }
     html.dark .border-blue-200, html.dark .border-blue-300 { border-color:rgba(224,153,118,.35)!important; }
     html.dark header button.bg-gradient-to-r { background-image:linear-gradient(110deg,#c2674e,#9f4639)!important; }
-    @media (max-width: 900px) { .editorial-hero { grid-template-columns:1fr 0.9fr; min-height:440px; } .hero-copy { padding:2rem; } .hero-title { font-size:clamp(2.7rem,6vw,4rem); } }
-    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; } .hero-copy { padding:2rem 1.5rem; } .hero-visual { min-height:260px; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-map { grid-template-columns:1fr; gap:1rem; padding:1.5rem 1rem; } .journey-map::before { content:""; position:absolute; top:3.1rem; bottom:3.1rem; left:3.15rem; width:3px; background:repeating-linear-gradient(to bottom,#bd5945 0 3px,transparent 3px 13px); opacity:.8; } .journey-route { display:none; } .journey-stop,.journey-stop:nth-of-type(2),.journey-stop:nth-of-type(3) { flex-direction:row; align-items:center; gap:1rem; margin:0; text-align:left; } .journey-illustration { flex:0 0 70px; width:70px; height:70px; margin:0; font-size:21px; } .journey-stop-copy { max-width:none; } .journey-stop h3 { font-size:1.3rem; } }
+    @media (max-width: 900px) { .editorial-hero { grid-template-columns:minmax(0,1fr) minmax(0,.9fr); min-height:430px; gap:1rem; } .hero-copy { padding:1rem 0; } .hero-title { font-size:clamp(2.7rem,5.3vw,4.2rem); } .hero-visual { min-height:360px; } }
+    @media (max-width: 700px) { .editorial-hero { grid-template-columns:1fr; gap:.5rem; min-height:0; } .hero-copy { padding:2rem 1.5rem 0; } .hero-title { font-size:clamp(2.35rem,9.8vw,3rem); } .hero-visual { min-height:0; margin:0 .25rem; } .hero-visual img { max-height:390px; } .hero-version-stamp { top:1.2rem; right:2%; } .hero-photo-caption { bottom:1.7rem; left:2%; } .journey-heading { align-items:flex-start; flex-direction:column; } .journey-map { grid-template-columns:1fr; gap:1rem; padding:1.5rem 1rem; } .journey-map::before { content:""; position:absolute; top:3.1rem; bottom:3.1rem; left:3.15rem; width:3px; background:repeating-linear-gradient(to bottom,#bd5945 0 3px,transparent 3px 13px); opacity:.8; } .journey-route { display:none; } .journey-stop,.journey-stop:nth-of-type(2),.journey-stop:nth-of-type(3) { flex-direction:row; align-items:center; gap:1rem; margin:0; text-align:left; } .journey-illustration { flex:0 0 70px; width:70px; height:70px; margin:0; font-size:21px; } .journey-stop-copy { max-width:none; } .journey-stop h3 { font-size:1.3rem; } }
     @media (prefers-reduced-motion: reduce) { .journey-stop,.culture-card { transition:none; } .journey-stop:hover,.culture-card:hover { transform:none; } }
 
     /* 3D Flip Mechanics */
@@ -402,19 +402,19 @@
     <!-- EDITORIAL CITIZENSHIP HERO -->
     <section class="editorial-hero">
       <div class="hero-copy">
-        <p class="hero-eyebrow">Your U.S. citizenship practice studio</p>
-        <h1 class="hero-title">A little practice.<br><em>A lot more confidence.</em></h1>
-        <p class="hero-description">Start with the civics test that matches your filing date. Then build a calm, personal routine for the questions, English skills and interview ahead.</p>
+        <p class="hero-eyebrow">Your citizenship journey, one step at a time</p>
+        <h1 class="hero-title">Your next chapter<br><em>starts with practice.</em></h1>
+        <p class="hero-description">Prepare for the U.S. citizenship interview with a study path that meets you where you are—from choosing the right civics test to speaking with confidence.</p>
         <div class="mt-6 flex flex-wrap gap-3">
-          <button onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('filing-date-input').focus({preventScroll:true});" class="hero-primary rounded-xl px-5 py-3 text-sm font-semibold transition">Create my study plan <i class="fa-solid fa-arrow-right ml-2"></i></button>
-          <button onclick="switchMainTab('civics'); startStudyDiagnostic();" class="hero-secondary rounded-xl border px-5 py-3 text-sm font-semibold transition"><i class="fa-solid fa-sparkles mr-1.5"></i>Try a quick check-in</button>
+          <button onclick="switchMainTab('civics'); document.getElementById('test-setup').scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('filing-date-input').focus({preventScroll:true});" class="hero-primary rounded-xl px-5 py-3 text-sm font-semibold transition">Choose my test version <i class="fa-solid fa-arrow-right ml-2"></i></button>
+          <button onclick="switchMainTab('civics'); startStudyDiagnostic();" class="hero-secondary rounded-xl border px-5 py-3 text-sm font-semibold transition"><i class="fa-solid fa-sparkles mr-1.5"></i>Try 10 questions</button>
         </div>
-        <div class="hero-proof"><span><i class="fa-solid fa-book-open"></i>2008 + 2025 test banks</span><span><i class="fa-solid fa-lock"></i>No account required</span><span><i class="fa-solid fa-microphone-lines"></i>Oral + English practice</span></div>
+        <div class="hero-proof"><span><i class="fa-solid fa-book-open"></i>2008 + 2025 USCIS study banks</span><span><i class="fa-solid fa-floppy-disk"></i>Progress stays on this device</span><span><i class="fa-solid fa-microphone-lines"></i>Civics, English &amp; oral practice</span></div>
       </div>
       <div class="hero-visual">
-        <img src="images/liberty-community.jpg" alt="A multigenerational group at the Ellis Island waterfront near the Statue of Liberty" fetchpriority="high">
-        <div class="hero-version-stamp">CIVICS · ENGLISH · INTERVIEW</div>
-        <div class="hero-photo-caption"><span>A shared beginning</span><strong>Every story belongs.</strong></div>
+        <img src="images/civicpass-citizenship-trail.svg" alt="An illustrated journey from the Statue of Liberty and neighborhood homes toward the U.S. Capitol" fetchpriority="high">
+        <div class="hero-version-stamp">THE CIVICPASS JOURNEY</div>
+        <div class="hero-photo-caption"><span>Every step counts</span><strong>Make the next one yours.</strong></div>
       </div>
     </section>
 
