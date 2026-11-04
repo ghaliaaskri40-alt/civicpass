@@ -1,10 +1,11 @@
-const CACHE_NAME = 'civicpass-shell-v2';
+const CACHE_NAME = 'civicpass-shell-v3';
 const CORE_ASSETS = [
   './index.html',
   './manifest.webmanifest',
   './images/civicpass-icon.svg',
   './images/civicpass-icon-192.png',
   './images/civicpass-icon-512.png',
+  './images/civicpass-citizenship-trail.svg',
   './images/liberty-community.jpg',
   './images/neighborhood-market.jpg',
   './images/new-orleans-jazz.jpg'
